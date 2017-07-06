@@ -1,0 +1,307 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{csquotes}
+\usepackage{longtable, booktabs, tabularx, threeparttable, adjustbox}
+\usepackage{amsmath, amssymb, amsthm, bbm, bm}
+\usepackage{secdot, sectsty}
+\usepackage{hyperref}
+\usepackage{pdflscape}
+\usepackage{geometry}
+\usepackage{placeins}
+\usepackage{caption}
+\usepackage{graphicx}
+
+\usepackage[backend=bibtex, style=authortitle, citestyle=authoryear-icomp, url=false]{biblatex}
+\addbibresource{UBIF.bib}
+
+\allsectionsfont{\rmfamily}
+\sectionfont{\normalsize}
+\subsectionfont{\normalfont\normalsize\selectfont\itshape}
+\subsubsectionfont{\normalfont\normalsize\selectfont\itshape}
+
+\newcommand{\specialcell}[2][c]{%
+  \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+<<FrontMatter, include=FALSE>>=
+
+    #Check for packages. Install missing packages.
+
+    required.packages <- c("dplyr", "lmtest", "sandwich", "stargazer", "ggplot2", "xtable", "pwr", "wesanderson", "extrafont", "car")
+    packages.missing <- required.packages[!required.packages %in% installed.packages()[,"Package"]]
+    if(length(packages.missing) > 0) {install.packages(required.packages, repo="https://cran.cnr.berkeley.edu/")}
+    lapply(required.packages, library, character.only = TRUE)
+
+@
+
+% Avoid spaces and periods . in chunk labels and directory names; if your output is a TeX document, these characters can cause troubles (in general it is recommended to use alphabetic characters with words separated by - or _ and avoid other characters), e.g. setup-options is a good label, whereas setup.options and chunk 1 are bad; fig.path='figures/mcmc-' is a good prefix for figure output if this project is about MCMC, and fig.path='markov chain/monte carlo' is bad; non-alphanumeric characters except - and _ in figure filenames will be replaced with _ automatically
+
+\begin{document}
+
+\title{\textsc{Framing a Universal Basic Income Policy: Pre-Analysis Plan}}
+\author{Author\footnote{The Busara Center for Behavioral Economics}}
+
+\maketitle
+
+\begin{abstract}
+
+    This document describes the pre-analysis plan for a randomized experiment examining the relationship between policy framing of a universal basic income (UBI) policy, welfare stigma, and political affiliation. Using the Amazon Mechanical Turk (AMT), participants will be asked to read a randomly assigned prompt concerning a UBI and complete questionnaires on demographics, welfare stigma, political affiliation, and support for the policy. The pre-analysis plan outlines our hypotheses, schedule of tasks, and empirical strategy. In order to guarantee transparency and bind ourselves from ``fishing for results'' we will pre-register the program producing our main results along with this pre-analysis plan. % This is from U1
+
+\end{abstract}
+
+\newpage
+
+% \tableofcontents
+%
+% \newpage
+
+\section{Introduction}
+
+    Large scale social welfare interventions like universal basic income provide both social services and a political, social, and psychological narrative about the recipients and the existing social system. This study will recruit nine-hundred participants over age 18 from the US using the online platform Amazon Mechanical Turk. Participants will be presented with different frames of Universal Basic Income and asked to rate their levels of support of the program. We present participants with a number of frames highlighting different aspects of universal basic income, exploring framings related to justice, human rights, universality, and freedom. These messages will be coded on the social cognitive orientations that they tap and that are associated with political affiliation. In particular, messages that target liberal foundations will address the values of equality and welfare outcomes and the regulatory orientation of promotion goals while messages built on conservative foundations will be oriented towards the values of harm and security, vigilant to threat, and focused on prevention goals (maintenance of a satisfactory current state) (8anoff-Bulman 2009). First, it will assess which messages have the most support overall, across all political affiliations. Second, it will assess the messages that generate the largest gaps in support between liberals and conservatives.
+
+    It will assess two mediation pathways: moral fit and the activation of stereotype threat. First, we hypothesize that liberal participants will be more supportive of policy messages that match liberal moral foundations while conservatives will be more supportive of messages that match conservative moral foundations. Secondly, we hypothesize that messages that increase the saliency of negative stereotypes about welfare and welfare applicants will lead to lower levels of policy support.  We are also interested to examine whether some messages that meet the moral foundations of liberals (e.g. fairness, harm, equality) will be more likely to lead to activation of welfare stereotypes than messages based in conservative foundations (e.g. purity). For example, by discussing equality and welfare outcomes, such as poverty reduction, liberal messages may weaken support for UBI from more conservative populations, who may be particularly sensitive to welfare stereotypes. One implication may be that,  because of these differing moral foundations and orientations, the messages that liberal advocates support and use may in fact undermine public support by failing to meet the moral foundations of conservative populations as well as exacerbate perceived stigma.
+
+    Three out of the eight messages that generate relatively high levels of support and that generate low levels of stereotype activation, compared to other framings, will then be used a separate, follow-up experiment. % add link here % This is from U1
+
+\section{Research Design}
+
+    \subsection{Sampling}
+
+        The study was conducted at the Busara Center for Behavioral Economics (Busara) in Nairobi, Kenya, a facility specially designed for experimental economics and psychology studies. Busara maintains an active participant pool of more than 12,000 Nairobi residents. For the present study, 449 participants who had previously signed up to be part of the Busara participant pool were recruited from Kibera, two informal settlements in Nairobi. Participants were recruited using phone calls. In the recruitment phone call, participants were told that they were invited to participate in a study being conducted by behavioral economics researchers. They were informed that they would be paid KES 300 for their participation and have the opportunity to earn more during the study. To minimize demand effects, they were also told clearly that no government or outside organization was sponsoring the study. The sample included both males and females over eighteen years of age.
+
+    \subsection{Manipulation}
+
+        \subsubsection{Frame 1}
+        \subsubsection{Frame 2}
+        \subsubsection{Control group}
+
+    \subsection{Data collection}
+
+        \subsubsection{Field protocol}
+
+        \subsubsection{Survey}
+
+\section{Empirical Analysis}
+
+    \subsection{Treatment effect of policy frames}
+
+        We will use the following reduced-form specification to estimate the treatment effect of policy frames.\footnote{We will conduct the data analysis outlined in this section using the R programming language with the scripts included in Appendix \ref{sec:rscripts}.}
+
+  		\begin{equation} \label{eq:teffect}
+		Y_{i} = \beta_{0} + \sum_{j=1}^{2} \beta_{j}\text{\textsc{Frame}}_{ij} + \varepsilon_{i}
+		\end{equation}
+
+        $Y_{i}$ refers to the outcome variables for individual $i$ measured after the manipulation. \textsc{Frame}$_{ij}$ indicates assignment to one of the $2$ policy frames. The reference category in this model is the control group. We will estimate cluster-robust standard errors at the individual level. Table \ref{tab:hypotheses} lists the hypotheses we will test using Equation \ref{eq:teffect}.
+
+        \begin{table}[h]
+        \centering
+        \caption{Primary hypothesis tests}
+        \label{tab:hypotheses}
+        \begin{tabular}{@{}lllll@{}}
+        \toprule
+        Null hypothesis                                     & Description                                          &  &  &  \\ \midrule
+        $H_0: \beta_1 = 0$ & Effect of frame 1 relative to control group&  &  &  \\
+        $H_0: \beta_2 = 0$ & Effect of frame 2 relative to control group&  &  &  \\
+        $H_0: \beta_1 = \beta_2$ & Effect of frame 1 relative to frame 2 &  &  &  \\ \bottomrule
+        \end{tabular}
+        \end{table}
+
+        To improve precision, we will also apply covariate adjustment with a vector of baseline indicators. We obtain the covariate-adjusted treatment effect estimate by estimating Equation \ref{eq:teffect} including the demeaned covariate vector $\mathbf{\dot X}_{i} = \mathbf{X}_{i} - \mathbf{\bar X}_{i}$ as an additive term and as an interaction with the treatment indicator.
+
+        \begin{equation} \label{eq:controls}
+            Y_{i} = \beta_{0} + \sum_{j=1}^{2} \beta_{j}\text{\textsc{Frame}}_{ij} + \mathbf{\dot X}'_i \gamma_{0} + \sum_{j=1}^{2} \text{\textsc{Frame}}_{ij} \mathbf{\dot X}'_i \gamma_{j} + \varepsilon_{i}
+        \end{equation}
+
+        The set of indicators partitions our sample so that our estimate for $\beta_j$ remains unbiased for the average treatment effect \parencite{lin_agnostic_2013}. We will estimate cluster-robust standard errors at the individual level. We use this model to test the hypotheses detailed in Table \ref{tab:hypotheses} including the control variables listed in Table \ref{tab:controlvars}.
+
+        \begin{table}[h]
+        \centering
+        \caption{Control variables for covariate adjustment}
+        \label{tab:controlvars}
+        \begin{tabular}{@{}lllll@{}}
+        \toprule
+        Variable                                     & Description                                          &  &  &  \\ \midrule
+        Age & Dummy variable indicating participant is over 25 &  &  &  \\
+        Gender & Dummy variable indicating participant is female &  &  &  \\
+        Marital status & Dummy variable indicating participant is married or co-habitating 2 &  &  &  \\
+        Education & Dummy variable indicating participant completed std. 8 &  &  &  \\
+        Children & Dummy variable indicating participant has children &  &  &  \\ \bottomrule
+        \end{tabular}
+        \end{table}
+
+        % If we want to be really cool, we can use machine learning to choose covariates
+
+    \subsection{Randomization inference}
+
+        One potential concern is that inference might be invalidated by finite sample bias in estimates of the standard errors. To address this issue, we conduct randomization inference to test the Fisherian sharp null hypothesis of no treatment effect for every participant \parencite{fisher_design_1935}.\footnote{Note that this is more restrictive than the null hypothesis of zero average treatment effect we test in the previous section.} The basis for this inferential framework is that the distribution of test statistics comes from random treatment assignment rather than from drawing a finite sample from a super-population. This method produces exact $p$-values which do not rely on asymptotic theorems for valid inference. We perform Monte Carlo approximations of the exact $p$-values using $M=10,000$ permutations of the treatment assignment. We then estimate our primary specification within each $m^{th}$ permutation and calculate the standard Wald statistics for each of our hypothesis tests. We compare the Wald statistics from the original sample with the distribution of permuted statistics to produce approximations of the exact $p$-values:
+
+        \begin{equation} \label{eq:exactp}
+            \hat{p}_{\beta} =  \frac{1}{10,000}\sum_{m=1}^{10,000} \mathbf{1} \Big [ \mathbf{\hat{\beta'}}_m V(\mathbf{\hat{\beta}}_m)^{-1} \mathbf{\hat{\beta}}_m \geq \mathbf{\hat{\beta'}}_{obs.} V(\mathbf{\hat{\beta}}_{obs.})^{-1} \hat{\beta}_{obs.} \Big ]
+        \end{equation}
+
+        Following \textcite{young_channeling_2015}, we permute the data and calculate the regressions for all outcomes within each draw.
+
+    \subsection{Heterogeneous treatment effects}
+
+        We will analyze the extent to which the policy frames produced heterogeneous treatment effects with the following specification.
+
+        \begin{equation}
+        Y_{i} = \beta_{0} + \sum_{j=1}^{2} \beta_{j}\text{\textsc{Frame}}_{ij} + \delta_{0}x_{i} + \sum_{j=1}^{2} \text{\textsc{Frame}}_{ij} x_{i} \delta_{j} + \varepsilon_{i}
+        \label{eq:heteffect} \end{equation}
+
+        $x_{i}$ is the binary dimension of heterogeneity measured before treatment assignment. $\delta_{j}$ identify the heterogeneous treatment effects of treatment $j$. Standard errors are clustered at the individual level. We estimate this model with the baseline variables summarized in Table.
+
+        \begin{table}[h]
+        \centering
+        \caption{Dimensions of heterogeneity}
+        \label{tab:hetvars}
+        \begin{tabular}{@{}lllll@{}}
+        \toprule
+        Variable                                     & Description                                          &  &  &  \\ \midrule
+        Age & Dummy variable indicating participant is over 25 &  &  &  \\
+        Gender & Dummy variable indicating participant is female &  &  &  \\
+        Marital status & Dummy variable indicating participant is married or co-habitating 2 &  &  &  \\
+        Education & Dummy variable indicating participant completed std. 8 &  &  &  \\
+        Children & Dummy variable indicating participant has children &  &  &  \\ \bottomrule
+        \end{tabular}
+        \end{table}
+
+    \subsection{Multiple testing adjustment}
+
+        Given that our survey instrument included several items related to a single behavior or dimension, we calculate sharpened $q$-values over all outcomes following \textcite{benjamini_adaptive_2006} to control the false discovery rate (FDR). Rather than specifying a single $q$, we report the minimum $q$-value at which each hypothesis is rejected \parencite{anderson_multiple_2008}. We apply this correction separately for each hypothesis test. We report both standard $p$-values and minimum $q$-values in our analysis.
+
+    \subsection{Outcomes of interest}
+
+\newpage
+
+\printbibliography
+
+\newpage
+
+\appendix
+
+\section{Consent Form}
+\section{Survey Instruments}
+\section{Data Analysis Scripts} \label{sec:rscripts}
+
+    \subsection{Generating data}
+
+<<GenerateData, include=TRUE, tidy=TRUE>>=
+
+  #Create locals for simulation
+    OBS <- 1000
+    TE  <- .8
+    HET <- .4
+
+  #Generate treatment
+    Treat <- sample(0:1,OBS,rep = TRUE,prob = c(.5,.5)) %>%
+    factor(levels = c(0,1), labels = c("Control","Treatment"))
+
+  #Generate gender
+   Gen <- sample(0:1,OBS,rep = TRUE,prob = c(.5,.5))  %>%
+    factor(levels = c(0,1), labels = c("Male","Female"))
+
+  #Generate factor variable measuring highest level of education
+   Edu <- sample(1:3,OBS,rep = TRUE,prob = c(.5,.3,.2)) %>%
+    factor(levels = c(1,2,3), labels = c("Primary school","High school","University & above"))
+
+  #Generate income
+   LnInc <- rnorm(OBS, mean = 5, sd = 1)
+   Inc <- exp(LnInc)
+
+  #Generate y with notreatment effect
+    y_nottreat <- rnorm(OBS, 0, 1)
+
+  #Generate outcome with noisy treatment effect of ___
+    y_Teffect <- rnorm(OBS, TE, 1)
+    y_Teffect[Treat == "Control"] <- 0
+    y_treated = y_nottreat + y_Teffect
+
+  #Generate outcome with noisy treatment effect of ___ and noisy het of ___ gender
+    y_GenTeffect <- rnorm(OBS, HET, 1)
+    y_GenTeffect[Treat == "Control"] <- 0
+    y_GenTeffect[Gen == "Male"] <- 0
+    y_HetTreated <- y_treated + y_GenTeffect
+
+  #Create, save dataframe
+    SimTreat <- data.frame(Treat, Gen, Edu, Inc, y_nottreat, y_treated, y_HetTreated)
+    save(SimTreat,file = "SimTreat.Rda")
+    attach(SimTreat)
+
+@
+
+<<SummaryStats, echo=FALSE, results='asis'>>=
+
+  require(stargazer)
+  stargazer(SimTreat,  title = "Descriptive statistics")
+
+  TreatCount <- table(Treat)
+  TreatProp <- 100 * prop.table(TreatCount)
+
+  print(xtable(cbind(TreatCount, TreatProp), digits = c(0, 0, 2), caption = "Treatment assignment"), caption.placement = "top")
+
+  GenCount <- table(Gen)
+  GenProp <- 100 * prop.table(GenCount)
+
+  print(xtable(cbind(GenCount, GenProp), digits = c(0, 0, 2), caption = "Gender"), caption.placement = "top")
+
+  EduCount <- table(Edu)
+  EduProp <- 100 * prop.table(EduCount)
+
+  print(xtable(cbind(EduCount, EduProp), digits = c(0, 0, 2), caption = "Education"), caption.placement = "top")
+
+  # Should probably define functions for tables and loop over vars
+
+@
+
+\clearpage
+
+    \subsubsection{Regression}
+
+<<BasicOLS, include=TRUE>>=
+
+  #Reg with no treatment effect
+  NoTreReg <- lm(y_nottreat ~ Treat)
+  summary(NoTreReg)
+
+  #Reg with treatment effect
+  TreReg <- lm(y_treated ~ Treat)
+  summary(TreReg)
+
+  #Controlling for Education
+  TreRegEdu <- lm(y_treated ~ Treat + Gen + Edu)
+  summary(TreRegEdu)
+
+  #Het effects with Gen
+  TreRegHet <- lm(y_HetTreated ~ Treat*Gen + Edu)
+  summary(TreRegHet)
+
+  #Het effects with Gen and robust SE
+  vce <- vcovHC(TreRegHet, type = "HC1")
+  TreRegHetRobSE <- sqrt(diag(vce))
+  TreRegHetRobF <- waldtest(TreRegHet, vcov = vce)
+  TreRegHetRobF
+
+@
+
+<<OLSTable, echo=FALSE, results='asis'>>=
+###Order variables###
+###Robust SEs###
+###Check coefs labeled correctly
+  require(stargazer)
+  stargazer(NoTreReg, TreReg, TreRegEdu, TreRegHet, TreRegHet,
+            se = list(NULL, NULL, NULL, NULL, TreRegHetRobSE),
+            title = "Regression results",
+            dep.var.labels = c("\\underline{Untreated Y}","\\underline{Treated Y}","\\underline{Het. Treated Y}","\\underline{Robust SE: Het. Treated Y}"),
+            covariate.labels = c("Treatment","Female","High school","University","Female $\\times$ Treatment","Constant"),
+            omit.stat = c("LL","ser","rsq",),
+            add.lines = (c("Adjusted F", TreRegHetRobF))
+            df = FALSE,
+            notes.align = "l", notes.label = "",
+            notes.append = FALSE,
+            notes = "\\parbox[t]{10cm}{$^{*}p<0.1;^{**}p<0.05;^{***}p<0.01$. Standard errors in parentheses.}",
+            no.space = TRUE)
+@
+
+\end{document}
