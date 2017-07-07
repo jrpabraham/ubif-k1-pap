@@ -12,9 +12,12 @@
 \usepackage{placeins}
 \usepackage{caption}
 \usepackage{graphicx}
+\usepackage{setspace}
 
 \usepackage[backend=bibtex, style=authortitle, citestyle=authoryear-icomp, url=false]{biblatex}
 \addbibresource{UBIF.bib}
+
+\AtBeginEnvironment{quote}{\singlespacing\small}
 
 \allsectionsfont{\rmfamily}
 \sectionfont{\normalsize}
@@ -26,7 +29,7 @@
 
 <<FrontMatter, include=FALSE>>=
 
-    #Check for packages. Install missing packages.
+    # Check for packages. Install missing packages.
 
     required.packages <- c("dplyr", "lmtest", "sandwich", "stargazer", "ggplot2", "xtable", "pwr", "wesanderson", "extrafont", "car")
     packages.missing <- required.packages[!required.packages %in% installed.packages()[,"Package"]]
@@ -39,46 +42,103 @@
 
 \begin{document}
 
-\title{\textsc{Framing a Universal Basic Income Policy: Pre-Analysis Plan}}
+\title{\textsc{Framing an Unconditional Cash Transfer: Pre-Analysis Plan}}
 \author{Author\footnote{The Busara Center for Behavioral Economics}}
 
 \maketitle
 
 \begin{abstract}
 
-    This document describes the pre-analysis plan for a randomized experiment examining the relationship between policy framing of a universal basic income (UBI) policy, welfare stigma, and political affiliation. Using the Amazon Mechanical Turk (AMT), participants will be asked to read a randomly assigned prompt concerning a UBI and complete questionnaires on demographics, welfare stigma, political affiliation, and support for the policy. The pre-analysis plan outlines our hypotheses, schedule of tasks, and empirical strategy. In order to guarantee transparency and bind ourselves from ``fishing for results'' we will pre-register the program producing our main results along with this pre-analysis plan. % This is from U1
+    This document describes the pre-analysis plan for a randomized experiment examining the effects of framing of welfare payments on self-concept and investment behavior. In this study, we will provide unconditional cash transfers to residents of informal settlements in Nairobi and vary the way in which the transfers were framed to participants. Participants will be randomly assigned to one of three treatment groups: the transfer framed as a means toward poverty alleviation, individual empowerment, or collective support. We will then collect self-reported measures of self-efficacy, judgement, and affect and observed measures of temporal discounting and investment. This pre-analysis plan outlines our hypotheses, the schedule of experimental tasks, and our empirical strategy. In order to guarantee transparency and bind ourselves from fishing for results, we will pre-register the scripts to be used for data analysis.
 
 \end{abstract}
 
 \newpage
 
-% \tableofcontents
-%
-% \newpage
+\tableofcontents
+
+\newpage
 
 \section{Introduction}
 
-    Large scale social welfare interventions like universal basic income provide both social services and a political, social, and psychological narrative about the recipients and the existing social system. This study will recruit nine-hundred participants over age 18 from the US using the online platform Amazon Mechanical Turk. Participants will be presented with different frames of Universal Basic Income and asked to rate their levels of support of the program. We present participants with a number of frames highlighting different aspects of universal basic income, exploring framings related to justice, human rights, universality, and freedom. These messages will be coded on the social cognitive orientations that they tap and that are associated with political affiliation. In particular, messages that target liberal foundations will address the values of equality and welfare outcomes and the regulatory orientation of promotion goals while messages built on conservative foundations will be oriented towards the values of harm and security, vigilant to threat, and focused on prevention goals (maintenance of a satisfactory current state) (8anoff-Bulman 2009). First, it will assess which messages have the most support overall, across all political affiliations. Second, it will assess the messages that generate the largest gaps in support between liberals and conservatives.
+    Large scale social welfare interventions provide financial aid and a political, social, and psychological narrative about the recipients and the existing social system. One important question around unconditional cash transfers pertains to recipient motivation: will participants be motivated to engage in self-development given their new resources? Can particular frames of UBI differentially affect participant behavior and wellbeing? This field experiment will test the effect of framing aid payments on individual behavior and motivation. Participants will receive an unconditional cash transfer presented with different frames. Participants will then be offered the opportunity to engage in a set of tasks that will capture self-perception, motivation, and self-investment. We will explore whether recipients of a unconditional cash transfer will engage in different tasks compared to individuals who did not receive a payout. Additionally, we will explore how the frames influence task selection and motivation
 
-    It will assess two mediation pathways: moral fit and the activation of stereotype threat. First, we hypothesize that liberal participants will be more supportive of policy messages that match liberal moral foundations while conservatives will be more supportive of messages that match conservative moral foundations. Secondly, we hypothesize that messages that increase the saliency of negative stereotypes about welfare and welfare applicants will lead to lower levels of policy support.  We are also interested to examine whether some messages that meet the moral foundations of liberals (e.g. fairness, harm, equality) will be more likely to lead to activation of welfare stereotypes than messages based in conservative foundations (e.g. purity). For example, by discussing equality and welfare outcomes, such as poverty reduction, liberal messages may weaken support for UBI from more conservative populations, who may be particularly sensitive to welfare stereotypes. One implication may be that,  because of these differing moral foundations and orientations, the messages that liberal advocates support and use may in fact undermine public support by failing to meet the moral foundations of conservative populations as well as exacerbate perceived stigma.
-
-    Three out of the eight messages that generate relatively high levels of support and that generate low levels of stereotype activation, compared to other framings, will then be used a separate, follow-up experiment. % add link here % This is from U1
 
 \section{Research Design}
 
     \subsection{Sampling}
 
-        The study was conducted at the Busara Center for Behavioral Economics (Busara) in Nairobi, Kenya, a facility specially designed for experimental economics and psychology studies. Busara maintains an active participant pool of more than 12,000 Nairobi residents. For the present study, 449 participants who had previously signed up to be part of the Busara participant pool were recruited from Kibera, two informal settlements in Nairobi. Participants were recruited using phone calls. In the recruitment phone call, participants were told that they were invited to participate in a study being conducted by behavioral economics researchers. They were informed that they would be paid KES 300 for their participation and have the opportunity to earn more during the study. To minimize demand effects, they were also told clearly that no government or outside organization was sponsoring the study. The sample included both males and females over eighteen years of age.
+        The study will be conducted at the Busara Center for Behavioral Economics in Nairobi, Kenya, a facility specially designed for experimental studies. The Busara Center maintains an active participant pool of more than 12,000 Nairobi residents. For the present study, 450 participants who had previously signed up to be part of the Busara participant pool will be recruited from Kibera, an informal settlement in Nairobi. We will recruit participants using phone calls. They will be informed that they would be paid KES 300 for their participation and have the opportunity to earn more during the study. The sample will include males and females at least eighteen years old. [[Verify this and edit]]
 
     \subsection{Manipulation}
 
-        \subsubsection{Frame 1}
-        \subsubsection{Frame 2}
-        \subsubsection{Control group}
+        At the outset of the survey, eligible and consenting participants will be told they are receiving an unconditional cash transfer from an
+
+        \subsubsection{Poverty alleviation framing}
+
+            \begin{quote}
+
+                "As part of this project, we're working with a poverty alleviation organization. This organization is not Busara. It is a different organization.
+
+                If you could give the aid a name to represent your needs and the organization's goal of poverty alleviation, what would it be? For example, it could be the food fund or emergency fund.
+
+                Great. This is your [] fund.
+
+                If other people you interact with regularly knew that you received aid from the [], how would they view you?
+
+                How would receiving this aid affect your relationships?
+
+                Can you describe to me in your own words the reasons why you think this organization is giving out aid to people like you?"
+
+            \end{quote}
+
+        \subsubsection{Individual empowerment framing}
+
+            \begin{quote}
+
+                "As part of this project, we're working with an individual empowerment organization. This organization is not Busara. It is a different organization.
+
+                As a reminder, these resources are intended to help you help yourself and to choose how to live your own life.
+
+                Can you tell me: what are your most important goals for yourself?
+
+                If you could give the resources a name to represent your individual goals, and the organization's goal of [], what would it be?  For example, it could be your self-investment fund or your business fund.
+
+                Great. This is your [] fund.
+
+                How would receiving this aid affect your relationships?
+
+                Can you describe to me in your own words the reasons why you think this organization is giving out aid to people like you?"
+
+            \end{quote}
+
+        \subsubsection{Collective support framing}
+
+            \begin{quote}
+
+                "As part of this project, we're working with a group support organization. This organization is not Busara. It is a different organization.
+
+                As a reminder, these resources are intended to help you find ways to support and empower people in your family and in your community that you care about most.
+
+                Can you tell me: what are the most important goals you have for helping your family and the people you care most about? Who would you be helping?
+
+                If you could give these resources a name to represent the goals you have for helping your community and the organization's goal of [], what would it be? For example, it could be your education fund or your growing together fund.
+
+                Great. This is your [] fund.
+
+                If other people you interact with regularly knew that you received these resources from the [], how would they view you?
+
+                How would receiving these resources affect your relationships?
+
+                Can you describe to me in your own words the reasons why you think this organization is giving out resources to people like you?"
+
+            \end{quote}
 
     \subsection{Data collection}
 
         \subsubsection{Field protocol}
+
+            Respondent payments, including participation fees and cash transfers will be delivered using via the mobile money system M-Pesa.\footnote{For more information on M-Pesa, see Mbiti and Weil (2015) and Jack and Suri (2011).}
 
         \subsubsection{Survey}
 
@@ -89,10 +149,10 @@
         We will use the following reduced-form specification to estimate the treatment effect of policy frames.\footnote{We will conduct the data analysis outlined in this section using the R programming language with the scripts included in Appendix \ref{sec:rscripts}.}
 
   		\begin{equation} \label{eq:teffect}
-		Y_{i} = \beta_{0} + \sum_{j=1}^{2} \beta_{j}\text{\textsc{Frame}}_{ij} + \varepsilon_{i}
+            Y_{i} = \beta_{0} + \beta_{1}\text{\textsc{Ind}}_{i} + \beta_{2}\text{\textsc{Col}}_{i} + \varepsilon_{i}
 		\end{equation}
 
-        $Y_{i}$ refers to the outcome variables for individual $i$ measured after the manipulation. \textsc{Frame}$_{ij}$ indicates assignment to one of the $2$ policy frames. The reference category in this model is the control group. We will estimate cluster-robust standard errors at the individual level. Table \ref{tab:hypotheses} lists the hypotheses we will test using Equation \ref{eq:teffect}.
+        $Y_{i}$ refers to the outcome variables for individual $i$ measured after the manipulation. \textsc{Ind}$_{i}$ indicates assignment to the individual empowerment frame while \textsc{Col}$_{i}$ indicates assignment to the collective support frame. The reference category in this model is the poverty alleviation frame. We will estimate cluster-robust standard errors at the individual level. Table \ref{tab:hypotheses} lists the hypotheses we will test using Equation \ref{eq:teffect}.
 
         \begin{table}[h]
         \centering
@@ -101,16 +161,16 @@
         \begin{tabular}{@{}lllll@{}}
         \toprule
         Null hypothesis                                     & Description                                          &  &  &  \\ \midrule
-        $H_0: \beta_1 = 0$ & Effect of frame 1 relative to control group&  &  &  \\
-        $H_0: \beta_2 = 0$ & Effect of frame 2 relative to control group&  &  &  \\
-        $H_0: \beta_1 = \beta_2$ & Effect of frame 1 relative to frame 2 &  &  &  \\ \bottomrule
+        $H_0: \beta_1 = 0$ & Effect of individual empowerment frame relative to poverty alleviation frame &  &  &  \\
+        $H_0: \beta_2 = 0$ & Effect of collective support frame relative to poverty alleviation frame &  &  &  \\
+        $H_0: \beta_1 = \beta_2$ & Effect of collective support frame relative to individual empowerment frame &  &  &  \\ \bottomrule
         \end{tabular}
         \end{table}
 
         To improve precision, we will also apply covariate adjustment with a vector of baseline indicators. We obtain the covariate-adjusted treatment effect estimate by estimating Equation \ref{eq:teffect} including the demeaned covariate vector $\mathbf{\dot X}_{i} = \mathbf{X}_{i} - \mathbf{\bar X}_{i}$ as an additive term and as an interaction with the treatment indicator.
 
         \begin{equation} \label{eq:controls}
-            Y_{i} = \beta_{0} + \sum_{j=1}^{2} \beta_{j}\text{\textsc{Frame}}_{ij} + \mathbf{\dot X}'_i \gamma_{0} + \sum_{j=1}^{2} \text{\textsc{Frame}}_{ij} \mathbf{\dot X}'_i \gamma_{j} + \varepsilon_{i}
+            Y_{i} = \beta_{0} + \beta_{1}\text{\textsc{Ind}}_{i} + \beta_{2}\text{\textsc{Col}}_{i} + \gamma_{0} \mathbf{\dot X}'_i + \gamma_{1}\text{\textsc{Ind}}_{i} \mathbf{\dot X}'_i + \gamma_{2}\text{\textsc{Col}}_{i} \mathbf{\dot X}'_i + \varepsilon_{i}
         \end{equation}
 
         The set of indicators partitions our sample so that our estimate for $\beta_j$ remains unbiased for the average treatment effect \parencite{lin_agnostic_2013}. We will estimate cluster-robust standard errors at the individual level. We use this model to test the hypotheses detailed in Table \ref{tab:hypotheses} including the control variables listed in Table \ref{tab:controlvars}.
@@ -147,10 +207,10 @@
         We will analyze the extent to which the policy frames produced heterogeneous treatment effects with the following specification.
 
         \begin{equation}
-        Y_{i} = \beta_{0} + \sum_{j=1}^{2} \beta_{j}\text{\textsc{Frame}}_{ij} + \delta_{0}x_{i} + \sum_{j=1}^{2} \text{\textsc{Frame}}_{ij} x_{i} \delta_{j} + \varepsilon_{i}
+            Y_{i} = \beta_{0} + \beta_{1}\text{\textsc{Ind}}_{i} + \beta_{2}\text{\textsc{Col}}_{i} + \delta_{0} x_i + \delta_{1}\text{\textsc{Ind}}_{i} x_i + \delta_{2}\text{\textsc{Col}}_{i} x_i + \varepsilon_{i}
         \label{eq:heteffect} \end{equation}
 
-        $x_{i}$ is the binary dimension of heterogeneity measured before treatment assignment. $\delta_{j}$ identify the heterogeneous treatment effects of treatment $j$. Standard errors are clustered at the individual level. We estimate this model with the baseline variables summarized in Table.
+        $x_{i}$ is the binary dimension of heterogeneity measured before treatment assignment. $\delta_{1}$ and $\delta_{2}$ identify the heterogeneous treatment effects of the individual empowerment and collective support frames relative to the poverty alleviation frame. Testing $\delta_{1} = \delta_{2}$ identifies heterogeneous effects between the former two frames. Standard errors are clustered at the individual level. We estimate this model with the baseline variables summarized in Table \ref{tab:hetvars}.
 
         \begin{table}[h]
         \centering
@@ -295,8 +355,8 @@
             title = "Regression results",
             dep.var.labels = c("\\underline{Untreated Y}","\\underline{Treated Y}","\\underline{Het. Treated Y}","\\underline{Robust SE: Het. Treated Y}"),
             covariate.labels = c("Treatment","Female","High school","University","Female $\\times$ Treatment","Constant"),
-            omit.stat = c("LL","ser","rsq",),
-            add.lines = (c("Adjusted F", TreRegHetRobF))
+            omit.stat = c("LL","ser","rsq"),
+            # add.lines = (c("Adjusted F", TreRegHetRobF))
             df = FALSE,
             notes.align = "l", notes.label = "",
             notes.append = FALSE,
