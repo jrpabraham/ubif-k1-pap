@@ -69,9 +69,45 @@
 
     \subsection{Sampling}
 
-        This study will be conducted in conjunction with the Busara Center for Behavioral Economics in Nairobi with 450 participants residing in Kibera, one of Kenya's largest urban slums \parencite{haushofer_methodology_2014}. We will draw a random sample of participants using SMS and phone calls from the Busara Center's active pool of over 12,000 Nairobi residents. During the recruitment call, participants will be informed that they would be paid KES 300 for their participation and have the opportunity to earn more during the study. The sample will include males and females at least eighteen years old. [[Verify this and edit]]
+        This study will be conducted in conjunction with the Busara Center for Behavioral Economics in Nairobi with 450 participants residing in Kibera, one of Kenya's largest urban slums \parencite{haushofer_methodology_2014}. Treatment and data collection will take place with household surveys in the Kibera settlement with Busara Center enumerators. This section outlines the sampling procedure to be used in the experiment.
 
-    \subsection{Manipulation}
+        The study area will be partitioned into non-overlapping catchment regions to be used for sample selection. Research staff will visit one catchment region per day and will not visit the same region more than once. Beginning at a designated intersection in the catchment region, a team of nine enumerators and a guide\footnote{Guides will accompany enumerators but will not be involved in sampling or data collection.} will select every eighth household in each direction for survey. From that visit on, enumerators will select the eighth house down from the subsequent structure, away from the intersection and on the opposite side of the road. If participants are not available at the selected households enumerators will move to the next door away from the origin.
+
+        Sampled individuals will be enrolled in the survey if they meet the following eligibility criteria:
+
+        \begin{enumerate}
+            \item Between 18 and 50 years old
+            \item Resident of Kibera
+            \item Not surveyed by the Busara Center for any other study in the past 10 days
+            \item Owns a working phone with Safaricom
+        \end{enumerate}
+
+        If an eligible person is available at the selected household, they will be enrolled as a participant. If there are multiple members, enumerators will prioritize the youngest eligible person of the opposite gender than in the previous survey. We will sample from the study area for a total of 525 surveys.
+
+        % What is the extent of the study area in Kibera?
+        % How do we define catchment areas (regions)?
+
+    \subsection{Experimental procedure}
+
+        The survey questionnaire will be delivered in English with Kiswahili translations. The following summarizes the schedule of tasks in the questionnaire.
+
+        \begin{enumerate}
+            \item \textbf{Consent agreement}
+            \item \textbf{Cash transfer framing}:
+            \item \textbf{Self-efficacy questionnaire}:
+            \item \textbf{Judgement questionnaire}:
+            \item \textbf{Affect questionnaire}:
+            \item \textbf{Video selection task}:
+            \item \textbf{Savings task}:
+            \item \textbf{Subjective social status ladder scale}:
+            \item \textbf{Sociodemographic questionnaire}:
+            \item \textbf{Frame evaluation}:
+            \item \textbf{Message of support}:
+            \item \textbf{Enumerator response}:
+            \item \textbf{Video task playback}:
+        \end{enumerate}
+
+    \subsection{Treatment}
 
         At the outset of the survey, eligible and consenting participants will be told they are receiving an unconditional cash transfer of KES 400 (USD PPP 10.5) from an organization unaffiliated with the Busara Center.\footnote{This study will be conducted with Kenyan shillings (KES). We report USD values calculated at purchasing power parity using a conversion factor for private consumption of 38.15 in 2013. The price level ratio of PPP conversion factor (GDP) to KES market exchange rate for 2011 was 0.444.} Participants will be randomly assigned to receive one of three messages introducing the purpose of the cash transfer. All frames are identical in content and structure save for the described purpose of the cash transfer. In the poverty allevation framing, the payment is described as a means to meet basic needs. The individual empowerment framing describes the payment as a means toward individual goals and the collective support framing as a means toward goals regarding family and the community.
 
@@ -81,12 +117,7 @@
 
             \begin{quote}
 
-                "As part of this project, we're working with a poverty alleviation organization. This organization is not Busara. It is a different organization.
-                If you could give the aid a name to represent your needs and the organization's goal of poverty alleviation, what would it be? For example, it could be the food fund or emergency fund.
-                Great. This is your [] fund.
-                If other people you interact with regularly knew that you received aid from the [], how would they view you?
-                How would receiving this aid affect your relationships?
-                Can you describe to me in your own words the reasons why you think this organization is giving out aid to people like you?"
+                The goal of this Poverty Alleviation Organization is to alleviate poverty and reduce financial hardship among the poor. This organization believes that people living in poverty should be given income support to help them meet their basic needs. This organization aims to help promote a decent standard of living among the poor and help them deal with emergencies. Thus, the Poverty Alleviation Organization gives financial assistance to people like you, to help them make ends meet. For example, with the financial assistance, people might be able to struggle less to afford basic needs, like paying off debts, paying rent, and buying clothes and food. Now we are going to send you 400 KSh. Please note that this is a one-time transfer of financial assistance.
 
             \end{quote}
 
@@ -94,13 +125,7 @@
 
             \begin{quote}
 
-                "As part of this project, we're working with an individual empowerment organization. This organization is not Busara. It is a different organization.
-                As a reminder, these resources are intended to help you help yourself and to choose how to live your own life.
-                Can you tell me: what are your most important goals for yourself?
-                If you could give the resources a name to represent your individual goals, and the organization's goal of [], what would it be?  For example, it could be your self-investment fund or your business fund.
-                Great. This is your [] fund.
-                How would receiving this aid affect your relationships?
-                Can you describe to me in your own words the reasons why you think this organization is giving out aid to people like you?"
+                The goal of this Individual Empowerment Organization is to promote individuals' potential to create a better future for themselves.  The organization believes that individuals are wise and know best how to help themselves become self-reliant/independent if they have the financial resources to do so. This organization aims to empower individuals to pursue their personal interests and create their own path to independence. Thus, the "Individual Empowerment Organization" gives financial resources to individuals, like you, to enable them to invest in their personal goals. For example, people might use their unique talents to start a self-run business, invest in job training courses, or create art. Now we are going to send you 400 KSh. Please note that this is a one-time transfer of financial resources.
 
             \end{quote}
 
@@ -108,46 +133,22 @@
 
             \begin{quote}
 
-                "As part of this project, we're working with a group support organization. This organization is not Busara. It is a different organization.
-                As a reminder, these resources are intended to help you find ways to support and empower people in your family and in your community that you care about most.
-                Can you tell me: what are the most important goals you have for helping your family and the people you care most about? Who would you be helping?
-                If you could give these resources a name to represent the goals you have for helping your community and the organization's goal of [], what would it be? For example, it could be your education fund or your growing together fund.
-                Great. This is your [] fund.
-                If other people you interact with regularly knew that you received these resources from the [], how would they view you?
-                How would receiving these resources affect your relationships?
-                Can you describe to me in your own words the reasons why you think this organization is giving out resources to people like you?"
+                The goal of this Community Empowerment Organization is to enable people to help promote better futures for those they care about and want to support most. The organization believes that people know best how to support each other and grow together if they have financial resources to do so. This organization aims to empower people to improve their own lives and those of the people and communities they care about most. Thus, the Community Empowerment Organization gives financial resources to community members, like you, to enable them to contribute positively to the lives of people important to them. For example, when people can invest in themselves, they are better able to expand employment opportunities for others, provide valuable services to their community, or teach others, including children, useful skills and knowledge. Now Community Empowerment Organization is going to send you 400 KSh. Please note that this is a one-time transfer of financial resources.
 
             \end{quote}
 
-    \subsection{Data collection}
+\section{Data}
 
-        \subsubsection{Field protocol}
-
-            % Enumerators make house visits to recruited respondents
-            % Data collected on tablets using Qualtrics and SurveyCTO
-            % Debrief and participation fee
-
-            Respondent payments, including participation fees and cash transfers will be delivered via the mobile money system M-Pesa.
-
-        \subsubsection{Experimental procedure}
-
-            The following summarizes the
-
-            \begin{enumerate}
-                \item \textbf{Consent agreement}
-                \item \textbf{Cash transfer framing}:
-                \item \textbf{Self-efficacy questionnaire}:
-                \item \textbf{Judgement questionnaire}:
-                \item \textbf{Affect questionnaire}:
-                \item \textbf{Video selection task}:
-                \item \textbf{Savings task}:
-                \item \textbf{Subjective social status ladder scale}:
-                \item \textbf{Sociodemographic questionnaire}:
-                \item \textbf{Frame evaluation}:
-                \item \textbf{Message of support}:
-                \item \textbf{Enumerator response}:
-                \item \textbf{Video task playback}:
-            \end{enumerate}
+    \subsection{Self-efficacy questionnaire}
+    \subsection{Judgement questionnaire}
+    \subsection{Affect questionnaire}
+    \subsection{Video selection task}
+    \subsection{Savings task}
+    \subsection{Subjective social status ladder scale}
+    \subsection{Sociodemographic questionnaire}
+    \subsection{Frame evaluation}
+    \subsection{Message of support}
+    \subsection{Beliefs about treatment}
 
 \section{Empirical Analysis}
 
