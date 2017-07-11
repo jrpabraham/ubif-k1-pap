@@ -1,0 +1,13 @@
+base
+knitr
+dplyr
+zoo
+lmtest
+sandwich
+stargazer
+ggplot2
+xtable
+pwr
+wesanderson
+extrafont
+car

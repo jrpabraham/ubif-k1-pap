@@ -25,13 +25,17 @@
 \subsubsectionfont{\normalfont\normalsize\selectfont\itshape}
 
 \newcommand{\specialcell}[2][c]{%
-  \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+      \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
 
 <<FrontMatter, include=FALSE>>=
 
+    # Set dir, have to change this
+
+    setwd("/Users/Justin/Google Drive/UBIF/UBIF_Deliverables/UBIF_PAP/K1_PAP")
+
     # Check for packages. Install missing packages.
 
-    required.packages <- c("dplyr", "lmtest", "sandwich", "stargazer", "ggplot2", "xtable", "pwr", "wesanderson", "extrafont", "car")
+    required.packages <- c("knitr", "dplyr", "lmtest", "sandwich", "stargazer", "ggplot2", "xtable", "pwr", "wesanderson", "extrafont", "car")
     packages.missing <- required.packages[!required.packages %in% installed.packages()[,"Package"]]
     if(length(packages.missing) > 0) {install.packages(required.packages, repo="https://cran.cnr.berkeley.edu/")}
     lapply(required.packages, library, character.only = TRUE)
@@ -49,7 +53,7 @@
 
 \begin{abstract}
 
-    This document describes the pre-analysis plan for a randomized experiment examining the effects of framing of welfare payments on self-concept and economic behavior. In this study, we will provide small, unconditional cash transfers to residents of an informal settlement in Nairobi and vary the way in which the transfers are framed to participants. Participants will be randomly assigned to one of three treatment groups: the transfer framed as a means toward poverty alleviation, individual empowerment, or collective support. We will then collect self-reported measures of self-efficacy, judgement, and affect and observed measures of temporal discounting and investment. This pre-analysis plan outlines our hypotheses, the schedule of experimental tasks, and our empirical strategy. In order to guarantee transparency and bind ourselves from fishing for results, we will pre-register the scripts to be used for data analysis.
+    This document describes the pre-analysis plan for a randomized experiment examining the effects of framing of welfare payments on self-concept and economic behavior. In this study, we will provide small, unconditional cash transfers to residents of an informal settlement in Nairobi and vary the way in which the transfers are framed to participants. Participants will be randomly assigned to one of three treatment groups: the transfer framed as a means toward poverty alleviation, individual empowerment, or collective support. We will then collect self-reported measures of self-efficacy, judgement, and affect and observed measures of temporal discounting and investment. This pre-analysis plan outlines our hypotheses, the schedule of experimental tasks, and our empirical strategy. In order to guarantee transparency and bind ourselves from fishing for results, we will pre-register the source files to be used for data analysis.
 
 \end{abstract}
 
@@ -69,7 +73,9 @@
 
     \subsection{Manipulation}
 
-        At the outset of the survey, eligible and consenting participants will be told they are receiving an unconditional cash transfer from an organization unaffiliated with the Busara Center. Participants will be randomly assigned to receive one of three messages introducing the purpose of the cash transfer. All frames are identical in content and structure save for the described purpose of the cash transfer. In the poverty allevation framing, the payment is described as a means to meet basic needs. The individual empowerment framing describes the payment as a means toward individual goals and the collective support framing as a means toward goals regarding family and the community. For the individual empowerment and collective support treatments, enumerators will also elicit participants to list either individual or collective goals and beliefs about the purpose of the payment.
+        At the outset of the survey, eligible and consenting participants will be told they are receiving an unconditional cash transfer of KES 400 (USD PPP 10.5) from an organization unaffiliated with the Busara Center.\footnote{This study will be conducted with Kenyan shillings (KES). We report USD values calculated at purchasing power parity using a conversion factor for private consumption of 38.15 in 2013. The price level ratio of PPP conversion factor (GDP) to KES market exchange rate for 2011 was 0.444.} Participants will be randomly assigned to receive one of three messages introducing the purpose of the cash transfer. All frames are identical in content and structure save for the described purpose of the cash transfer. In the poverty allevation framing, the payment is described as a means to meet basic needs. The individual empowerment framing describes the payment as a means toward individual goals and the collective support framing as a means toward goals regarding family and the community.
+
+        After framing, enumerators will send USD PPP 10.5 to the participant via the mobile money system M-Pesa.\footnote{For more information on M-Pesa, we refer the reader to \textcite{jack_mobile_2011} and \textcite{mbiti_mobile_2011}.} Enumerators will be instructed to confirm receipt of the payment. In the individual empowerment and collective support treatments, enumerators will also elicit participants to list either individual or collective goals and beliefs about the purpose of the payment.
 
         \subsubsection{Poverty alleviation framing}
 
@@ -121,7 +127,7 @@
             % Data collected on tablets using Qualtrics and SurveyCTO
             % Debrief and participation fee
 
-            Respondent payments, including participation fees and cash transfers will be delivered via the mobile money system M-Pesa.\footnote{For more information on M-Pesa, we refer the reader to \textcite{jack_mobile_2011} and \textcite{mbiti_mobile_2011}.}
+            Respondent payments, including participation fees and cash transfers will be delivered via the mobile money system M-Pesa.
 
         \subsubsection{Experimental procedure}
 
@@ -147,6 +153,8 @@
 
     \subsection{Treatment effect of cash transfer frames}
 
+        % Specify balance checks?
+
         We will use the following reduced-form specification to estimate the treatment effect of different frames.\footnote{We will conduct the data analysis outlined in this section using the R programming language with the scripts included in Appendix \ref{sec:rscripts}.}
 
   		\begin{equation} \label{eq:teffect}
@@ -155,10 +163,13 @@
 
         $Y_{i}$ refers to the outcome variables for individual $i$ measured after the manipulation. The outcome variables described in Table \ref{tab:depvars} will be the focus of this analysis. \textsc{Ind}$_{i}$ indicates assignment to the individual empowerment frame while \textsc{Col}$_{i}$ indicates assignment to the collective support frame. The reference category in this model is the poverty alleviation frame. We will estimate cluster-robust standard errors at the individual level. Table \ref{tab:hypotheses} lists the hypotheses we will test using Equation \ref{eq:teffect}.
 
+        % Separately specify mechanism analysis?
+
         \begin{table}[h]
         \centering
         \caption{Primary outcome variables}
         \label{tab:depvars}
+        \maxsizebox*{\textwidth}{\textheight}{
         \begin{tabular}{@{}lllll@{}}
         \toprule
         Variable                                     & Description                                          &  &  &  \\ \midrule
@@ -167,20 +178,21 @@
         Video selection & &  &  &  \\
         Savings & &  &  &  \\
         \bottomrule
-        \end{tabular}
+        \end{tabular} }
         \end{table}
 
         \begin{table}[h]
         \centering
         \caption{Primary hypothesis tests}
         \label{tab:hypotheses}
+        \maxsizebox*{\textwidth}{\textheight}{
         \begin{tabular}{@{}lllll@{}}
         \toprule
         Null hypothesis                                     & Description                                          &  &  &  \\ \midrule
         $H_0: \beta_1 = 0$ & Effect of individual empowerment frame relative to poverty alleviation frame &  &  &  \\
         $H_0: \beta_2 = 0$ & Effect of collective support frame relative to poverty alleviation frame &  &  &  \\
         $H_0: \beta_1 = \beta_2$ & Effect of collective support frame relative to individual empowerment frame &  &  &  \\ \bottomrule
-        \end{tabular}
+        \end{tabular} }
         \end{table}
 
         To improve precision, we will also apply covariate adjustment with a vector of baseline indicators $\mathbf{X}_i$. We obtain the covariate-adjusted treatment effect estimate by estimating Equation \ref{eq:teffect} including the demeaned covariate vector $\mathbf{\dot X}_{i} = \mathbf{X}_{i} - \mathbf{\bar X}_{i}$ as an additive term and as an interaction with the treatment indicator. % scrap this maybe
@@ -195,6 +207,7 @@
         \centering
         \caption{Control variables for covariate adjustment}
         \label{tab:controlvars}
+        \maxsizebox*{\textwidth}{\textheight}{
         \begin{tabular}{@{}lllll@{}}
         \toprule
         Variable                                     & Description                                          &  &  &  \\ \midrule
@@ -204,12 +217,12 @@
         Education & Dummy variable indicating participant completed std. 8 &  &  &  \\
         Children & Dummy variable indicating participant has children &  &  &  \\
         \bottomrule
-        \end{tabular}
+        \end{tabular} }
         \end{table}
 
     \subsection{Randomization inference} % scrap this maybe
 
-        One potential concern is that inference might be invalidated by finite sample bias in estimates of the standard errors. To address this issue, we will conduct randomization inference to test the Fisherian sharp null hypothesis of no treatment effect for every participant \parencite{fisher_design_1935}.\footnote{Note that this is more restrictive than the null hypothesis of zero average treatment effect we will test in the previous section.} The basis for this inferential framework is that the distribution of test statistics comes from random treatment assignment rather than from drawing a finite sample from a super-population. This method produces exact $p$-values which do not rely on asymptotic theorems for valid inference. We perform Monte Carlo approximations of the exact $p$-values using $M=10,000$ permutations of the treatment assignment. We will then estimate our primary specification within each $m^{th}$ permutation and calculate the standard Wald statistics for each of our hypothesis tests. We will compare the Wald statistics from the original sample with the distribution of permuted statistics to produce approximations of the exact $p$-values:
+        One potential concern is that inference might be invalidated by finite sample bias in estimates of the standard errors. To address this issue, we will conduct randomization inference to test the Fisherian sharp null hypothesis of no treatment effect for every participant \parencite{fisher_design_1935}.\footnote{Note that this is more restrictive than the null hypothesis of zero average treatment effect we will test in the previous section.} We perform Monte Carlo approximations of the exact $p$-values using $M=10,000$ permutations of the treatment assignment. We will then estimate our primary specification within each $m^{th}$ permutation and calculate the standard Wald statistics for each of our hypothesis tests. We will compare the Wald statistics from the original sample with the distribution of permuted statistics to produce approximations of the exact $p$-values:
 
         \begin{equation} \label{eq:exactp}
             \hat{p}_{\beta} =  \frac{1}{10,000}\sum_{m=1}^{10,000} \mathbf{1} \Big [ \mathbf{\hat{\beta'}}_m V(\mathbf{\hat{\beta}}_m)^{-1} \mathbf{\hat{\beta}}_m \geq \mathbf{\hat{\beta'}}_{obs.} V(\mathbf{\hat{\beta}}_{obs.})^{-1} \hat{\beta}_{obs.} \Big ]
@@ -231,6 +244,7 @@
         \centering
         \caption{Dimensions of heterogeneity}
         \label{tab:hetvars}
+        \maxsizebox*{\textwidth}{\textheight}{
         \begin{tabular}{@{}lllll@{}}
         \toprule
         Variable                                     & Description                                          &  &  &  \\ \midrule
@@ -240,7 +254,7 @@
         Education & Dummy variable indicating participant completed std. 8 &  &  &  \\
         Children & Dummy variable indicating participant has children &  &  &  \\
         \bottomrule
-        \end{tabular}
+        \end{tabular} }
         \end{table}
 
     \subsection{Multiple testing adjustment}

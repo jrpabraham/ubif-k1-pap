@@ -75,7 +75,7 @@
 \subsubsectionfont{\normalfont\normalsize\selectfont\itshape}
 
 \newcommand{\specialcell}[2][c]{%
-  \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+      \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
 
 
 
@@ -90,7 +90,7 @@
 
 \begin{abstract}
 
-    This document describes the pre-analysis plan for a randomized experiment examining the effects of framing of welfare payments on self-concept and economic behavior. In this study, we will provide small, unconditional cash transfers to residents of an informal settlement in Nairobi and vary the way in which the transfers are framed to participants. Participants will be randomly assigned to one of three treatment groups: the transfer framed as a means toward poverty alleviation, individual empowerment, or collective support. We will then collect self-reported measures of self-efficacy, judgement, and affect and observed measures of temporal discounting and investment. This pre-analysis plan outlines our hypotheses, the schedule of experimental tasks, and our empirical strategy. In order to guarantee transparency and bind ourselves from fishing for results, we will pre-register the scripts to be used for data analysis.
+    This document describes the pre-analysis plan for a randomized experiment examining the effects of framing of welfare payments on self-concept and economic behavior. In this study, we will provide small, unconditional cash transfers to residents of an informal settlement in Nairobi and vary the way in which the transfers are framed to participants. Participants will be randomly assigned to one of three treatment groups: the transfer framed as a means toward poverty alleviation, individual empowerment, or collective support. We will then collect self-reported measures of self-efficacy, judgement, and affect and observed measures of temporal discounting and investment. This pre-analysis plan outlines our hypotheses, the schedule of experimental tasks, and our empirical strategy. In order to guarantee transparency and bind ourselves from fishing for results, we will pre-register the source files to be used for data analysis.
 
 \end{abstract}
 
@@ -200,6 +200,7 @@
         \centering
         \caption{Primary outcome variables}
         \label{tab:depvars}
+        \maxsizebox*{\textwidth}{\textheight}{
         \begin{tabular}{@{}lllll@{}}
         \toprule
         Variable                                     & Description                                          &  &  &  \\ \midrule
@@ -208,20 +209,21 @@
         Video selection & &  &  &  \\
         Savings & &  &  &  \\
         \bottomrule
-        \end{tabular}
+        \end{tabular} }
         \end{table}
 
         \begin{table}[h]
         \centering
         \caption{Primary hypothesis tests}
         \label{tab:hypotheses}
+        \maxsizebox*{\textwidth}{\textheight}{
         \begin{tabular}{@{}lllll@{}}
         \toprule
         Null hypothesis                                     & Description                                          &  &  &  \\ \midrule
         $H_0: \beta_1 = 0$ & Effect of individual empowerment frame relative to poverty alleviation frame &  &  &  \\
         $H_0: \beta_2 = 0$ & Effect of collective support frame relative to poverty alleviation frame &  &  &  \\
         $H_0: \beta_1 = \beta_2$ & Effect of collective support frame relative to individual empowerment frame &  &  &  \\ \bottomrule
-        \end{tabular}
+        \end{tabular} }
         \end{table}
 
         To improve precision, we will also apply covariate adjustment with a vector of baseline indicators $\mathbf{X}_i$. We obtain the covariate-adjusted treatment effect estimate by estimating Equation \ref{eq:teffect} including the demeaned covariate vector $\mathbf{\dot X}_{i} = \mathbf{X}_{i} - \mathbf{\bar X}_{i}$ as an additive term and as an interaction with the treatment indicator. % scrap this maybe
@@ -236,6 +238,7 @@
         \centering
         \caption{Control variables for covariate adjustment}
         \label{tab:controlvars}
+        \maxsizebox*{\textwidth}{\textheight}{
         \begin{tabular}{@{}lllll@{}}
         \toprule
         Variable                                     & Description                                          &  &  &  \\ \midrule
@@ -245,7 +248,7 @@
         Education & Dummy variable indicating participant completed std. 8 &  &  &  \\
         Children & Dummy variable indicating participant has children &  &  &  \\
         \bottomrule
-        \end{tabular}
+        \end{tabular} }
         \end{table}
 
     \subsection{Randomization inference} % scrap this maybe
@@ -272,6 +275,7 @@
         \centering
         \caption{Dimensions of heterogeneity}
         \label{tab:hetvars}
+        \maxsizebox*{\textwidth}{\textheight}{
         \begin{tabular}{@{}lllll@{}}
         \toprule
         Variable                                     & Description                                          &  &  &  \\ \midrule
@@ -281,7 +285,7 @@
         Education & Dummy variable indicating participant completed std. 8 &  &  &  \\
         Children & Dummy variable indicating participant has children &  &  &  \\
         \bottomrule
-        \end{tabular}
+        \end{tabular} }
         \end{table}
 
     \subsection{Multiple testing adjustment}
@@ -352,7 +356,7 @@
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Fri, Jul 07, 2017 - 11:00:59
+% Date and time: Mon, Jul 10, 2017 - 13:36:25
 \begin{table}[!htbp] \centering 
   \caption{Descriptive statistics} 
   \label{} 
@@ -361,15 +365,15 @@
 \hline \\[-1.8ex] 
 Statistic & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{St. Dev.} & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Max} \\ 
 \hline \\[-1.8ex] 
-Inc & 1,000 & 243.629 & 380.650 & 5.028 & 8,100.177 \\ 
-y\_nottreat & 1,000 & 0.045 & 0.989 & $-$3.502 & 3.000 \\ 
-y\_treated & 1,000 & 0.465 & 1.227 & $-$3.502 & 4.687 \\ 
-y\_HetTreated & 1,000 & 0.577 & 1.401 & $-$3.502 & 6.697 \\ 
+Inc & 1,000 & 249.790 & 302.516 & 5.358 & 3,069.520 \\ 
+y\_nottreat & 1,000 & $-$0.021 & 0.985 & $-$2.950 & 3.653 \\ 
+y\_treated & 1,000 & 0.340 & 1.271 & $-$3.672 & 4.591 \\ 
+y\_HetTreated & 1,000 & 0.423 & 1.380 & $-$3.806 & 5.455 \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Fri Jul  7 11:00:59 2017
+% Mon Jul 10 13:36:25 2017
 \begin{table}[ht]
 \centering
 \caption{Treatment assignment} 
@@ -377,13 +381,13 @@ y\_HetTreated & 1,000 & 0.577 & 1.401 & $-$3.502 & 6.697 \\
   \hline
  & TreatCount & TreatProp \\ 
   \hline
-Control & 508 & 50.80 \\ 
-  Treatment & 492 & 49.20 \\ 
+Control & 499 & 49.90 \\ 
+  Treatment & 501 & 50.10 \\ 
    \hline
 \end{tabular}
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Fri Jul  7 11:00:59 2017
+% Mon Jul 10 13:36:25 2017
 \begin{table}[ht]
 \centering
 \caption{Gender} 
@@ -391,13 +395,13 @@ Control & 508 & 50.80 \\
   \hline
  & GenCount & GenProp \\ 
   \hline
-Male & 511 & 51.10 \\ 
-  Female & 489 & 48.90 \\ 
+Male & 499 & 49.90 \\ 
+  Female & 501 & 50.10 \\ 
    \hline
 \end{tabular}
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Fri Jul  7 11:00:59 2017
+% Mon Jul 10 13:36:25 2017
 \begin{table}[ht]
 \centering
 \caption{Education} 
@@ -405,9 +409,9 @@ Male & 511 & 51.10 \\
   \hline
  & EduCount & EduProp \\ 
   \hline
-Primary school & 472 & 47.20 \\ 
-  High school & 325 & 32.50 \\ 
-  University \& above & 203 & 20.30 \\ 
+Primary school & 515 & 51.50 \\ 
+  High school & 299 & 29.90 \\ 
+  University \& above & 186 & 18.60 \\ 
    \hline
 \end{tabular}
 \end{table}
@@ -431,16 +435,16 @@ Primary school & 472 & 47.20 \\
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -3.5613 -0.6432 -0.0086  0.6961  2.9691 
+## -2.9210 -0.6664 -0.0259  0.6351  3.6650 
 ## 
 ## Coefficients:
 ##                Estimate Std. Error t value Pr(>|t|)
-## (Intercept)     0.05953    0.04390   1.356    0.175
-## TreatTreatment -0.02883    0.06258  -0.461    0.645
+## (Intercept)    -0.02936    0.04410  -0.666    0.506
+## TreatTreatment  0.01705    0.06230   0.274    0.784
 ## 
-## Residual standard error: 0.9894 on 998 degrees of freedom
-## Multiple R-squared:  0.0002126,	Adjusted R-squared:  -0.0007892 
-## F-statistic: 0.2122 on 1 and 998 DF,  p-value: 0.6451
+## Residual standard error: 0.985 on 998 degrees of freedom
+## Multiple R-squared:  7.508e-05,	Adjusted R-squared:  -0.0009268 
+## F-statistic: 0.07494 on 1 and 998 DF,  p-value: 0.7843
 \end{verbatim}
 \begin{alltt}
   \hlcom{#Reg with treatment effect}
@@ -454,18 +458,18 @@ Primary school & 472 & 47.20 \\
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -4.1314 -0.7205 -0.0480  0.7866  3.8026 
+## -4.3797 -0.7766 -0.0405  0.8476  3.8834 
 ## 
 ## Coefficients:
 ##                Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)     0.05953    0.05128   1.161    0.246    
-## TreatTreatment  0.82445    0.07311  11.276   <2e-16 ***
+## (Intercept)    -0.02936    0.05447  -0.539     0.59    
+## TreatTreatment  0.73720    0.07696   9.579   <2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 1.156 on 998 degrees of freedom
-## Multiple R-squared:  0.113,	Adjusted R-squared:  0.1121 
-## F-statistic: 127.2 on 1 and 998 DF,  p-value: < 2.2e-16
+## Residual standard error: 1.217 on 998 degrees of freedom
+## Multiple R-squared:  0.0842,	Adjusted R-squared:  0.08328 
+## F-statistic: 91.76 on 1 and 998 DF,  p-value: < 2.2e-16
 \end{verbatim}
 \begin{alltt}
   \hlcom{#Controlling for Education}
@@ -479,21 +483,21 @@ Primary school & 472 & 47.20 \\
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -4.1219 -0.7240 -0.0414  0.7746  3.7626 
+## -4.3513 -0.7757 -0.0460  0.8384  3.8557 
 ## 
 ## Coefficients:
-##                       Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)            0.09865    0.07348   1.343    0.180    
-## TreatTreatment         0.82536    0.07325  11.268   <2e-16 ***
-## GenFemale             -0.01505    0.07324  -0.205    0.837    
-## EduHigh school        -0.07758    0.08343  -0.930    0.353    
-## EduUniversity & above -0.03446    0.09719  -0.355    0.723    
+##                        Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)           -0.068711   0.078158  -0.879    0.380    
+## TreatTreatment         0.738469   0.077203   9.565   <2e-16 ***
+## GenFemale              0.009617   0.077253   0.124    0.901    
+## EduHigh school         0.056244   0.088575   0.635    0.526    
+## EduUniversity & above  0.091814   0.104331   0.880    0.379    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 1.157 on 995 degrees of freedom
-## Multiple R-squared:  0.1138,	Adjusted R-squared:  0.1103 
-## F-statistic: 31.95 on 4 and 995 DF,  p-value: < 2.2e-16
+## Residual standard error: 1.218 on 995 degrees of freedom
+## Multiple R-squared:  0.08505,	Adjusted R-squared:  0.08137 
+## F-statistic: 23.12 on 4 and 995 DF,  p-value: < 2.2e-16
 \end{verbatim}
 \begin{alltt}
   \hlcom{#Het effects with Gen}
@@ -507,22 +511,22 @@ Primary school & 472 & 47.20 \\
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -4.7840 -0.7944 -0.0195  0.8504  5.3236 
+## -4.8059 -0.8222 -0.0342  0.8717  4.3369 
 ## 
 ## Coefficients:
 ##                          Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)               0.09382    0.09222   1.017  0.30927    
-## TreatTreatment            0.81556    0.11425   7.138 1.82e-12 ***
-## GenFemale                -0.02473    0.11467  -0.216  0.82932    
-## EduHigh school           -0.08318    0.09315  -0.893  0.37209    
-## EduUniversity & above     0.02556    0.10862   0.235  0.81402    
-## TreatTreatment:GenFemale  0.48920    0.16369   2.989  0.00287 ** 
+## (Intercept)              -0.09572    0.09387  -1.020   0.3081    
+## TreatTreatment            0.71083    0.11658   6.097 1.54e-09 ***
+## GenFemale                -0.01715    0.11664  -0.147   0.8831    
+## EduHigh school            0.18130    0.09443   1.920   0.0552 .  
+## EduUniversity & above     0.11771    0.11120   1.059   0.2901    
+## TreatTreatment:GenFemale  0.40228    0.16461   2.444   0.0147 *  
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 1.291 on 994 degrees of freedom
-## Multiple R-squared:  0.1553,	Adjusted R-squared:  0.1511 
-## F-statistic: 36.56 on 5 and 994 DF,  p-value: < 2.2e-16
+## Residual standard error: 1.298 on 994 degrees of freedom
+## Multiple R-squared:  0.1202,	Adjusted R-squared:  0.1157 
+## F-statistic: 27.15 on 5 and 994 DF,  p-value: < 2.2e-16
 \end{verbatim}
 \begin{alltt}
   \hlcom{#Het effects with Gen and robust SE}
@@ -538,7 +542,7 @@ Primary school & 472 & 47.20 \\
 ## Model 2: y_HetTreated ~ 1
 ##   Res.Df Df      F    Pr(>F)    
 ## 1    994                        
-## 2    999 -5 33.184 < 2.2e-16 ***
+## 2    999 -5 25.655 < 2.2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{verbatim}
@@ -547,7 +551,7 @@ Primary school & 472 & 47.20 \\
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Fri, Jul 07, 2017 - 11:00:59
+% Date and time: Mon, Jul 10, 2017 - 13:36:26
 \begin{table}[!htbp] \centering 
   \caption{Regression results} 
   \label{} 
@@ -559,22 +563,22 @@ Primary school & 472 & 47.20 \\
 \\[-1.8ex] & \underline{Untreated Y} & \multicolumn{2}{c}{\underline{Treated Y}} & \multicolumn{2}{c}{\underline{Het. Treated Y}} \\ 
 \\[-1.8ex] & (1) & (2) & (3) & (4) & (5)\\ 
 \hline \\[-1.8ex] 
- Treatment & $-$0.029 & 0.824$^{***}$ & 0.825$^{***}$ & 0.816$^{***}$ & 0.816$^{***}$ \\ 
-  & (0.063) & (0.073) & (0.073) & (0.114) & (0.104) \\ 
-  Female &  &  & $-$0.015 & $-$0.025 & $-$0.025 \\ 
-  &  &  & (0.073) & (0.115) & (0.089) \\ 
-  High school &  &  & $-$0.078 & $-$0.083 & $-$0.083 \\ 
-  &  &  & (0.083) & (0.093) & (0.094) \\ 
-  University &  &  & $-$0.034 & 0.026 & 0.026 \\ 
-  &  &  & (0.097) & (0.109) & (0.111) \\ 
-  Female $\times$ Treatment &  &  &  & 0.489$^{***}$ & 0.489$^{***}$ \\ 
-  &  &  &  & (0.164) & (0.166) \\ 
-  Constant & 0.060 & 0.060 & 0.099 & 0.094 & 0.094 \\ 
-  & (0.044) & (0.051) & (0.073) & (0.092) & (0.076) \\ 
+ Treatment & 0.017 & 0.737$^{***}$ & 0.738$^{***}$ & 0.711$^{***}$ & 0.711$^{***}$ \\ 
+  & (0.062) & (0.077) & (0.077) & (0.117) & (0.107) \\ 
+  Female &  &  & 0.010 & $-$0.017 & $-$0.017 \\ 
+  &  &  & (0.077) & (0.117) & (0.088) \\ 
+  High school &  &  & 0.056 & 0.181$^{*}$ & 0.181$^{*}$ \\ 
+  &  &  & (0.089) & (0.094) & (0.093) \\ 
+  University &  &  & 0.092 & 0.118 & 0.118 \\ 
+  &  &  & (0.104) & (0.111) & (0.115) \\ 
+  Female $\times$ Treatment &  &  &  & 0.402$^{**}$ & 0.402$^{**}$ \\ 
+  &  &  &  & (0.165) & (0.165) \\ 
+  Constant & $-$0.029 & $-$0.029 & $-$0.069 & $-$0.096 & $-$0.096 \\ 
+  & (0.044) & (0.054) & (0.078) & (0.094) & (0.071) \\ 
  \hline \\[-1.8ex] 
 Observations & 1,000 & 1,000 & 1,000 & 1,000 & 1,000 \\ 
-Adjusted R$^{2}$ & $-$0.001 & 0.112 & 0.110 & 0.151 & 0.151 \\ 
-F Statistic & 0.212 & 127.156$^{***}$ & 31.947$^{***}$ & 36.559$^{***}$ & 36.559$^{***}$ \\ 
+Adjusted R$^{2}$ & $-$0.001 & 0.083 & 0.081 & 0.116 & 0.116 \\ 
+F Statistic & 0.075 & 91.758$^{***}$ & 23.124$^{***}$ & 27.153$^{***}$ & 27.153$^{***}$ \\ 
 \hline 
 \hline \\[-1.8ex] 
 \multicolumn{6}{l}{\parbox[t]{10cm}{$^{*}p<0.1;^{**}p<0.05;^{***}p<0.01$. Standard errors in parentheses.}} \\ 
