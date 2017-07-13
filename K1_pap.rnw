@@ -125,7 +125,7 @@
 
             \begin{quote}
 
-                The goal of this Individual Empowerment Organization is to promote individuals' potential to create a better future for themselves.  The organization believes that individuals are wise and know best how to help themselves become self-reliant/independent if they have the financial resources to do so. This organization aims to empower individuals to pursue their personal interests and create their own path to independence. Thus, the "Individual Empowerment Organization" gives financial resources to individuals, like you, to enable them to invest in their personal goals. For example, people might use their unique talents to start a self-run business, invest in job training courses, or create art. Now we are going to send you 400 KSh. Please note that this is a one-time transfer of financial resources.
+                The goal of this Individual Empowerment Organization is to promote individuals' potential to create a better future for themselves.  The organization believes that individuals are wise and know best how to help themselves become self-reliant/independent if they have the financial resources to do so. This organization aims to empower individuals to pursue their personal interests and create their own path to independence. Thus, the Individual Empowerment Organization gives financial resources to individuals, like you, to enable them to invest in their personal goals. For example, people might use their unique talents to start a self-run business, invest in job training courses, or create art. Now we are going to send you 400 KSh. Please note that this is a one-time transfer of financial resources.
 
             \end{quote}
 
@@ -313,8 +313,12 @@
     y_GenTeffect[Gen == "Male"] <- 0
     y_HetTreated <- y_treated + y_GenTeffect
 
+  #Generate id
+
+    ID <- matrix(1:OBS, ncol = 1)
+
   #Create, save dataframe
-    SimTreat <- data.frame(Treat, Gen, Edu, Inc, y_nottreat, y_treated, y_HetTreated)
+    SimTreat <- data.frame(ID, Treat, Gen, Edu, Inc, y_nottreat, y_treated, y_HetTreated)
     save(SimTreat,file = "SimTreat.Rda")
     attach(SimTreat)
 

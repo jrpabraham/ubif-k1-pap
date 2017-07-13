@@ -4,7 +4,7 @@
 
 setwd("/Users/Justin/Google Drive/UBIF/UBIF_Deliverables/UBIF_PAP/K1_PAP") # make this more flexible
 
-required.packages <- c("dplyr", "lmtest", "sandwich", "stargazer", "ggplot2", "xtable", "pwr", "wesanderson", "extrafont", "car", "knitr")
+required.packages <- c("dplyr", "lmtest", "sandwich", "stargazer", "ggplot2", "xtable", "pwr", "wesanderson", "extrafont", "multiwayvcov", "multcomp", "knitr")
 packages.missing <- required.packages[!required.packages %in% installed.packages()[,"Package"]]
 
 if(length(packages.missing) > 0) {install.packages(required.packages, repo="https://cran.cnr.berkeley.edu/")}
@@ -14,37 +14,63 @@ lapply(required.packages, library, character.only = TRUE)
 ## Define functions ##
 ######################
 
-## MainFx tests primary hypotheses from linear model ##
+## RegTest tests primary hypotheses from linear model ##
 
-MainFx <- function(model, clustvars, hypotheses) {
+RegTest <- function(equation, clustvars, hypotheses) {
 
-    require(lmtest)
-    require(car)
+    model <- lm(equation)
 
     if (missing(clustvars)) model$vcov <- vcov(model)
-    else model$vcov <- vcovHC(model, type = "HC1", cluster = clustvars)
+    else model$vcov <- cluster.vcov(model, cluster = clustvars)
 
-    lapply(hypotheses, linearHypothesis(model, H))
+    model$test <- summary(glht(model, linfct = hypotheses, vcov = model$vcov))$test
 
-    for (hyp in hypotheses) {
+    numhyp <- length(hypotheses)
 
-        linearHypothesis(model, hyp, vcov. = model$vcov)
+    EST <- matrix(nrow = numhyp, ncol = 3)
+
+    for (i in 1:numhyp) {
+
+        EST[i, 1] <- model$test$coefficients[i]
+        EST[i, 2] <- model$test$sigma[i]
+        EST[i, 3] <- model$test$pvalues[i]
 
     }
 
-    return(tests)
+    colnames(EST) <- c("Estimate", "SE", "P")
+
+    return(EST)
 
 }
 
-## PermFx returns approximations of the exact p-value ##
+## PermTest returns approximations of the exact p-value ##
 
-PermFx <- function(model, data, subset, weights, na.action, clustvars, hypotheses, iterations) {
+PermTest <- function(equation, clustvars, hypotheses) {
+
+    model <- lm(equation)
+
+    if (missing(clustvars)) model$vcov <- vcov(model)
+    else model$vcov <- cluster.vcov(model, cluster = clustvars)
+
+    model$test <- summary(glht(model, linfct = hypotheses, vcov = model$vcov))$test
+
+    numhyp <- length(hypotheses)
+
+    EST <- matrix(nrow = numhyp, ncol = 3)
+
+    for (i in 1:numhyp) {
+
+        EST[i, 1] <- model$test$coefficients[i]
+        EST[i, 2] <- model$test$sigma[i]
+        EST[i, 3] <- model$test$pvalues[i]
+
+    }
+
+    colnames(EST) <- c("Estimate", "SE", "P")
+
+    return(EST)
 
 }
-
-## CovFx returns cov. adjusted ATE estimates (subsume by MainFx) ##
-
-## HetFx returns het treatment effects (subsume by MainFx) ##
 
 ## FDR returns minimum q-values ##
 
