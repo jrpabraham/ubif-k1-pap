@@ -52,7 +52,7 @@
 
     \subsection{Sampling}
 
-        This study will be conducted in conjunction with the Busara Center for Behavioral Economics in Nairobi with 450 participants residing in Kibera, one of Kenya's largest urban slums \parencite{haushofer_methodology_2014}. Treatment and data collection will take place with household surveys in the Kibera settlement with Busara Center enumerators. This section outlines the sampling procedure to be used in the experiment.
+        This study will be conducted in conjunction with the Busara Center for Behavioral Economics in Nairobi with 525 participants residing in Kibera, one of Kenya's largest urban slums \parencite{haushofer_methodology_2014}. Treatment and data collection will take place with household surveys in the Kibera settlement with Busara Center enumerators. This section outlines the sampling procedure to be used in the experiment.
 
         The study area will be partitioned into non-overlapping catchment regions to be used for sample selection. Research staff will visit one catchment region per day and will not visit the same region more than once. Beginning at a designated intersection in the catchment region, a team of nine enumerators and a guide\footnote{Guides will accompany enumerators but will not be involved in sampling or data collection.} will select every eighth household in each direction for survey. From that visit on, enumerators will select the eighth house down from the subsequent structure, away from the intersection and on the opposite side of the road. If participants are not available at the selected households enumerators will move to the next door away from the origin.
 
@@ -76,18 +76,17 @@
 
         \begin{enumerate}
             \item \textbf{Consent agreement}
-            \item \textbf{Cash transfer framing}:
-            \item \textbf{Self-efficacy questionnaire}:
-            \item \textbf{Judgement questionnaire}:
-            \item \textbf{Affect questionnaire}:
-            \item \textbf{Video selection task}:
-            \item \textbf{Savings task}:
-            \item \textbf{Subjective social status ladder scale}:
-            \item \textbf{Sociodemographic questionnaire}:
-            \item \textbf{Frame evaluation}:
-            \item \textbf{Message of support}:
-            \item \textbf{Enumerator response}:
-            \item \textbf{Video task playback}:
+            \item \textbf{Cash transfer framing}
+            \item \textbf{Self-efficacy questionnaire}
+            \item \textbf{Judgement questionnaire}
+            \item \textbf{Affect questionnaire}
+            \item \textbf{Video selection task}
+            \item \textbf{Savings task}
+            \item \textbf{Subjective social status ladder scale}
+            \item \textbf{Sociodemographic questionnaire}
+            \item \textbf{Frame evaluation}
+            \item \textbf{Message of support}
+            \item \textbf{Enumerator response}
         \end{enumerate}
 
     \subsection{Treatment}
@@ -156,11 +155,11 @@
         \maxsizebox*{\textwidth}{\textheight}{
         \begin{tabular}{@{}lllll@{}}
         \toprule
-        Variable                                     & Description                                          &  &  &  \\ \midrule
-        Self-efficacy & &  &  &  \\
-        Affect & &  &  &  \\
-        Video selection & &  &  &  \\
-        Savings & &  &  &  \\
+        Variable & Description &  &  &  \\ \midrule
+        Video selection & Dummy variable for having chosen at least one business video &  &  &  \\
+        Savings choice & Dummy variable for sending non-zero amount &  &  &  \\
+        Message recording & Dummy variable for recording message of support &  &  &  \\
+        Effect forecast & &  &  &  \\
         \bottomrule
         \end{tabular} }
         \end{table}
@@ -172,7 +171,7 @@
         \maxsizebox*{\textwidth}{\textheight}{
         \begin{tabular}{@{}lllll@{}}
         \toprule
-        Null hypothesis                                     & Description                                          &  &  &  \\ \midrule
+        Null hypothesis & Description &  &  &  \\ \midrule
         $H_0: \beta_1 = 0$ & Effect of individual empowerment frame relative to poverty alleviation frame &  &  &  \\
         $H_0: \beta_2 = 0$ & Effect of collective support frame relative to poverty alleviation frame &  &  &  \\
         $H_0: \beta_1 = \beta_2$ & Effect of collective support frame relative to individual empowerment frame &  &  &  \\ \bottomrule
@@ -194,12 +193,12 @@
         \maxsizebox*{\textwidth}{\textheight}{
         \begin{tabular}{@{}lllll@{}}
         \toprule
-        Variable                                     & Description                                          &  &  &  \\ \midrule
+        Variable & Description &  &  &  \\ \midrule
         Age & Dummy variable indicating participant is over 25 &  &  &  \\
         Gender & Dummy variable indicating participant is female &  &  &  \\
         Employment & Dummy variable indicating participant is employed &  &  &  \\
         Education & Dummy variable indicating participant completed std. 8 &  &  &  \\
-        Children & Dummy variable indicating participant has children &  &  &  \\
+        Savings & Dummy variable having more than Ksh 1000 saved &  &  &  \\
         \bottomrule
         \end{tabular} }
         \end{table}
@@ -214,6 +213,10 @@
 
         Following \textcite{young_channeling_2015}, we will permute the data and calculate the regressions for all outcomes within each draw.
 
+    \subsection{Multiple testing adjustment}
+
+        Given that our survey instrument included several items related to a single behavior or dimension, we will calculate sharpened $q$-values over outcomes in Table \ref{tab:depvars} to control the false discovery rate \parencite{benjamini_adaptive_2006}. Rather than specifying a single $q$, we will report the minimum $q$-value at which each hypothesis is rejected \parencite{anderson_multiple_2008}. We will apply this correction separately for each hypothesis test and will report both standard $p$-values and minimum $q$-values in our analysis.
+
     \subsection{Heterogeneous treatment effects}
 
         We will analyze the extent to which the policy frames produced heterogeneous treatment effects with the following specification.
@@ -222,28 +225,9 @@
             Y_{i} = \beta_{0} + \beta_{1}\text{\textsc{Ind}}_{i} + \beta_{2}\text{\textsc{Col}}_{i} + \delta_{0} x_i + \delta_{1}\text{\textsc{Ind}}_{i} x_i + \delta_{2}\text{\textsc{Col}}_{i} x_i + \varepsilon_{i}
         \label{eq:heteffect} \end{equation}
 
-        $x_{i}$ is the binary dimension of heterogeneity measured before treatment assignment. $\delta_{1}$ and $\delta_{2}$ identify the heterogeneous treatment effects of the individual empowerment and collective support frames relative to the poverty alleviation frame. Testing $\delta_{1} = \delta_{2}$ identifies heterogeneous effects between the former two frames. Standard errors are clustered at the individual level. We estimate this model with the baseline variables summarized in Table \ref{tab:hetvars}.
+        $x_{i}$ is the binary dimension of heterogeneity measured before treatment assignment. $\delta_{1}$ and $\delta_{2}$ identify the heterogeneous treatment effects of the individual empowerment and collective support frames relative to the poverty alleviation frame. Testing $\delta_{1} = \delta_{2}$ identifies heterogeneous effects between the former two frames. Standard errors are clustered at the individual level. We estimate this model with the baseline variables summarized in Table \ref{tab:controlvars}.
 
-        \begin{table}[h]
-        \centering
-        \caption{Dimensions of heterogeneity}
-        \label{tab:hetvars}
-        \maxsizebox*{\textwidth}{\textheight}{
-        \begin{tabular}{@{}lllll@{}}
-        \toprule
-        Variable                                     & Description                                          &  &  &  \\ \midrule
-        Age & Dummy variable indicating participant is over 25 &  &  &  \\
-        Gender & Dummy variable indicating participant is female &  &  &  \\
-        Marital status & Dummy variable indicating participant is married or co-habitating 2 &  &  &  \\
-        Education & Dummy variable indicating participant completed std. 8 &  &  &  \\
-        Children & Dummy variable indicating participant has children &  &  &  \\
-        \bottomrule
-        \end{tabular} }
-        \end{table}
-
-    \subsection{Multiple testing adjustment}
-
-        Given that our survey instrument included several items related to a single behavior or dimension, we will calculate sharpened $q$-values over outcomes in Table \ref{tab:depvars} to control the false discovery rate \parencite{benjamini_adaptive_2006}. Rather than specifying a single $q$, we will report the minimum $q$-value at which each hypothesis is rejected \parencite{anderson_multiple_2008}. We will apply this correction separately for each hypothesis test and will report both standard $p$-values and minimum $q$-values in our analysis.
+    \subsection{Analysis of potential mechanisms}
 
 \newpage
 
@@ -254,7 +238,13 @@
 \appendix
 
 \section{Consent Form}
+
+    \maxsizebox*{\textwidth}{\textheight}{\includegraphics[page=1]{UBI_Consent_S4_Kenya.pdf}}
+    \maxsizebox*{\textwidth}{\textheight}{\includegraphics[page=2]{UBI_Consent_S4_Kenya.pdf}}
+    \maxsizebox*{\textwidth}{\textheight}{\includegraphics[page=3]{UBI_Consent_S4_Kenya.pdf}}
+
 \section{Survey Instrument}
+
 \section{Data Analysis Scripts} \label{sec:rscripts}
 
     \subsection{Packages}
