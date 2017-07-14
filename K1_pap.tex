@@ -76,10 +76,6 @@
 
 \newcommand{\specialcell}[2][c]{%
       \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
-
-
-
-% Avoid spaces and periods . in chunk labels and directory names; if your output is a TeX document, these characters can cause troubles (in general it is recommended to use alphabetic characters with words separated by - or _ and avoid other characters), e.g. setup-options is a good label, whereas setup.options and chunk 1 are bad; fig.path='figures/mcmc-' is a good prefix for figure output if this project is about MCMC, and fig.path='markov chain/monte carlo' is bad; non-alphanumeric characters except - and _ in figure filenames will be replaced with _ automatically
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \begin{document}
 
@@ -311,286 +307,297 @@
 \section{Survey Instrument}
 \section{Data Analysis Scripts} \label{sec:rscripts}
 
-    \subsection{Generating data}
+    \subsection{Packages}
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-  \hlcom{#Create locals for simulation}
-    \hlstd{OBS} \hlkwb{<-} \hlnum{1000}
-    \hlstd{TE}  \hlkwb{<-} \hlnum{.8}
-    \hlstd{HET} \hlkwb{<-} \hlnum{.4}
+    \hlkwd{setwd}\hlstd{(}\hlstr{"/Users/Justin/Google Drive/UBIF/UBIF_Deliverables/UBIF_PAP/K1_PAP"}\hlstd{)} \hlcom{# make this more flexible}
+    \hlkwd{set.seed}\hlstd{(}\hlnum{47269801}\hlstd{)}
 
-  \hlcom{#Generate treatment}
-    \hlstd{Treat} \hlkwb{<-} \hlkwd{sample}\hlstd{(}\hlnum{0}\hlopt{:}\hlnum{1}\hlstd{,OBS,}\hlkwc{rep} \hlstd{=} \hlnum{TRUE}\hlstd{,}\hlkwc{prob} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{.5}\hlstd{,}\hlnum{.5}\hlstd{))} \hlopt{%>%}
-    \hlkwd{factor}\hlstd{(}\hlkwc{levels} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,}\hlnum{1}\hlstd{),} \hlkwc{labels} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"Control"}\hlstd{,}\hlstr{"Treatment"}\hlstd{))}
+    \hlstd{required.packages} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"dplyr"}\hlstd{,} \hlstr{"multiwayvcov"}\hlstd{,} \hlstr{"multcomp"}\hlstd{,} \hlstr{"knitr"}\hlstd{)}
+    \hlstd{packages.missing} \hlkwb{<-} \hlstd{required.packages[}\hlopt{!}\hlstd{required.packages} \hlopt{%in%} \hlkwd{installed.packages}\hlstd{()[,}\hlstr{"Package"}\hlstd{]]}
 
-  \hlcom{#Generate gender}
-   \hlstd{Gen} \hlkwb{<-} \hlkwd{sample}\hlstd{(}\hlnum{0}\hlopt{:}\hlnum{1}\hlstd{,OBS,}\hlkwc{rep} \hlstd{=} \hlnum{TRUE}\hlstd{,}\hlkwc{prob} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{.5}\hlstd{,}\hlnum{.5}\hlstd{))}  \hlopt{%>%}
-    \hlkwd{factor}\hlstd{(}\hlkwc{levels} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,}\hlnum{1}\hlstd{),} \hlkwc{labels} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"Male"}\hlstd{,}\hlstr{"Female"}\hlstd{))}
-
-  \hlcom{#Generate factor variable measuring highest level of education}
-   \hlstd{Edu} \hlkwb{<-} \hlkwd{sample}\hlstd{(}\hlnum{1}\hlopt{:}\hlnum{3}\hlstd{,OBS,}\hlkwc{rep} \hlstd{=} \hlnum{TRUE}\hlstd{,}\hlkwc{prob} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{.5}\hlstd{,}\hlnum{.3}\hlstd{,}\hlnum{.2}\hlstd{))} \hlopt{%>%}
-    \hlkwd{factor}\hlstd{(}\hlkwc{levels} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{2}\hlstd{,}\hlnum{3}\hlstd{),} \hlkwc{labels} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"Primary school"}\hlstd{,}\hlstr{"High school"}\hlstd{,}\hlstr{"University & above"}\hlstd{))}
-
-  \hlcom{#Generate income}
-   \hlstd{LnInc} \hlkwb{<-} \hlkwd{rnorm}\hlstd{(OBS,} \hlkwc{mean} \hlstd{=} \hlnum{5}\hlstd{,} \hlkwc{sd} \hlstd{=} \hlnum{1}\hlstd{)}
-   \hlstd{Inc} \hlkwb{<-} \hlkwd{exp}\hlstd{(LnInc)}
-
-  \hlcom{#Generate y with notreatment effect}
-    \hlstd{y_nottreat} \hlkwb{<-} \hlkwd{rnorm}\hlstd{(OBS,} \hlnum{0}\hlstd{,} \hlnum{1}\hlstd{)}
-
-  \hlcom{#Generate outcome with noisy treatment effect of ___}
-    \hlstd{y_Teffect} \hlkwb{<-} \hlkwd{rnorm}\hlstd{(OBS, TE,} \hlnum{1}\hlstd{)}
-    \hlstd{y_Teffect[Treat} \hlopt{==} \hlstr{"Control"}\hlstd{]} \hlkwb{<-} \hlnum{0}
-    \hlstd{y_treated} \hlkwb{=} \hlstd{y_nottreat} \hlopt{+} \hlstd{y_Teffect}
-
-  \hlcom{#Generate outcome with noisy treatment effect of ___ and noisy het of ___ gender}
-    \hlstd{y_GenTeffect} \hlkwb{<-} \hlkwd{rnorm}\hlstd{(OBS, HET,} \hlnum{1}\hlstd{)}
-    \hlstd{y_GenTeffect[Treat} \hlopt{==} \hlstr{"Control"}\hlstd{]} \hlkwb{<-} \hlnum{0}
-    \hlstd{y_GenTeffect[Gen} \hlopt{==} \hlstr{"Male"}\hlstd{]} \hlkwb{<-} \hlnum{0}
-    \hlstd{y_HetTreated} \hlkwb{<-} \hlstd{y_treated} \hlopt{+} \hlstd{y_GenTeffect}
-
-  \hlcom{#Create, save dataframe}
-    \hlstd{SimTreat} \hlkwb{<-} \hlkwd{data.frame}\hlstd{(Treat, Gen, Edu, Inc, y_nottreat, y_treated, y_HetTreated)}
-    \hlkwd{save}\hlstd{(SimTreat,}\hlkwc{file} \hlstd{=} \hlstr{"SimTreat.Rda"}\hlstd{)}
-    \hlkwd{attach}\hlstd{(SimTreat)}
+    \hlkwa{if}\hlstd{(}\hlkwd{length}\hlstd{(packages.missing)} \hlopt{>} \hlnum{0}\hlstd{) \{}\hlkwd{install.packages}\hlstd{(required.packages,} \hlkwc{repo}\hlstd{=}\hlstr{"https://cran.cnr.berkeley.edu/"}\hlstd{)\}}
+    \hlkwd{lapply}\hlstd{(required.packages, library,} \hlkwc{character.only} \hlstd{=} \hlnum{TRUE}\hlstd{)}
 \end{alltt}
-
-
-{\ttfamily\noindent\itshape\color{messagecolor}{\#\# The following objects are masked \_by\_ .GlobalEnv:\\\#\# \\\#\#\ \ \ \  Edu, Gen, Inc, Treat, y\_HetTreated, y\_nottreat, y\_treated}}\end{kframe}
+\end{kframe}
 \end{knitrout}
 
-
-% Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Tue, Jul 11, 2017 - 16:14:49
-\begin{table}[!htbp] \centering 
-  \caption{Descriptive statistics} 
-  \label{} 
-\begin{tabular}{@{\extracolsep{5pt}}lccccc} 
-\\[-1.8ex]\hline 
-\hline \\[-1.8ex] 
-Statistic & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{St. Dev.} & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Max} \\ 
-\hline \\[-1.8ex] 
-Inc & 1,000 & 236.057 & 314.376 & 6.251 & 4,619.353 \\ 
-y\_nottreat & 1,000 & 0.011 & 0.990 & $-$3.645 & 2.985 \\ 
-y\_treated & 1,000 & 0.385 & 1.277 & $-$3.645 & 4.546 \\ 
-y\_HetTreated & 1,000 & 0.469 & 1.404 & $-$3.645 & 5.416 \\ 
-\hline \\[-1.8ex] 
-\end{tabular} 
-\end{table} 
-% latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Tue Jul 11 16:14:49 2017
-\begin{table}[ht]
-\centering
-\caption{Treatment assignment} 
-\begin{tabular}{rrr}
-  \hline
- & TreatCount & TreatProp \\ 
-  \hline
-Control & 510 & 51.00 \\ 
-  Treatment & 490 & 49.00 \\ 
-   \hline
-\end{tabular}
-\end{table}
-% latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Tue Jul 11 16:14:49 2017
-\begin{table}[ht]
-\centering
-\caption{Gender} 
-\begin{tabular}{rrr}
-  \hline
- & GenCount & GenProp \\ 
-  \hline
-Male & 500 & 50.00 \\ 
-  Female & 500 & 50.00 \\ 
-   \hline
-\end{tabular}
-\end{table}
-% latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Tue Jul 11 16:14:49 2017
-\begin{table}[ht]
-\centering
-\caption{Education} 
-\begin{tabular}{rrr}
-  \hline
- & EduCount & EduProp \\ 
-  \hline
-Primary school & 502 & 50.20 \\ 
-  High school & 293 & 29.30 \\ 
-  University \& above & 205 & 20.50 \\ 
-   \hline
-\end{tabular}
-\end{table}
-
-
-\clearpage
-
-    \subsubsection{Regression}
+    \subsection{User-defined functions}
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-  \hlcom{#Reg with no treatment effect}
-  \hlstd{NoTreReg} \hlkwb{<-} \hlkwd{lm}\hlstd{(y_nottreat} \hlopt{~} \hlstd{Treat)}
-  \hlkwd{summary}\hlstd{(NoTreReg)}
+    \hlcom{## RegTest conducts asymptotic test from linear model ##}
+
+    \hlstd{RegTest} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{equation}\hlstd{,} \hlkwc{clustvars}\hlstd{,} \hlkwc{hypotheses}\hlstd{,} \hlkwc{data}\hlstd{) \{}
+
+        \hlstd{model} \hlkwb{<-} \hlkwd{lm}\hlstd{(equation,} \hlkwc{data} \hlstd{= data,} \hlkwc{na.action} \hlstd{= na.omit)}
+
+        \hlkwa{if} \hlstd{(}\hlkwd{missing}\hlstd{(clustvars)) model}\hlopt{$}\hlstd{vcov} \hlkwb{<-} \hlkwd{vcov}\hlstd{(model)}
+        \hlkwa{else} \hlstd{model}\hlopt{$}\hlstd{vcov} \hlkwb{<-} \hlkwd{cluster.vcov}\hlstd{(model,} \hlkwc{cluster} \hlstd{= clustvars)}
+
+        \hlstd{model}\hlopt{$}\hlstd{test} \hlkwb{<-} \hlkwd{summary}\hlstd{(}\hlkwd{glht}\hlstd{(model,} \hlkwc{linfct} \hlstd{= hypotheses,} \hlkwc{vcov} \hlstd{= model}\hlopt{$}\hlstd{vcov))}\hlopt{$}\hlstd{test}
+
+        \hlstd{numhyp} \hlkwb{<-} \hlkwd{length}\hlstd{(hypotheses)}
+
+        \hlstd{EST} \hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlkwc{nrow} \hlstd{= numhyp,} \hlkwc{ncol} \hlstd{=} \hlnum{4}\hlstd{)}
+
+        \hlkwa{for} \hlstd{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hlstd{numhyp) \{}
+
+            \hlstd{EST[i,} \hlnum{1}\hlstd{]} \hlkwb{<-} \hlstd{model}\hlopt{$}\hlstd{test}\hlopt{$}\hlstd{coefficients[i]}
+            \hlstd{EST[i,} \hlnum{2}\hlstd{]} \hlkwb{<-} \hlstd{model}\hlopt{$}\hlstd{test}\hlopt{$}\hlstd{tstat[i]}
+            \hlstd{EST[i,} \hlnum{3}\hlstd{]} \hlkwb{<-} \hlstd{model}\hlopt{$}\hlstd{test}\hlopt{$}\hlstd{sigma[i]}
+            \hlstd{EST[i,} \hlnum{4}\hlstd{]} \hlkwb{<-} \hlstd{model}\hlopt{$}\hlstd{test}\hlopt{$}\hlstd{pvalues[i]}
+
+        \hlstd{\}}
+
+        \hlkwd{colnames}\hlstd{(EST)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"Estimate"}\hlstd{,} \hlstr{"Tstat"}\hlstd{,} \hlstr{"SE"}\hlstd{,} \hlstr{"P"}\hlstd{)}
+
+        \hlkwd{return}\hlstd{(EST)}
+
+    \hlstd{\}}
+
+    \hlcom{## PermTest returns MC approximations of the exact p-value ##}
+
+    \hlstd{PermTest} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{equation}\hlstd{,} \hlkwc{treatvars}\hlstd{,} \hlkwc{clustvars}\hlstd{,} \hlkwc{hypotheses}\hlstd{,} \hlkwc{iterations}\hlstd{,} \hlkwc{data}\hlstd{) \{}
+
+        \hlkwd{stopifnot}\hlstd{(}\hlkwd{length}\hlstd{(hypotheses)} \hlopt{<=} \hlnum{1}\hlstd{)}
+
+        \hlstd{obsEST} \hlkwb{<-} \hlkwd{RegTest}\hlstd{(equation, clustvars, hypotheses, data)}
+        \hlstd{obsStat} \hlkwb{<-} \hlstd{obsEST[}\hlnum{1}\hlstd{,} \hlnum{2}\hlstd{]}
+
+        \hlstd{simEST} \hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlkwc{ncol} \hlstd{=} \hlnum{4}\hlstd{)}
+
+        \hlkwa{for} \hlstd{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hlstd{iterations) \{}
+
+            \hlstd{simTreat} \hlkwb{<-} \hlstd{data[, treatvars,} \hlkwc{drop} \hlstd{=} \hlnum{FALSE}\hlstd{]}
+            \hlstd{simTreat} \hlkwb{<-} \hlstd{simTreat[}\hlkwd{sample}\hlstd{(}\hlkwd{nrow}\hlstd{(simTreat)),]}
+
+            \hlstd{simData} \hlkwb{<-} \hlkwd{cbind}\hlstd{(simTreat, data[,} \hlopt{!}\hlstd{(}\hlkwd{names}\hlstd{(data)} \hlopt{%in%} \hlstd{treatvars),} \hlkwc{drop} \hlstd{=} \hlnum{FALSE}\hlstd{])}
+            \hlkwd{colnames}\hlstd{(simData)[}\hlnum{1}\hlopt{:}\hlnum{2}\hlstd{]} \hlkwb{<-} \hlstd{treatvars}
+
+            \hlstd{simEST} \hlkwb{<-} \hlkwd{rbind}\hlstd{(simEST,} \hlkwd{RegTest}\hlstd{(equation, clustvars, hypotheses,} \hlkwc{data} \hlstd{= simData))}
+
+        \hlstd{\}}
+
+        \hlstd{simSTAT} \hlkwb{<-} \hlstd{simEST[}\hlnum{2}\hlopt{:}\hlkwd{nrow}\hlstd{(simEST),} \hlnum{2}\hlstd{]}
+        \hlstd{countSTAT} \hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlkwd{abs}\hlstd{(simSTAT)} \hlopt{>=} \hlkwd{abs}\hlstd{(obsStat),} \hlkwc{ncol} \hlstd{=} \hlnum{1}\hlstd{)}
+
+        \hlstd{ExactP} \hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlnum{1}\hlstd{,} \hlkwc{nrow} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{ncol} \hlstd{=} \hlkwd{nrow}\hlstd{(countSTAT))} \hlopt{%*%} \hlstd{countSTAT}
+        \hlstd{ExactP} \hlkwb{<-} \hlstd{ExactP} \hlopt{/} \hlstd{iterations}
+
+        \hlstd{EST} \hlkwb{<-} \hlkwd{cbind}\hlstd{(obsEST, ExactP)}
+
+        \hlkwd{colnames}\hlstd{(EST)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"Estimate"}\hlstd{,} \hlstr{"Tstat"}\hlstd{,} \hlstr{"SE"}\hlstd{,} \hlstr{"P"}\hlstd{,} \hlstr{"ExactP"}\hlstd{)}
+
+        \hlkwd{return}\hlstd{(EST)}
+
+    \hlstd{\}}
+
+    \hlcom{## FDR returns minimum q-values ##}
+
+    \hlstd{FDR} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{pvals}\hlstd{) \{}
+
+        \hlkwd{return}\hlstd{(pvals)}
+
+    \hlstd{\}}
 \end{alltt}
-\begin{verbatim}
-## 
-## Call:
-## lm(formula = y_nottreat ~ Treat)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -3.6398 -0.6467 -0.0262  0.6653  2.9573 
-## 
-## Coefficients:
-##                 Estimate Std. Error t value Pr(>|t|)
-## (Intercept)    -0.005489   0.043836  -0.125    0.900
-## TreatTreatment  0.033292   0.062622   0.532    0.595
-## 
-## Residual standard error: 0.9899 on 998 degrees of freedom
-## Multiple R-squared:  0.0002831,	Adjusted R-squared:  -0.0007186 
-## F-statistic: 0.2826 on 1 and 998 DF,  p-value: 0.5951
-\end{verbatim}
+\end{kframe}
+\end{knitrout}
+    \subsection{Data cleaning}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-  \hlcom{#Reg with treatment effect}
-  \hlstd{TreReg} \hlkwb{<-} \hlkwd{lm}\hlstd{(y_treated} \hlopt{~} \hlstd{Treat)}
-  \hlkwd{summary}\hlstd{(TreReg)}
+    \hlcom{## Create locals for simulation ##}
+
+      \hlstd{OBS} \hlkwb{<-} \hlnum{510}
+
+    \hlcom{## Generate treatment ##}
+
+      \hlstd{Treat} \hlkwb{<-} \hlkwd{sample}\hlstd{(}\hlnum{0}\hlopt{:}\hlnum{2}\hlstd{,OBS,} \hlkwc{rep} \hlstd{=} \hlnum{TRUE}\hlstd{,} \hlkwc{prob} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{.33}\hlstd{,} \hlnum{.33}\hlstd{,} \hlnum{0.33}\hlstd{))} \hlopt{%>%}
+      \hlkwd{factor}\hlstd{(}\hlkwc{levels} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{2}\hlstd{),} \hlkwc{labels} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"Poverty"}\hlstd{,} \hlstr{"Ind."}\hlstd{,} \hlstr{"Col."}\hlstd{))}
+
+      \hlstd{Pov} \hlkwb{<-} \hlstd{(Treat} \hlopt{==} \hlstr{"Poverty"}\hlstd{)} \hlopt{*} \hlnum{1}
+      \hlstd{Ind} \hlkwb{<-} \hlstd{(Treat} \hlopt{==} \hlstr{"Ind."}\hlstd{)} \hlopt{*} \hlnum{1}
+      \hlstd{Col} \hlkwb{<-} \hlstd{(Treat} \hlopt{==} \hlstr{"Col."}\hlstd{)} \hlopt{*} \hlnum{1}
+
+    \hlcom{## Generate gender ##}
+
+     \hlstd{Gen} \hlkwb{<-} \hlkwd{sample}\hlstd{(}\hlnum{0}\hlopt{:}\hlnum{1}\hlstd{,OBS,}\hlkwc{rep} \hlstd{=} \hlnum{TRUE}\hlstd{,}\hlkwc{prob} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{.5}\hlstd{,}\hlnum{.5}\hlstd{))}  \hlopt{%>%}
+      \hlkwd{factor}\hlstd{(}\hlkwc{levels} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,}\hlnum{1}\hlstd{),} \hlkwc{labels} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"Male"}\hlstd{,}\hlstr{"Female"}\hlstd{))}
+
+    \hlcom{## Generate factor variable measuring highest level of education ##}
+
+     \hlstd{Edu} \hlkwb{<-} \hlkwd{sample}\hlstd{(}\hlnum{1}\hlopt{:}\hlnum{3}\hlstd{,OBS,}\hlkwc{rep} \hlstd{=} \hlnum{TRUE}\hlstd{,}\hlkwc{prob} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{.5}\hlstd{,}\hlnum{.3}\hlstd{,}\hlnum{.2}\hlstd{))} \hlopt{%>%}
+      \hlkwd{factor}\hlstd{(}\hlkwc{levels} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{2}\hlstd{,}\hlnum{3}\hlstd{),} \hlkwc{labels} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"Primary school"}\hlstd{,}\hlstr{"High school"}\hlstd{,}\hlstr{"University & above"}\hlstd{))}
+
+    \hlcom{## Generate income ##}
+
+     \hlstd{LnInc} \hlkwb{<-} \hlkwd{rnorm}\hlstd{(OBS,} \hlkwc{mean} \hlstd{=} \hlnum{5}\hlstd{,} \hlkwc{sd} \hlstd{=} \hlnum{1}\hlstd{)}
+     \hlstd{Inc} \hlkwb{<-} \hlkwd{exp}\hlstd{(LnInc)}
+
+    \hlcom{## Generate y with notreatment effect ##}
+
+      \hlstd{yNull} \hlkwb{<-} \hlkwd{rnorm}\hlstd{(OBS,} \hlnum{0}\hlstd{,} \hlnum{1}\hlstd{)}
+
+    \hlcom{## Generate outcome with effects}
+      \hlstd{yInd} \hlkwb{<-} \hlstd{(}\hlnum{0.8} \hlopt{*} \hlstd{Ind)} \hlopt{+} \hlkwd{rnorm}\hlstd{(OBS,} \hlnum{0}\hlstd{,} \hlnum{1}\hlstd{)}
+      \hlstd{yCol} \hlkwb{<-} \hlstd{(}\hlnum{0.4} \hlopt{*} \hlstd{Col)} \hlopt{+} \hlkwd{rnorm}\hlstd{(OBS,} \hlnum{0}\hlstd{,} \hlnum{1}\hlstd{)}
+
+    \hlcom{## Generate id ##}
+
+      \hlstd{ID} \hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlnum{1}\hlopt{:}\hlstd{OBS,} \hlkwc{ncol} \hlstd{=} \hlnum{1}\hlstd{)}
+
+    \hlcom{## Create, save dataframe ##}
+
+      \hlstd{TestData} \hlkwb{<-} \hlkwd{data.frame}\hlstd{(ID, Treat, Pov, Ind, Col, Gen, Edu, Inc, yNull, yInd, yCol)}
 \end{alltt}
-\begin{verbatim}
-## 
-## Call:
-## lm(formula = y_treated ~ Treat)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -3.8691 -0.7663  0.0012  0.7645  3.7543 
-## 
-## Coefficients:
-##                 Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)    -0.005489   0.053737  -0.102    0.919    
-## TreatTreatment  0.797261   0.076767  10.385   <2e-16 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 1.214 on 998 degrees of freedom
-## Multiple R-squared:  0.09753,	Adjusted R-squared:  0.09663 
-## F-statistic: 107.9 on 1 and 998 DF,  p-value: < 2.2e-16
-\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+    \subsection{Treatment effect}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-  \hlcom{#Controlling for Education}
-  \hlstd{TreRegEdu} \hlkwb{<-} \hlkwd{lm}\hlstd{(y_treated} \hlopt{~} \hlstd{Treat} \hlopt{+} \hlstd{Gen} \hlopt{+} \hlstd{Edu)}
-  \hlkwd{summary}\hlstd{(TreRegEdu)}
+    \hlstd{hypotheses} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"Ind = 0"}\hlstd{,} \hlstr{"Col = 1"}\hlstd{,} \hlstr{"Ind - Col = 0"}\hlstd{)}
+    \hlstd{equations} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"yNull ~ Ind + Col"}\hlstd{,} \hlstr{"yInd ~ Ind + Col"}\hlstd{,} \hlstr{"yCol ~ Ind + Col"}\hlstd{)}
+
+    \hlkwa{for} \hlstd{(h} \hlkwa{in} \hlstd{hypotheses) \{}
+
+        \hlstd{RES} \hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlkwc{nrow} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{ncol} \hlstd{=} \hlnum{5}\hlstd{)}
+
+        \hlkwa{for} \hlstd{(eqn} \hlkwa{in} \hlstd{equations) \{}
+
+            \hlcom{# RES <- rbind(RES, RegTest(eqn, clustvars = TestData$ID, hypotheses = c(h), data = TestData))}
+            \hlstd{RES} \hlkwb{<-} \hlkwd{rbind}\hlstd{(RES,} \hlkwd{PermTest}\hlstd{(eqn,} \hlkwc{treatvars} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"Treat"}\hlstd{),} \hlkwc{clustvars} \hlstd{= TestData}\hlopt{$}\hlstd{ID,} \hlkwc{hypotheses} \hlstd{=} \hlkwd{c}\hlstd{(h),} \hlkwc{iterations} \hlstd{=} \hlnum{100}\hlstd{,} \hlkwc{data} \hlstd{= TestData))}
+
+        \hlstd{\}}
+
+        \hlstd{RES} \hlkwb{<-} \hlstd{RES[}\hlnum{2}\hlopt{:}\hlkwd{nrow}\hlstd{(RES),} \hlnum{1}\hlopt{:}\hlkwd{ncol}\hlstd{(RES)]}
+        \hlstd{RES} \hlkwb{<-} \hlkwd{cbind}\hlstd{(RES,} \hlkwd{FDR}\hlstd{(RES[,} \hlnum{4}\hlstd{]))}
+
+        \hlkwd{rownames}\hlstd{(RES)} \hlkwb{<-} \hlstd{equations}
+        \hlkwd{colnames}\hlstd{(RES)[}\hlnum{6}\hlstd{]} \hlkwb{<-} \hlstr{"Min. Q"}
+
+        \hlkwd{print}\hlstd{(}\hlstr{"--------------------------------------------------------------------"}\hlstd{,} \hlkwc{quote} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+        \hlkwd{print}\hlstd{(}\hlkwd{paste}\hlstd{(}\hlstr{"H_0:"}\hlstd{, h),} \hlkwc{quote} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+        \hlkwd{print}\hlstd{(RES,} \hlkwc{quote} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+        \hlkwd{print}\hlstd{(}\hlstr{"--------------------------------------------------------------------"}\hlstd{,} \hlkwc{quote} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+
+    \hlstd{\}}
 \end{alltt}
 \begin{verbatim}
-## 
-## Call:
-## lm(formula = y_treated ~ Treat + Gen + Edu)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -3.7760 -0.7670 -0.0048  0.7618  3.8149 
-## 
-## Coefficients:
-##                       Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)           -0.06072    0.07564  -0.803    0.422    
-## TreatTreatment         0.79192    0.07693  10.295   <2e-16 ***
-## GenFemale              0.08436    0.07692   1.097    0.273    
-## EduHigh school         0.07624    0.08937   0.853    0.394    
-## EduUniversity & above -0.03252    0.10069  -0.323    0.747    
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 1.214 on 995 degrees of freedom
-## Multiple R-squared:  0.09961,	Adjusted R-squared:  0.09599 
-## F-statistic: 27.52 on 4 and 995 DF,  p-value: < 2.2e-16
-\end{verbatim}
-\begin{alltt}
-  \hlcom{#Het effects with Gen}
-  \hlstd{TreRegHet} \hlkwb{<-} \hlkwd{lm}\hlstd{(y_HetTreated} \hlopt{~} \hlstd{Treat}\hlopt{*}\hlstd{Gen} \hlopt{+} \hlstd{Edu)}
-  \hlkwd{summary}\hlstd{(TreRegHet)}
-\end{alltt}
-\begin{verbatim}
-## 
-## Call:
-## lm(formula = y_HetTreated ~ Treat * Gen + Edu)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -4.3289 -0.7988 -0.0151  0.8330  4.2944 
-## 
-## Coefficients:
-##                          Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)              -0.05388    0.09047  -0.596   0.5516    
-## TreatTreatment            0.75577    0.11754   6.430 1.98e-10 ***
-## GenFemale                 0.05070    0.11626   0.436   0.6629    
-## EduHigh school            0.10565    0.09651   1.095   0.2739    
-## EduUniversity & above    -0.02744    0.10874  -0.252   0.8008    
-## TreatTreatment:GenFemale  0.39648    0.16602   2.388   0.0171 *  
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 1.311 on 994 degrees of freedom
-## Multiple R-squared:  0.1326,	Adjusted R-squared:  0.1283 
-## F-statistic:  30.4 on 5 and 994 DF,  p-value: < 2.2e-16
-\end{verbatim}
-\begin{alltt}
-  \hlcom{#Het effects with Gen and robust SE}
-  \hlstd{vce} \hlkwb{<-} \hlkwd{vcovHC}\hlstd{(TreRegHet,} \hlkwc{type} \hlstd{=} \hlstr{"HC1"}\hlstd{)}
-  \hlstd{TreRegHetRobSE} \hlkwb{<-} \hlkwd{sqrt}\hlstd{(}\hlkwd{diag}\hlstd{(vce))}
-  \hlstd{TreRegHetRobF} \hlkwb{<-} \hlkwd{waldtest}\hlstd{(TreRegHet,} \hlkwc{vcov} \hlstd{= vce)}
-  \hlstd{TreRegHetRobF}
-\end{alltt}
-\begin{verbatim}
-## Wald test
-## 
-## Model 1: y_HetTreated ~ Treat * Gen + Edu
-## Model 2: y_HetTreated ~ 1
-##   Res.Df Df      F    Pr(>F)    
-## 1    994                        
-## 2    999 -5 27.798 < 2.2e-16 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## [1] --------------------------------------------------------------------
+## [1] H_0: Ind = 0
+##                      Estimate      Tstat        SE            P ExactP
+## yNull ~ Ind + Col  0.03075319  0.2795791 0.1099982 7.799145e-01      1
+## yInd ~ Ind + Col   0.73884926  7.0165263 0.1053013 7.320589e-12      1
+## yCol ~ Ind + Col  -0.23505753 -2.1757542 0.1080350 3.003476e-02      1
+##                         Min. Q
+## yNull ~ Ind + Col 7.799145e-01
+## yInd ~ Ind + Col  7.320589e-12
+## yCol ~ Ind + Col  3.003476e-02
+## [1] --------------------------------------------------------------------
+## [1] --------------------------------------------------------------------
+## [1] H_0: Col = 1
+##                     Estimate     Tstat        SE            P ExactP
+## yNull ~ Ind + Col 0.09958245 -8.354382 0.1077779 6.661338e-16      1
+## yInd ~ Ind + Col  0.05405943 -8.599148 0.1100040 0.000000e+00      1
+## yCol ~ Ind + Col  0.46069496 -4.894362 0.1101890 1.327395e-06      1
+##                         Min. Q
+## yNull ~ Ind + Col 6.661338e-16
+## yInd ~ Ind + Col  0.000000e+00
+## yCol ~ Ind + Col  1.327395e-06
+## [1] --------------------------------------------------------------------
+## [1] --------------------------------------------------------------------
+## [1] H_0: Ind - Col = 0
+##                      Estimate      Tstat        SE            P ExactP
+## yNull ~ Ind + Col -0.06882926 -0.6114888 0.1125601 5.411501e-01      1
+## yInd ~ Ind + Col   0.68478983  6.1745265 0.1109056 1.361377e-09      1
+## yCol ~ Ind + Col  -0.69575249 -6.2718404 0.1109327 7.649560e-10      1
+##                         Min. Q
+## yNull ~ Ind + Col 5.411501e-01
+## yInd ~ Ind + Col  1.361377e-09
+## yCol ~ Ind + Col  7.649560e-10
+## [1] --------------------------------------------------------------------
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
 
+    \subsection{Covariate-adjustment}
 
-% Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Tue, Jul 11, 2017 - 16:14:49
-\begin{table}[!htbp] \centering 
-  \caption{Regression results} 
-  \label{} 
-\begin{tabular}{@{\extracolsep{5pt}}lccccc} 
-\\[-1.8ex]\hline 
-\hline \\[-1.8ex] 
- & \multicolumn{5}{c}{\textit{Dependent variable:}} \\ 
-\cline{2-6} 
-\\[-1.8ex] & \underline{Untreated Y} & \multicolumn{2}{c}{\underline{Treated Y}} & \multicolumn{2}{c}{\underline{Het. Treated Y}} \\ 
-\\[-1.8ex] & (1) & (2) & (3) & (4) & (5)\\ 
-\hline \\[-1.8ex] 
- Treatment & 0.033 & 0.797$^{***}$ & 0.792$^{***}$ & 0.756$^{***}$ & 0.756$^{***}$ \\ 
-  & (0.063) & (0.077) & (0.077) & (0.118) & (0.108) \\ 
-  Female &  &  & 0.084 & 0.051 & 0.051 \\ 
-  &  &  & (0.077) & (0.116) & (0.087) \\ 
-  High school &  &  & 0.076 & 0.106 & 0.106 \\ 
-  &  &  & (0.089) & (0.097) & (0.094) \\ 
-  University &  &  & $-$0.033 & $-$0.027 & $-$0.027 \\ 
-  &  &  & (0.101) & (0.109) & (0.114) \\ 
-  Female $\times$ Treatment &  &  &  & 0.396$^{**}$ & 0.396$^{**}$ \\ 
-  &  &  &  & (0.166) & (0.166) \\ 
-  Constant & $-$0.005 & $-$0.005 & $-$0.061 & $-$0.054 & $-$0.054 \\ 
-  & (0.044) & (0.054) & (0.076) & (0.090) & (0.071) \\ 
- \hline \\[-1.8ex] 
-Observations & 1,000 & 1,000 & 1,000 & 1,000 & 1,000 \\ 
-Adjusted R$^{2}$ & $-$0.001 & 0.097 & 0.096 & 0.128 & 0.128 \\ 
-F Statistic & 0.283 & 107.857$^{***}$ & 27.519$^{***}$ & 30.397$^{***}$ & 30.397$^{***}$ \\ 
-\hline 
-\hline \\[-1.8ex] 
-\multicolumn{6}{l}{\parbox[t]{10cm}{$^{*}p<0.1;^{**}p<0.05;^{***}p<0.01$. Standard errors in parentheses.}} \\ 
-\end{tabular} 
-\end{table} 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+    \hlstd{hypotheses} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"Ind = 0"}\hlstd{,} \hlstr{"Col = 1"}\hlstd{,} \hlstr{"Ind - Col = 0"}\hlstd{)}
+    \hlstd{equations} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"yNull ~ Ind + Col + Gen + LnInc"}\hlstd{,} \hlstr{"yInd ~ Ind + Col + Gen + LnInc"}\hlstd{,} \hlstr{"yCol ~ Ind + Col + Gen + LnInc"}\hlstd{)}
 
+    \hlkwa{for} \hlstd{(h} \hlkwa{in} \hlstd{hypotheses) \{}
+
+        \hlstd{RES} \hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlkwc{nrow} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{ncol} \hlstd{=} \hlnum{5}\hlstd{)}
+
+        \hlkwa{for} \hlstd{(eqn} \hlkwa{in} \hlstd{equations) \{}
+
+            \hlcom{# RES <- rbind(RES, RegTest(eqn, clustvars = TestData$ID, hypotheses = c(h), data = TestData))}
+            \hlstd{RES} \hlkwb{<-} \hlkwd{rbind}\hlstd{(RES,} \hlkwd{PermTest}\hlstd{(eqn,} \hlkwc{treatvars} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"Treat"}\hlstd{),} \hlkwc{clustvars} \hlstd{= TestData}\hlopt{$}\hlstd{ID,} \hlkwc{hypotheses} \hlstd{=} \hlkwd{c}\hlstd{(h),} \hlkwc{iterations} \hlstd{=} \hlnum{100}\hlstd{,} \hlkwc{data} \hlstd{= TestData))}
+
+        \hlstd{\}}
+
+        \hlstd{RES} \hlkwb{<-} \hlstd{RES[}\hlnum{2}\hlopt{:}\hlkwd{nrow}\hlstd{(RES),} \hlnum{1}\hlopt{:}\hlkwd{ncol}\hlstd{(RES)]}
+        \hlstd{RES} \hlkwb{<-} \hlkwd{cbind}\hlstd{(RES,} \hlkwd{FDR}\hlstd{(RES[,} \hlnum{4}\hlstd{]))}
+
+        \hlkwd{rownames}\hlstd{(RES)} \hlkwb{<-} \hlstd{equations}
+        \hlkwd{colnames}\hlstd{(RES)[}\hlnum{6}\hlstd{]} \hlkwb{<-} \hlstr{"Min. Q"}
+
+        \hlkwd{print}\hlstd{(}\hlstr{"--------------------------------------------------------------------"}\hlstd{,} \hlkwc{quote} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+        \hlkwd{print}\hlstd{(}\hlkwd{paste}\hlstd{(}\hlstr{"H_0:"}\hlstd{, h),} \hlkwc{quote} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+        \hlkwd{print}\hlstd{(RES,} \hlkwc{quote} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+        \hlkwd{print}\hlstd{(}\hlstr{"--------------------------------------------------------------------"}\hlstd{,} \hlkwc{quote} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+
+    \hlstd{\}}
+\end{alltt}
+\begin{verbatim}
+## [1] --------------------------------------------------------------------
+## [1] H_0: Ind = 0
+##                                    Estimate      Tstat        SE
+## yNull ~ Ind + Col + Gen + LnInc  0.02918267  0.2648791 0.1101735
+## yInd ~ Ind + Col + Gen + LnInc   0.73587148  6.9894548 0.1052831
+## yCol ~ Ind + Col + Gen + LnInc  -0.23740448 -2.1909366 0.1083575
+##                                            P ExactP       Min. Q
+## yNull ~ Ind + Col + Gen + LnInc 7.912107e-01      1 7.912107e-01
+## yInd ~ Ind + Col + Gen + LnInc  8.768986e-12      1 8.768986e-12
+## yCol ~ Ind + Col + Gen + LnInc  2.891262e-02      1 2.891262e-02
+## [1] --------------------------------------------------------------------
+## [1] --------------------------------------------------------------------
+## [1] H_0: Col = 1
+##                                   Estimate     Tstat        SE
+## yNull ~ Ind + Col + Gen + LnInc 0.09762865 -8.358295 0.1079612
+## yInd ~ Ind + Col + Gen + LnInc  0.05061641 -8.571130 0.1107653
+## yCol ~ Ind + Col + Gen + LnInc  0.45972791 -4.916996 0.1098785
+##                                            P ExactP       Min. Q
+## yNull ~ Ind + Col + Gen + LnInc 6.661338e-16      1 6.661338e-16
+## yInd ~ Ind + Col + Gen + LnInc  1.110223e-16      1 1.110223e-16
+## yCol ~ Ind + Col + Gen + LnInc  1.190400e-06      1 1.190400e-06
+## [1] --------------------------------------------------------------------
+## [1] --------------------------------------------------------------------
+## [1] H_0: Ind - Col = 0
+##                                    Estimate      Tstat        SE
+## yNull ~ Ind + Col + Gen + LnInc -0.06844599 -0.6068275 0.1127932
+## yInd ~ Ind + Col + Gen + LnInc   0.68525507  6.1372269 0.1116555
+## yCol ~ Ind + Col + Gen + LnInc  -0.69713239 -6.2877852 0.1108709
+##                                            P ExactP       Min. Q
+## yNull ~ Ind + Col + Gen + LnInc 5.442381e-01      1 5.442381e-01
+## yInd ~ Ind + Col + Gen + LnInc  1.699181e-09      1 1.699181e-09
+## yCol ~ Ind + Col + Gen + LnInc  6.975509e-10      1 6.975509e-10
+## [1] --------------------------------------------------------------------
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+    \subsection{Heterogeneous treatment effects}
 
 \end{document}
