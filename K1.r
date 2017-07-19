@@ -2,7 +2,7 @@
 ## Install missing packages ##
 ##############################
 
-setwd("/Users/Justin/Google Drive/UBIF/UBIF_Deliverables/UBIF_PAP/K1_PAP") # make this more flexible
+setwd("/Users/Justin/Google Drive/UBIF/UBIF_Deliverables/UBIF_PAP/K1_PAP")
 set.seed(47269801)
 
 required.packages <- c("dplyr", "multiwayvcov", "multcomp", "knitr")
@@ -62,7 +62,7 @@ PermTest <- function(equation, treatvars, clustvars, hypotheses, iterations, dat
         simTreat <- simTreat[sample(nrow(simTreat)),]
 
         simData <- cbind(simTreat, data[, !(names(data) %in% treatvars), drop = FALSE])
-        colnames(simData)[1:2] <- treatvars
+        colnames(simData)[1:length(treatvars)] <- treatvars
 
         simEST <- rbind(simEST, RegTest(equation, clustvars, hypotheses, data = simData))
 
@@ -71,8 +71,7 @@ PermTest <- function(equation, treatvars, clustvars, hypotheses, iterations, dat
     simSTAT <- simEST[2:nrow(simEST), 2]
     countSTAT <- matrix(abs(simSTAT) >= abs(obsStat), ncol = 1)
 
-    ExactP <- matrix(1, nrow = 1, ncol = nrow(countSTAT)) %*% countSTAT
-    ExactP <- ExactP / iterations
+    ExactP <- colSums(countSTAT) / iterations
 
     EST <- cbind(obsEST, ExactP)
 
@@ -198,8 +197,7 @@ for (h in hypotheses) {
 
     for (eqn in equations) {
 
-        # RES <- rbind(RES, RegTest(eqn, clustvars = TestData$ID, hypotheses = c(h), data = TestData))
-        RES <- rbind(RES, PermTest(eqn, treatvars = c("Treat"), clustvars = TestData$ID, hypotheses = c(h), iterations = 100, data = TestData))
+        RES <- rbind(RES, PermTest(eqn, treatvars = c("Treat", "Pov", "Ind", "Col"), clustvars = TestData$ID, hypotheses = c(h), iterations = 1000, data = TestData))
 
     }
 
@@ -218,7 +216,7 @@ for (h in hypotheses) {
 
 ## Covariate adjustment ##
 
-hypotheses <- c("Ind = 0") #, "Col = 1", "Ind - Col = 0")
+hypotheses <- c("Ind = 0", "Col = 1", "Ind - Col = 0")
 equations <- c("yNull ~ Ind + Col + Gen + LnInc", "yInd ~ Ind + Col + Gen + LnInc", "yCol ~ Ind + Col + Gen + LnInc")
 
 for (h in hypotheses) {
@@ -227,8 +225,7 @@ for (h in hypotheses) {
 
     for (eqn in equations) {
 
-        # RES <- rbind(RES, RegTest(eqn, clustvars = TestData$ID, hypotheses = c(h), data = TestData))
-        RES <- rbind(RES, PermTest(eqn, treatvars = c("Treat"), clustvars = TestData$ID, hypotheses = c(h), iterations = 1000, data = TestData))
+        RES <- rbind(RES, PermTest(eqn, treatvars = c("Treat", "Pov", "Ind", "Col"), clustvars = TestData$ID, hypotheses = c(h), iterations = 1000, data = TestData))
 
     }
 
