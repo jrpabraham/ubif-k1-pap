@@ -84,9 +84,54 @@ PermTest <- function(equation, treatvars, clustvars, hypotheses, iterations, dat
 
 ## FDR returns minimum q-values ##
 
-FDR <- function(pvals) {
+FDR <- function(pvals, step) {
 
-    return(pvals)
+    if (sum(is.na(pvals) == FALSE) <= 1) {return(pvals)}
+    if (missing(step)) {step <- 0.001}
+
+    allpvals <- cbind(as.matrix(pvals), matrix(1:nrow(as.matrix(pvals)), ncol = 1))
+
+    pvals <- na.omit(allpvals)
+    nump <- nrow(pvals)
+
+    pvals <- pvals[order(pvals[, 1]), ]
+    rank <- matrix(1:nump, ncol = 1)
+    pvals <- cbind(pvals, rank, matrix(0, nrow = nump, ncol = 1))
+
+    qval <- 1
+
+    while (qval > 0) {
+
+        qfirst <- qval / (1 + qval)
+        fdrtemp <- (qfirst * rank) / nump
+
+        subrank <- which(fdrtemp >= as.matrix(pvals[, 1]))
+
+        if (length(subrank) < 1) {
+            numreject <- 0
+        } else numreject <- max(subrank)
+
+        qsec <- qfirst * (nump / (nump - numreject))
+        fdrtemp <- (qsec * rank) / nump
+
+        subrank <- which(fdrtemp >= as.matrix(pvals[, 1]))
+
+        if (length(subrank) < 1) {
+            numreject <- 0
+        } else numreject <- max(subrank)
+
+        pvals[which(pvals[, 3] <= numreject), 4] <- qval
+
+        qval <- qval - step
+
+    }
+
+    pvals <- pvals[order(pvals[, 2]), ]
+
+    qvals <- matrix(nrow = nrow(allpvals), ncol = 1)
+    qvals[match(pvals[, 2], allpvals[, 2]), 1] <- pvals[, 4]
+
+    return(as.matrix(qvals))
 
 }
 
@@ -173,7 +218,7 @@ for (h in hypotheses) {
 
 ## Covariate adjustment ##
 
-hypotheses <- c("Ind = 0", "Col = 1", "Ind - Col = 0")
+hypotheses <- c("Ind = 0") #, "Col = 1", "Ind - Col = 0")
 equations <- c("yNull ~ Ind + Col + Gen + LnInc", "yInd ~ Ind + Col + Gen + LnInc", "yCol ~ Ind + Col + Gen + LnInc")
 
 for (h in hypotheses) {
@@ -183,7 +228,7 @@ for (h in hypotheses) {
     for (eqn in equations) {
 
         # RES <- rbind(RES, RegTest(eqn, clustvars = TestData$ID, hypotheses = c(h), data = TestData))
-        RES <- rbind(RES, PermTest(eqn, treatvars = c("Treat"), clustvars = TestData$ID, hypotheses = c(h), iterations = 100, data = TestData))
+        RES <- rbind(RES, PermTest(eqn, treatvars = c("Treat"), clustvars = TestData$ID, hypotheses = c(h), iterations = 1000, data = TestData))
 
     }
 
