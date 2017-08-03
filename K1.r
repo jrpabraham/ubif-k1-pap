@@ -138,6 +138,9 @@ FDR <- function(pvals, step) {
 ## Clean data ##
 ################
 
+data <- read.delim(file = "K1__Field_Survey_v34.csv")
+data <- data[2:nrow(data), ]
+
 ## Create locals for simulation ##
 
   OBS <- 510

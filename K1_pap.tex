@@ -117,31 +117,35 @@
 
         If an eligible person is available at the selected household, they will be enrolled as a participant. If there are multiple members, enumerators will prioritize the youngest eligible person of the opposite gender than in the previous survey. We will sample from the study area for a total of 525 surveys.
 
+        % Check that this is updated
         % What is the extent of the study area in Kibera?
         % How do we define catchment areas (regions)?
 
+    \subsection{Statistical power}
+
+        % Include any power calculations here
+
     \subsection{Experimental procedure}
 
-        The survey questionnaire will be delivered in English with Kiswahili translations. The following summarizes the schedule of tasks in the questionnaire.
+        The survey questionnaire will be delivered in English with Kiswahili translations. The following summarizes the schedule of tasks in the questionnaire.\footnote{We will use a single survey instrument, programmed with Qualtrics, for treatment delivery and subsequent data collection. The programmed and paper versions of the survey are included as supplementary materials.}
 
         \begin{enumerate}
-            \item \textbf{Consent agreement}
-            \item \textbf{Cash transfer framing}
-            \item \textbf{Self-efficacy questionnaire}
-            \item \textbf{Judgement questionnaire}
-            \item \textbf{Affect questionnaire}
-            \item \textbf{Video selection task}
-            \item \textbf{Savings task}
-            \item \textbf{Subjective social status ladder scale}
-            \item \textbf{Sociodemographic questionnaire}
-            \item \textbf{Frame evaluation}
-            \item \textbf{Message of support}
-            \item \textbf{Enumerator response}
+            \item Consent agreement
+            \item Cash transfer framing
+            \item Self-efficacy questionnaire (5 items)
+            \item Judgement questionnaire (5 items)
+            \item Affect questionnaire (4 items)
+            \item Video selection task
+            \item Savings task
+            \item Frame evaluation
+            \item Message of support
+            \item Subjective social status ladder scale (2 items)
+            \item Sociodemographic questionnaire (9 items)
         \end{enumerate}
 
     \subsection{Treatment}
 
-        At the outset of the survey, eligible and consenting participants will be told they are receiving an unconditional cash transfer of KES 400 (USD PPP 10.5) from an organization unaffiliated with the Busara Center.\footnote{This study will be conducted with Kenyan shillings (KES). We report USD values calculated at purchasing power parity using a conversion factor for private consumption of 38.15 in 2013. The price level ratio of PPP conversion factor (GDP) to KES market exchange rate for 2011 was 0.444.} Participants will be randomly assigned to receive one of three messages introducing the purpose of the cash transfer. All frames are identical in content and structure save for the described purpose of the cash transfer. In the poverty allevation framing, the payment is described as a means to meet basic needs. The individual empowerment framing describes the payment as a means toward individual goals and the collective support framing as a means toward goals regarding family and the community.
+        At the outset of the survey, eligible and consenting participants will be told they are receiving an unconditional cash transfer of KES 400 (USD PPP 10.5) from an organization unaffiliated with the Busara Center.\footnote{This study will be conducted with Kenyan shillings (KES). We report USD values calculated at purchasing power parity using a conversion factor for private consumption of 38.15 in 2013. The price level ratio of PPP conversion factor (GDP) to KES market exchange rate for 2011 was 0.444.} Participants will be randomly assigned by the survey software\footnote{We evenly assign treatment groups to achive balance in group size.} to receive one of three messages introducing the purpose of the cash transfer. All frames are identical in content and structure save for the described purpose of the cash transfer. In the poverty allevation framing, the payment is described as a means to meet basic needs. The individual empowerment framing describes the payment as a means toward individual goals and the collective support framing as a means toward goals regarding family and the community. Participants will listen to the message in their preferred language (English or Kiswahili) with pre-recorded audio clips or as read by the enumerator.
 
         After framing, enumerators will send USD PPP 10.5 to the participant via the mobile money system M-Pesa.\footnote{For more information on M-Pesa, we refer the reader to \textcite{jack_mobile_2011} and \textcite{mbiti_mobile_2011}.} Enumerators will be instructed to confirm receipt of the payment. In the individual empowerment and collective support treatments, enumerators will also elicit participants to list either individual or collective goals and beliefs about the purpose of the payment.
 
@@ -171,16 +175,16 @@
 
 \section{Data}
 
-    \subsection{Self-efficacy questionnaire}
-    \subsection{Judgement questionnaire}
-    \subsection{Affect questionnaire}
+    \subsection{Cash transfer framing}
+    \subsection{Self-efficacy questionnaire (5 items)}
+    \subsection{Judgement questionnaire (5 items)}
+    \subsection{Affect questionnaire (4 items)}
     \subsection{Video selection task}
     \subsection{Savings task}
-    \subsection{Subjective social status ladder scale}
-    \subsection{Sociodemographic questionnaire}
     \subsection{Frame evaluation}
     \subsection{Message of support}
-    \subsection{Beliefs about treatment}
+    \subsection{Subjective social status ladder scale (2 items)}
+    \subsection{Sociodemographic questionnaire (9 items)}
 
 \section{Empirical Analysis}
 
@@ -191,10 +195,10 @@
         We will use the following reduced-form specification to estimate the treatment effect of different frames.\footnote{We will conduct the data analysis outlined in this section using the R programming language with the scripts included in Appendix \ref{sec:rscripts}.}
 
   		\begin{equation} \label{eq:teffect}
-            Y_{i} = \beta_{0} + \beta_{1}\text{\textsc{Ind}}_{i} + \beta_{2}\text{\textsc{Col}}_{i} + \varepsilon_{i}
+            Y_{i} = \beta_{0} + \beta_{1}\text{\textsc{Ind}}_{i} + \beta_{2}\text{\textsc{Com}}_{i} + \varepsilon_{i}
 		\end{equation}
 
-        $Y_{i}$ refers to the outcome variables for individual $i$ measured after the manipulation. The outcome variables described in Table \ref{tab:depvars} will be the focus of this analysis. \textsc{Ind}$_{i}$ indicates assignment to the individual empowerment frame while \textsc{Col}$_{i}$ indicates assignment to the collective support frame. The reference category in this model is the poverty alleviation frame. We will estimate cluster-robust standard errors at the individual level. Table \ref{tab:hypotheses} lists the hypotheses we will test using Equation \ref{eq:teffect}.
+        $Y_{i}$ refers to the outcome variables for individual $i$ measured after the manipulation. The outcome variables described in Table \ref{tab:depvars} will be the focus of this analysis. \textsc{Ind}$_{i}$ indicates assignment to the individual empowerment frame while \textsc{Com}$_{i}$ indicates assignment to the collective support frame. The reference category in this model is the poverty alleviation frame. We will estimate cluster-robust standard errors at the individual level. Table \ref{tab:hypotheses} lists the hypotheses we will test using Equation \ref{eq:teffect}.
 
         % Separately specify mechanism analysis?
 
@@ -231,7 +235,7 @@
         To improve precision, we will also apply covariate adjustment with a vector of baseline indicators $\mathbf{X}_i$. We obtain the covariate-adjusted treatment effect estimate by estimating Equation \ref{eq:teffect} including the demeaned covariate vector $\mathbf{\dot X}_{i} = \mathbf{X}_{i} - \mathbf{\bar X}_{i}$ as an additive term and as an interaction with the treatment indicator. % scrap this maybe
 
         \begin{equation} \label{eq:controls}
-            Y_{i} = \beta_{0} + \beta_{1}\text{\textsc{Ind}}_{i} + \beta_{2}\text{\textsc{Col}}_{i} + \gamma_{0} \mathbf{\dot X}'_i + \gamma_{1}\text{\textsc{Ind}}_{i} \mathbf{\dot X}'_i + \gamma_{2}\text{\textsc{Col}}_{i} \mathbf{\dot X}'_i + \varepsilon_{i}
+            Y_{i} = \beta_{0} + \beta_{1}\text{\textsc{Ind}}_{i} + \beta_{2}\text{\textsc{Com}}_{i} + \gamma_{0} \mathbf{\dot X}'_i + \gamma_{1}\text{\textsc{Ind}}_{i} \mathbf{\dot X}'_i + \gamma_{2}\text{\textsc{Com}}_{i} \mathbf{\dot X}'_i + \varepsilon_{i}
         \end{equation}
 
         The set of indicators partitions our sample so that our estimate for $\beta_j$ remains unbiased for the average treatment effect \parencite{lin_agnostic_2013}. We will estimate cluster-robust standard errors at the individual level. We use this model to test the hypotheses detailed in Table \ref{tab:hypotheses} including the control variables listed in Table \ref{tab:controlvars}.
@@ -272,7 +276,7 @@
         We will analyze the extent to which the policy frames produced heterogeneous treatment effects with the following specification.
 
         \begin{equation}
-            Y_{i} = \beta_{0} + \beta_{1}\text{\textsc{Ind}}_{i} + \beta_{2}\text{\textsc{Col}}_{i} + \delta_{0} x_i + \delta_{1}\text{\textsc{Ind}}_{i} x_i + \delta_{2}\text{\textsc{Col}}_{i} x_i + \varepsilon_{i}
+            Y_{i} = \beta_{0} + \beta_{1}\text{\textsc{Ind}}_{i} + \beta_{2}\text{\textsc{Com}}_{i} + \delta_{0} x_i + \delta_{1}\text{\textsc{Ind}}_{i} x_i + \delta_{2}\text{\textsc{Com}}_{i} x_i + \varepsilon_{i}
         \label{eq:heteffect} \end{equation}
 
         $x_{i}$ is the binary dimension of heterogeneity measured before treatment assignment. $\delta_{1}$ and $\delta_{2}$ identify the heterogeneous treatment effects of the individual empowerment and collective support frames relative to the poverty alleviation frame. Testing $\delta_{1} = \delta_{2}$ identifies heterogeneous effects between the former two frames. Standard errors are clustered at the individual level. We estimate this model with the baseline variables summarized in Table \ref{tab:controlvars}.
@@ -388,9 +392,54 @@
 
     \hlcom{## FDR returns minimum q-values ##}
 
-    \hlstd{FDR} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{pvals}\hlstd{) \{}
+    \hlstd{FDR} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{pvals}\hlstd{,} \hlkwc{step}\hlstd{) \{}
 
-        \hlkwd{return}\hlstd{(pvals)}
+        \hlkwa{if} \hlstd{(}\hlkwd{sum}\hlstd{(}\hlkwd{is.na}\hlstd{(pvals)} \hlopt{==} \hlnum{FALSE}\hlstd{)} \hlopt{<=} \hlnum{1}\hlstd{) \{}\hlkwd{return}\hlstd{(pvals)\}}
+        \hlkwa{if} \hlstd{(}\hlkwd{missing}\hlstd{(step)) \{step} \hlkwb{<-} \hlnum{0.001}\hlstd{\}}
+
+        \hlstd{allpvals} \hlkwb{<-} \hlkwd{cbind}\hlstd{(}\hlkwd{as.matrix}\hlstd{(pvals),} \hlkwd{matrix}\hlstd{(}\hlnum{1}\hlopt{:}\hlkwd{nrow}\hlstd{(}\hlkwd{as.matrix}\hlstd{(pvals)),} \hlkwc{ncol} \hlstd{=} \hlnum{1}\hlstd{))}
+
+        \hlstd{pvals} \hlkwb{<-} \hlkwd{na.omit}\hlstd{(allpvals)}
+        \hlstd{nump} \hlkwb{<-} \hlkwd{nrow}\hlstd{(pvals)}
+
+        \hlstd{pvals} \hlkwb{<-} \hlstd{pvals[}\hlkwd{order}\hlstd{(pvals[,} \hlnum{1}\hlstd{]), ]}
+        \hlstd{rank} \hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlnum{1}\hlopt{:}\hlstd{nump,} \hlkwc{ncol} \hlstd{=} \hlnum{1}\hlstd{)}
+        \hlstd{pvals} \hlkwb{<-} \hlkwd{cbind}\hlstd{(pvals, rank,} \hlkwd{matrix}\hlstd{(}\hlnum{0}\hlstd{,} \hlkwc{nrow} \hlstd{= nump,} \hlkwc{ncol} \hlstd{=} \hlnum{1}\hlstd{))}
+
+        \hlstd{qval} \hlkwb{<-} \hlnum{1}
+
+        \hlkwa{while} \hlstd{(qval} \hlopt{>} \hlnum{0}\hlstd{) \{}
+
+            \hlstd{qfirst} \hlkwb{<-} \hlstd{qval} \hlopt{/} \hlstd{(}\hlnum{1} \hlopt{+} \hlstd{qval)}
+            \hlstd{fdrtemp} \hlkwb{<-} \hlstd{(qfirst} \hlopt{*} \hlstd{rank)} \hlopt{/} \hlstd{nump}
+
+            \hlstd{subrank} \hlkwb{<-} \hlkwd{which}\hlstd{(fdrtemp} \hlopt{>=} \hlkwd{as.matrix}\hlstd{(pvals[,} \hlnum{1}\hlstd{]))}
+
+            \hlkwa{if} \hlstd{(}\hlkwd{length}\hlstd{(subrank)} \hlopt{<} \hlnum{1}\hlstd{) \{}
+                \hlstd{numreject} \hlkwb{<-} \hlnum{0}
+            \hlstd{\}} \hlkwa{else} \hlstd{numreject} \hlkwb{<-} \hlkwd{max}\hlstd{(subrank)}
+
+            \hlstd{qsec} \hlkwb{<-} \hlstd{qfirst} \hlopt{*} \hlstd{(nump} \hlopt{/} \hlstd{(nump} \hlopt{-} \hlstd{numreject))}
+            \hlstd{fdrtemp} \hlkwb{<-} \hlstd{(qsec} \hlopt{*} \hlstd{rank)} \hlopt{/} \hlstd{nump}
+
+            \hlstd{subrank} \hlkwb{<-} \hlkwd{which}\hlstd{(fdrtemp} \hlopt{>=} \hlkwd{as.matrix}\hlstd{(pvals[,} \hlnum{1}\hlstd{]))}
+
+            \hlkwa{if} \hlstd{(}\hlkwd{length}\hlstd{(subrank)} \hlopt{<} \hlnum{1}\hlstd{) \{}
+                \hlstd{numreject} \hlkwb{<-} \hlnum{0}
+            \hlstd{\}} \hlkwa{else} \hlstd{numreject} \hlkwb{<-} \hlkwd{max}\hlstd{(subrank)}
+
+            \hlstd{pvals[}\hlkwd{which}\hlstd{(pvals[,} \hlnum{3}\hlstd{]} \hlopt{<=} \hlstd{numreject),} \hlnum{4}\hlstd{]} \hlkwb{<-} \hlstd{qval}
+
+            \hlstd{qval} \hlkwb{<-} \hlstd{qval} \hlopt{-} \hlstd{step}
+
+        \hlstd{\}}
+
+        \hlstd{pvals} \hlkwb{<-} \hlstd{pvals[}\hlkwd{order}\hlstd{(pvals[,} \hlnum{2}\hlstd{]), ]}
+
+        \hlstd{qvals} \hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlkwc{nrow} \hlstd{=} \hlkwd{nrow}\hlstd{(allpvals),} \hlkwc{ncol} \hlstd{=} \hlnum{1}\hlstd{)}
+        \hlstd{qvals[}\hlkwd{match}\hlstd{(pvals[,} \hlnum{2}\hlstd{], allpvals[,} \hlnum{2}\hlstd{]),} \hlnum{1}\hlstd{]} \hlkwb{<-} \hlstd{pvals[,} \hlnum{4}\hlstd{]}
+
+        \hlkwd{return}\hlstd{(}\hlkwd{as.matrix}\hlstd{(qvals))}
 
     \hlstd{\}}
 \end{alltt}
@@ -487,10 +536,10 @@
 ## yNull ~ Ind + Col -0.075319746 -0.68073437 0.1106448 4.963503e-01      1
 ## yInd ~ Ind + Col   0.724331855  6.78370880 0.1067752 3.274581e-11      1
 ## yCol ~ Ind + Col  -0.001033057 -0.01002653 0.1030323 9.920041e-01      1
-##                         Min. Q
-## yNull ~ Ind + Col 4.963503e-01
-## yInd ~ Ind + Col  3.274581e-11
-## yCol ~ Ind + Col  9.920041e-01
+##                   Min. Q
+## yNull ~ Ind + Col  0.986
+## yInd ~ Ind + Col   0.001
+## yCol ~ Ind + Col   0.000
 ## [1] --------------------------------------------------------------------
 ## [1] --------------------------------------------------------------------
 ## [1] H_0: Col = 1
@@ -498,10 +547,10 @@
 ## yNull ~ Ind + Col -0.13145711 -10.111510 0.1118979 0.000000e+00      1
 ## yInd ~ Ind + Col   0.07232116  -8.251344 0.1124276 1.332268e-15      1
 ## yCol ~ Ind + Col   0.49240775  -4.701855 0.1079557 3.327556e-06      1
-##                         Min. Q
-## yNull ~ Ind + Col 0.000000e+00
-## yInd ~ Ind + Col  1.332268e-15
-## yCol ~ Ind + Col  3.327556e-06
+##                   Min. Q
+## yNull ~ Ind + Col  0.001
+## yInd ~ Ind + Col   0.001
+## yCol ~ Ind + Col   0.001
 ## [1] --------------------------------------------------------------------
 ## [1] --------------------------------------------------------------------
 ## [1] H_0: Ind - Col = 0
@@ -509,10 +558,10 @@
 ## yNull ~ Ind + Col  0.05613736  0.4763352 0.1178526 6.340408e-01      1
 ## yInd ~ Ind + Col   0.65201069  5.6691093 0.1150111 2.412258e-08      1
 ## yCol ~ Ind + Col  -0.49344081 -4.1998312 0.1174906 3.155707e-05      1
-##                         Min. Q
-## yNull ~ Ind + Col 6.340408e-01
-## yInd ~ Ind + Col  2.412258e-08
-## yCol ~ Ind + Col  3.155707e-05
+##                   Min. Q
+## yNull ~ Ind + Col  0.268
+## yInd ~ Ind + Col   0.001
+## yCol ~ Ind + Col   0.001
 ## [1] --------------------------------------------------------------------
 \end{verbatim}
 \end{kframe}
@@ -557,10 +606,10 @@
 ## yNull ~ Ind + Col + Gen + LnInc -0.0838609672 -0.760948827 0.1102058
 ## yInd ~ Ind + Col + Gen + LnInc   0.7249313293  6.785240614 0.1068394
 ## yCol ~ Ind + Col + Gen + LnInc   0.0004284829  0.004138265 0.1035417
-##                                            P ExactP       Min. Q
-## yNull ~ Ind + Col + Gen + LnInc 4.470428e-01      1 4.470428e-01
-## yInd ~ Ind + Col + Gen + LnInc  3.255396e-11      1 3.255396e-11
-## yCol ~ Ind + Col + Gen + LnInc  9.966998e-01      1 9.966998e-01
+##                                            P ExactP Min. Q
+## yNull ~ Ind + Col + Gen + LnInc 4.470428e-01      1  0.809
+## yInd ~ Ind + Col + Gen + LnInc  3.255396e-11      1  0.001
+## yCol ~ Ind + Col + Gen + LnInc  9.966998e-01      1  0.000
 ## [1] --------------------------------------------------------------------
 ## [1] --------------------------------------------------------------------
 ## [1] H_0: Col = 1
@@ -568,10 +617,10 @@
 ## yNull ~ Ind + Col + Gen + LnInc -0.13251551 -10.189492 0.1111454
 ## yInd ~ Ind + Col + Gen + LnInc   0.06925256  -8.267642 0.1125771
 ## yCol ~ Ind + Col + Gen + LnInc   0.49417368  -4.676050 0.1081739
-##                                            P ExactP       Min. Q
-## yNull ~ Ind + Col + Gen + LnInc 0.000000e+00      1 0.000000e+00
-## yInd ~ Ind + Col + Gen + LnInc  1.221245e-15      1 1.221245e-15
-## yCol ~ Ind + Col + Gen + LnInc  3.758547e-06      1 3.758547e-06
+##                                            P ExactP Min. Q
+## yNull ~ Ind + Col + Gen + LnInc 0.000000e+00      1  0.001
+## yInd ~ Ind + Col + Gen + LnInc  1.221245e-15      1  0.001
+## yCol ~ Ind + Col + Gen + LnInc  3.758547e-06      1  0.001
 ## [1] --------------------------------------------------------------------
 ## [1] --------------------------------------------------------------------
 ## [1] H_0: Ind - Col = 0
@@ -579,10 +628,10 @@
 ## yNull ~ Ind + Col + Gen + LnInc  0.04865454  0.4156246 0.1170637
 ## yInd ~ Ind + Col + Gen + LnInc   0.65567877  5.7018178 0.1149947
 ## yCol ~ Ind + Col + Gen + LnInc  -0.49374519 -4.2093488 0.1172973
-##                                            P ExactP       Min. Q
-## yNull ~ Ind + Col + Gen + LnInc 6.778612e-01      1 6.778612e-01
-## yInd ~ Ind + Col + Gen + LnInc  2.019126e-08      1 2.019126e-08
-## yCol ~ Ind + Col + Gen + LnInc  3.031964e-05      1 3.031964e-05
+##                                            P ExactP Min. Q
+## yNull ~ Ind + Col + Gen + LnInc 6.778612e-01      1  0.292
+## yInd ~ Ind + Col + Gen + LnInc  2.019126e-08      1  0.001
+## yCol ~ Ind + Col + Gen + LnInc  3.031964e-05      1  0.001
 ## [1] --------------------------------------------------------------------
 \end{verbatim}
 \end{kframe}
