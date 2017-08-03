@@ -139,60 +139,50 @@ FDR <- function(pvals, step) {
 ################
 
 data <- read.delim(file = "K1__Field_Survey_v34.csv")
-data <- data[2:nrow(data), ]
+data <- as.data.frame(data[2:nrow(data), ])
 
-## Create locals for simulation ##
+## Participant ID ##
 
-  OBS <- 510
+data$survey.id <- as.numeric(as.character(data$numb1))
+data$survey.id[data$survey.id == NA] <- as.numeric(as.character(data$numb2))
+data <- data[complete.cases(data$survey.id), ]
 
-## Generate treatment ##
+## Treatment assignment ##
 
-  Treat <- sample(0:2,OBS, rep = TRUE, prob = c(.33, .33, 0.33)) %>%
-  factor(levels = c(0, 1, 2), labels = c("Poverty", "Ind.", "Col."))
+data$treatment[data$condition == "poor"] <- 0
+data$treatment[data$condition == "individual"] <- 1
+data$treatment[data$condition == "community"] <- 2
 
-  Pov <- (Treat == "Poverty") * 1
-  Ind <- (Treat == "Ind.") * 1
-  Col <- (Treat == "Col.") * 1
+data$poor <- ifelse(data$condition == "poor", 1, 0)
+data$ind <- ifelse(data$condition == "individual", 1, 0)
+data$com <- ifelse(data$condition == "community", 1, 0)
 
-## Generate gender ##
+## Self-efficacy ##
 
- Gen <- sample(0:1,OBS,rep = TRUE,prob = c(.5,.5))  %>%
-  factor(levels = c(0,1), labels = c("Male","Female"))
+data$sel.score <- as.numeric(as.character(data$sel.con)) + as.numeric(as.character(data$sel.pers)) + as.numeric(as.character(data$sel.com)) + as.numeric(as.character(data$sel.prob)) + as.numeric(as.character(data$sel.bett))
+data$sel.score.z <- (data$sel.score - mean(data$sel.score)) / sd(data$sel.score)
 
-## Generate factor variable measuring highest level of education ##
+## Judgement ##
 
- Edu <- sample(1:3,OBS,rep = TRUE,prob = c(.5,.3,.2)) %>%
-  factor(levels = c(1,2,3), labels = c("Primary school","High school","University & above"))
+data$jud.score <- as.numeric(as.character(jud.judg)) + as.numeric(as.character(jud.emb)) + as.numeric(as.character(jud.ups)) + as.numeric(as.character(jud.fam)) + as.numeric(as.character(jud.com))
+data$jud.score.z <- (data$jud.score - mean(data$jud.score)) / sd(data$jud.score)
 
-## Generate income ##
+## Sociodemographics ##
 
- LnInc <- rnorm(OBS, mean = 5, sd = 1)
- Inc <- exp(LnInc)
-
-## Generate y with notreatment effect ##
-
-  yNull <- rnorm(OBS, 0, 1)
-
-## Generate outcome with effects
-  yInd <- (0.8 * Ind) + rnorm(OBS, 0, 1)
-  yCol <- (0.4 * Col) + rnorm(OBS, 0, 1)
-
-## Generate id ##
-
-  ID <- matrix(1:OBS, ncol = 1)
-
-## Create, save dataframe ##
-
-  TestData <- data.frame(ID, Treat, Pov, Ind, Col, Gen, Edu, Inc, yNull, yInd, yCol)
+data$soc.age <- as.numeric(as.character(data$soc.age))
+data$soc.fem <- ifelse(data$soc.gen == "2", 1, 0)
+data$soc.chr <- ifelse(data$soc.rel == "1", 1, 0)
 
 ################
 ## Estimation ##
 ################
 
+attach(data)
+
 ## Plain OLS ##
 
-hypotheses <- c("Ind = 0", "Col = 1", "Ind - Col = 0")
-equations <- c("yNull ~ Ind + Col", "yInd ~ Ind + Col", "yCol ~ Ind + Col")
+hypotheses <- c("ind = 0", "com = 1", "ind - com = 0")
+equations <- c("sel.score ~ ind + com", "jud.score ~ ind + com")
 
 for (h in hypotheses) {
 
@@ -200,7 +190,7 @@ for (h in hypotheses) {
 
     for (eqn in equations) {
 
-        RES <- rbind(RES, PermTest(eqn, treatvars = c("Treat", "Pov", "Ind", "Col"), clustvars = TestData$ID, hypotheses = c(h), iterations = 1000, data = TestData))
+        RES <- rbind(RES, PermTest(eqn, treatvars = c("treatment", "poor", "ind", "com"), clustvars = survey.id, hypotheses = c(h), iterations = 1000, data = data))
 
     }
 
@@ -219,8 +209,8 @@ for (h in hypotheses) {
 
 ## Covariate adjustment ##
 
-hypotheses <- c("Ind = 0", "Col = 1", "Ind - Col = 0")
-equations <- c("yNull ~ Ind + Col + Gen + LnInc", "yInd ~ Ind + Col + Gen + LnInc", "yCol ~ Ind + Col + Gen + LnInc")
+hypotheses <- c("ind = 0", "com = 1", "ind - com = 0")
+equations <- c("sel.score ~ ind + com + soc.age", "jud.score ~ ind + com + soc.age")
 
 for (h in hypotheses) {
 
@@ -228,7 +218,7 @@ for (h in hypotheses) {
 
     for (eqn in equations) {
 
-        RES <- rbind(RES, PermTest(eqn, treatvars = c("Treat", "Pov", "Ind", "Col"), clustvars = TestData$ID, hypotheses = c(h), iterations = 1000, data = TestData))
+        RES <- rbind(RES, PermTest(eqn, treatvars = c("treatment", "poor", "ind", "com"), clustvars = survey.id, hypotheses = c(h), iterations = 1000, data = data))
 
     }
 
