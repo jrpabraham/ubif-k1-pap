@@ -138,13 +138,13 @@ FDR <- function(pvals, step) {
 ## Clean data ##
 ################
 
-data <- read.delim(file = "K1__Field_Survey_v34.csv")
+data <- read.delim(file = "K1__Field_Survey_v34.csv", sep = ",")
 data <- as.data.frame(data[2:nrow(data), ])
 
 ## Participant ID ##
 
 data$survey.id <- as.numeric(as.character(data$numb1))
-data$survey.id[data$survey.id == NA] <- as.numeric(as.character(data$numb2))
+data$survey.id[is.na(data$survey.id)] <- as.numeric(as.character(data$numb2))
 data <- data[complete.cases(data$survey.id), ]
 
 ## Treatment assignment ##
@@ -153,18 +153,22 @@ data$treatment[data$condition == "poor"] <- 0
 data$treatment[data$condition == "individual"] <- 1
 data$treatment[data$condition == "community"] <- 2
 
+factor(data$treatment)
+
 data$poor <- ifelse(data$condition == "poor", 1, 0)
 data$ind <- ifelse(data$condition == "individual", 1, 0)
 data$com <- ifelse(data$condition == "community", 1, 0)
 
 ## Self-efficacy ##
 
+# lapply(c("data$sel.com", "data$sel.pers", "data$sel.com", "data$sel.prob", "data$sel.bett"), recode, "-99" = NA)
+
 data$sel.score <- as.numeric(as.character(data$sel.con)) + as.numeric(as.character(data$sel.pers)) + as.numeric(as.character(data$sel.com)) + as.numeric(as.character(data$sel.prob)) + as.numeric(as.character(data$sel.bett))
 data$sel.score.z <- (data$sel.score - mean(data$sel.score)) / sd(data$sel.score)
 
 ## Judgement ##
 
-data$jud.score <- as.numeric(as.character(jud.judg)) + as.numeric(as.character(jud.emb)) + as.numeric(as.character(jud.ups)) + as.numeric(as.character(jud.fam)) + as.numeric(as.character(jud.com))
+data$jud.score <- -as.numeric(as.character(jud.judg)) - as.numeric(as.character(jud.emb)) - as.numeric(as.character(jud.ups)) + as.numeric(as.character(jud.fam)) + as.numeric(as.character(jud.com))
 data$jud.score.z <- (data$jud.score - mean(data$jud.score)) / sd(data$jud.score)
 
 ## Sociodemographics ##
@@ -182,57 +186,87 @@ attach(data)
 ## Plain OLS ##
 
 hypotheses <- c("ind = 0", "com = 1", "ind - com = 0")
-equations <- c("sel.score ~ ind + com", "jud.score ~ ind + com")
+depvars <- c("sel.score.z", "jud.score.z")
 
 for (h in hypotheses) {
 
     RES <- matrix(nrow = 1, ncol = 5)
 
-    for (eqn in equations) {
+    for (depvar in depvars) {
 
-        RES <- rbind(RES, PermTest(eqn, treatvars = c("treatment", "poor", "ind", "com"), clustvars = survey.id, hypotheses = c(h), iterations = 1000, data = data))
+        eqn <- paste(depvar, "~ ind  + com", sep = " ")
+        RES <- rbind(RES, PermTest(eqn, treatvars = c("treatment", "poor", "ind", "com"), clustvars = survey.id, hypotheses = c(h), iterations = 100, data = data))
 
     }
 
     RES <- RES[2:nrow(RES), 1:ncol(RES)]
     RES <- cbind(RES, FDR(RES[, 4]))
 
-    rownames(RES) <- equations
+    rownames(RES) <- depvars
     colnames(RES)[6] <- "Min. Q"
 
-    print("--------------------------------------------------------------------", quote = FALSE)
+    print("----------------------------------------------------------------", quote = FALSE)
     print(paste("H_0:", h), quote = FALSE)
     print(RES, quote = FALSE)
-    print("--------------------------------------------------------------------", quote = FALSE)
 
 }
 
 ## Covariate adjustment ##
 
-hypotheses <- c("ind = 0", "com = 1", "ind - com = 0")
-equations <- c("sel.score ~ ind + com + soc.age", "jud.score ~ ind + com + soc.age")
+covariates <- c("soc.fem", "soc.age")
 
 for (h in hypotheses) {
 
     RES <- matrix(nrow = 1, ncol = 5)
 
-    for (eqn in equations) {
+    for (depvar in depvars) {
 
-        RES <- rbind(RES, PermTest(eqn, treatvars = c("treatment", "poor", "ind", "com"), clustvars = survey.id, hypotheses = c(h), iterations = 1000, data = data))
+        eqn <- paste(depvar, "~ ind  + com +", covariates, sep = " ")
+        RES <- rbind(RES, PermTest(eqn, treatvars = c("treatment", "poor", "ind", "com"), clustvars = survey.id, hypotheses = c(h), iterations = 100, data = data))
 
     }
 
     RES <- RES[2:nrow(RES), 1:ncol(RES)]
     RES <- cbind(RES, FDR(RES[, 4]))
 
-    rownames(RES) <- equations
+    rownames(RES) <- depvars
     colnames(RES)[6] <- "Min. Q"
 
-    print("--------------------------------------------------------------------", quote = FALSE)
+    print("----------------------------------------------------------------", quote = FALSE)
     print(paste("H_0:", h), quote = FALSE)
     print(RES, quote = FALSE)
-    print("--------------------------------------------------------------------", quote = FALSE)
 
 }
 
 ## Het effects ##
+
+hetvars <- c("soc.fem", "soc.age")
+
+for (hetvar in hetvars) {
+
+    hypotheses <- c(paste("ind:", hetvar, " = 0"), paste(hetvar, ":com", " = 0"), paste("ind:", hetvar, " - ", hetvar, ":com", " = 0"))
+
+    for (h in hypotheses) {
+
+        RES <- matrix(nrow = 1, ncol = 5)
+
+        for (depvar in depvars) {
+
+            eqn <- paste(depvar, " ~ ind*", hetvar, " + com*", hetvar)
+            RES <- rbind(RES, PermTest(eqn, treatvars = c("treatment", "poor", "ind", "com"), clustvars = survey.id, hypotheses = c(h), iterations = 100, data = data))
+
+        }
+
+        RES <- RES[2:nrow(RES), 1:ncol(RES)]
+        RES <- cbind(RES, FDR(RES[, 4]))
+
+        rownames(RES) <- depvars
+        colnames(RES)[6] <- "Min. Q"
+
+        print("----------------------------------------------------------------", quote = FALSE)
+        print(paste("H_0:", h), quote = FALSE)
+        print(RES, quote = FALSE)
+
+    }
+
+}
