@@ -56,6 +56,18 @@
 
         The study area will be partitioned into seven, non-overlapping catchment regions to be used for sample selection. Research staff will visit one catchment region per day and will not visit the same region more than once. Table \ref{tab:location} summarizes these areas. Beginning at a designated intersection in the catchment region, a team of nine enumerators and a guide\footnote{Guides will accompany enumerators but will not be involved in sampling or data collection.} will select every eighth household in each direction for survey. From that visit on, enumerators will select the eighth house down from the subsequent structure, away from the intersection and on the opposite side of the road. If participants are not available at the selected households enumerators will move to the next door away from the origin.
 
+        Sampled individuals will be enrolled in the survey if they meet the following eligibility criteria:
+
+        \begin{enumerate}
+            \item Between 18 and 50 years old
+            \item Member of the Busara Center's participant pool
+            \item Resident of Kibera or Kawangware
+            \item Not surveyed by the Busara Center for any other study in the past 10 days
+            \item Owns a working phone and an M-Pesa account registered under the participant's name
+        \end{enumerate}
+
+        If an eligible person is available at the selected household, they will be enrolled as a participant. If there are multiple members, enumerators will prioritize the youngest eligible person of the opposite gender than in the previous survey. We will sample from the study area for a total of 525 surveys.
+
         \begin{table}[t]
         \centering
         \caption{Survey location}
@@ -73,21 +85,6 @@
         Kawangware & Kawangware CDF Hall &  &  &  \\ \bottomrule
         \end{tabular} }
         \end{table}
-
-        Sampled individuals will be enrolled in the survey if they meet the following eligibility criteria:
-
-        \begin{enumerate}
-            \item Between 18 and 50 years old
-            \item Member of the Busara Center's participant pool
-            \item Resident of Kibera or Kawangware
-            \item Not surveyed by the Busara Center for any other study in the past 10 days
-            \item Owns a working phone and an M-Pesa account registered under the participant's name
-        \end{enumerate}
-
-        If an eligible person is available at the selected household, they will be enrolled as a participant. If there are multiple members, enumerators will prioritize the youngest eligible person of the opposite gender than in the previous survey. We will sample from the study area for a total of 525 surveys.
-
-        % What is the extent of the study area in Kibera?
-        % How do we define catchment areas (regions)?
 
     \subsection{Statistical power}
 
@@ -145,7 +142,8 @@
 
 \section{Data}
 
-    \subsection{Cash transfer framing}
+    This section describes the data collected following the cash transfer treatment.
+
     \subsection{Self-efficacy questionnaire (5 items)}
     \subsection{Judgement questionnaire (5 items)}
     \subsection{Affect questionnaire (4 items)}
@@ -168,9 +166,9 @@
             Y_{i} = \beta_{0} + \beta_{1}\text{\textsc{Ind}}_{i} + \beta_{2}\text{\textsc{Com}}_{i} + \varepsilon_{i}
 		\end{equation}
 
-        $Y_{i}$ refers to the outcome variables for individual $i$ measured after the manipulation. The outcome variables described in Table \ref{tab:depvars} will be the focus of this analysis. \textsc{Ind}$_{i}$ indicates assignment to the individual empowerment frame while \textsc{Com}$_{i}$ indicates assignment to the collective support frame. The reference category in this model is the poverty alleviation frame. We will estimate cluster-robust standard errors at the individual level. Table \ref{tab:hypotheses} lists the hypotheses we will test using Equation \ref{eq:teffect}.
+        % Consider alternative response functions for categorical vars?
 
-        % Separately specify mechanism analysis?
+        $Y_{i}$ refers to the outcome variables for individual $i$ measured after the manipulation. The outcome variables described in Table \ref{tab:depvars} will be the focus of this analysis. \textsc{Ind}$_{i}$ indicates assignment to the individual empowerment frame while \textsc{Com}$_{i}$ indicates assignment to the collective support frame. The reference category in this model is the poverty alleviation frame. We will estimate cluster-robust standard errors at the individual level. Table \ref{tab:hypotheses} lists the hypotheses we will test using Equation \ref{eq:teffect}. In addition to our primary outcomes, we estimate the effect on intermediate outcomes in Table \ref{tab:mechvars} to test potential mechanisms.
 
         \begin{table}[t]
         \centering
@@ -202,6 +200,23 @@
         \end{tabular} }
         \end{table}
 
+        \begin{table}[t]
+        \centering
+        \caption{Intermediate outcomes for mechanism analysis}
+        \label{tab:mechvars}
+        \maxsizebox*{\textwidth}{\textheight}{
+        \begin{tabular}{@{}lllll@{}}
+        \toprule
+        Variable & Description &  &  &  \\ \midrule
+        Self-efficacy &  &  &  &  \\
+        Judgement &  &  &  &  \\
+        Affect &  &  &  &  \\
+        Subjective social status &  &  &  &  \\
+        SMRD of thoughts about saving & Standardized mean rank difference of thoughts in favor of and against saving &  &  &  \\
+        \bottomrule
+        \end{tabular} }
+        \end{table}
+
         To improve precision, we will also apply covariate adjustment with a vector of baseline indicators $\mathbf{X}_i$. We obtain the covariate-adjusted treatment effect estimate by estimating Equation \ref{eq:teffect} including the demeaned covariate vector $\mathbf{\dot X}_{i} = \mathbf{X}_{i} - \mathbf{\bar X}_{i}$ as an additive term and as an interaction with the treatment indicator. % scrap this maybe
 
         \begin{equation} \label{eq:controls}
@@ -220,7 +235,7 @@
         Variable & Description &  &  &  \\ \midrule
         Age & Dummy variable indicating participant is over 25 &  &  &  \\
         Gender & Dummy variable indicating participant is female &  &  &  \\
-        Employment & Dummy variable indicating participant is employed &  &  &  \\
+        Employment status & Dummy variable indicating participant is unemployed &  &  &  \\
         Education & Dummy variable indicating participant completed std. 8 &  &  &  \\
         Savings & Dummy variable having more than Ksh 1000 saved &  &  &  \\
         \bottomrule
@@ -251,8 +266,6 @@
 
         $x_{i}$ is the binary dimension of heterogeneity measured before treatment assignment. $\delta_{1}$ and $\delta_{2}$ identify the heterogeneous treatment effects of the individual empowerment and collective support frames relative to the poverty alleviation frame. Testing $\delta_{1} = \delta_{2}$ identifies heterogeneous effects between the former two frames. Standard errors are clustered at the individual level. We estimate this model with the baseline variables summarized in Table \ref{tab:controlvars}.
 
-    \subsection{Analysis of potential mechanisms}
-
 \newpage
 
 \printbibliography
@@ -270,6 +283,8 @@
 \section{Survey Instrument}
 
 \section{Data Analysis Scripts} \label{sec:rscripts}
+
+\begin{footnotesize}
 
     \subsection{Packages}
 
@@ -411,6 +426,7 @@
     }
 
 @
+
     \subsection{Data cleaning}
 
 <<K1data, results = 'hide'>>=
@@ -528,5 +544,8 @@
 @
 
     \subsection{Heterogeneous treatment effects}
+
+
+\end{footnotesize}
 
 \end{document}
