@@ -335,10 +335,10 @@
 
 <<K1packages, results = 'hide', message = FALSE, warning = FALSE>>=
 
-    setwd("/Users/Justin/Google Drive/UBIF/UBIF_Deliverables/UBIF_PAP/K1_PAP") # make this more flexible
+    setwd("/Users/Justin/Google Drive/UBIF/UBIF_Deliverables/UBIF_PAP/K1_PAP")
     set.seed(47269801)
 
-    required.packages <- c("dplyr", "multiwayvcov", "multcomp", "knitr")
+    required.packages <- c("dplyr", "multiwayvcov", "multcomp", "reshape2", "knitr")
     packages.missing <- required.packages[!required.packages %in% installed.packages()[,"Package"]]
 
     if(length(packages.missing) > 0) {install.packages(required.packages, repo="https://cran.cnr.berkeley.edu/")}
@@ -397,7 +397,7 @@
             simTreat <- simTreat[sample(nrow(simTreat)),]
 
             simData <- cbind(simTreat, data[, !(names(data) %in% treatvars), drop = FALSE])
-            colnames(simData)[1:2] <- treatvars
+            colnames(simData)[1:length(treatvars)] <- treatvars
 
             simEST <- rbind(simEST, RegTest(equation, clustvars, hypotheses, data = simData))
 
@@ -406,8 +406,7 @@
         simSTAT <- simEST[2:nrow(simEST), 2]
         countSTAT <- matrix(abs(simSTAT) >= abs(obsStat), ncol = 1)
 
-        ExactP <- matrix(1, nrow = 1, ncol = nrow(countSTAT)) %*% countSTAT
-        ExactP <- ExactP / iterations
+        ExactP <- colSums(countSTAT) / iterations
 
         EST <- cbind(obsEST, ExactP)
 
@@ -476,49 +475,153 @@
 
 <<K1data, results = 'hide'>>=
 
-    ## Create locals for simulation ##
+    k1_df <- read.delim(file = "K1__Field_Survey_v34.csv", header = TRUE, sep = ",", stringsAsFactors = TRUE, na.strings = "")
+    k1_df <- as.data.frame(k1_df[2:nrow(k1_df), ])
+    attach(k1_df)
 
-      OBS <- 510
+    ## Participant ID ##
 
-    ## Generate treatment ##
+    k1_df$survey.id <- as.numeric(as.character(k1_df$numb1))
+    k1_df$survey.id[is.na(k1_df$survey.id)] <- as.numeric(as.character(k1_df$numb2))
+    data <- data[complete.cases(k1_df$survey.id), ]
 
-      Treat <- sample(0:2,OBS, rep = TRUE, prob = c(.33, .33, 0.33)) %>%
-      factor(levels = c(0, 1, 2), labels = c("Poverty", "Ind.", "Col."))
+    # sum(duplicated(k1_df$survey.id))
 
-      Pov <- (Treat == "Poverty") * 1
-      Ind <- (Treat == "Ind.") * 1
-      Col <- (Treat == "Col.") * 1
+    ## Treatment assignment ##
 
-    ## Generate gender ##
+    k1_df$treatment[k1_df$condition == "poor"] <- 0
+    k1_df$treatment[k1_df$condition == "individual"] <- 1
+    k1_df$treatment[k1_df$condition == "community"] <- 2
 
-     Gen <- sample(0:1,OBS,rep = TRUE,prob = c(.5,.5))  %>%
-      factor(levels = c(0,1), labels = c("Male","Female"))
+    factor(k1_df$treatment)
 
-    ## Generate factor variable measuring highest level of education ##
+    k1_df$poor <- ifelse(k1_df$condition == "poor", 1, 0)
+    k1_df$ind <- ifelse(k1_df$condition == "individual", 1, 0)
+    k1_df$com <- ifelse(k1_df$condition == "community", 1, 0)
 
-     Edu <- sample(1:3,OBS,rep = TRUE,prob = c(.5,.3,.2)) %>%
-      factor(levels = c(1,2,3), labels = c("Primary school","High school","University & above"))
+    k1_df$msg1 <- recode(as.numeric(k1_df$ORG_MESSAGE), `2` = 0, `3` = 2)
+    k1_df$msg2 <- recode(as.numeric(k1_df$ORG_MESSAGE_2), `2` = 0)
+    k1_df$msg3 <- recode(as.numeric(k1_df$ORG_MESSAGE_3), `3` = 2)
 
-    ## Generate income ##
+    ## Self-efficacy ##
 
-     LnInc <- rnorm(OBS, mean = 5, sd = 1)
-     Inc <- exp(LnInc)
+    selvars <- c(k1_df$sel.con, k1_df$sel.pers, k1_df$sel.com, k1_df$sel.prob, k1_df$sel.bett)
 
-    ## Generate y with notreatment effect ##
+    for (var in selvars) {
 
-      yNull <- rnorm(OBS, 0, 1)
+        var[var == "-99"] <- NA
 
-    ## Generate outcome with effects
-      yInd <- (0.8 * Ind) + rnorm(OBS, 0, 1)
-      yCol <- (0.4 * Col) + rnorm(OBS, 0, 1)
+    }
 
-    ## Generate id ##
+    k1_df$sel.score <- as.numeric(k1_df$sel.con) + as.numeric(k1_df$sel.pers) + as.numeric(k1_df$sel.com) + as.numeric(k1_df$sel.prob) + as.numeric(k1_df$sel.bett)
+    k1_df$sel.score.z <- (k1_df$sel.score - mean(k1_df$sel.score)) / sd(k1_df$sel.score)
 
-      ID <- matrix(1:OBS, ncol = 1)
+    ## Judgement ##
 
-    ## Create, save dataframe ##
+    judvars <- c(k1_df$jud.fam, k1_df$jud.com, k1_df$jud.judg, k1_df$jud.emb, k1_df$jud.ups)
 
-      TestData <- data.frame(ID, Treat, Pov, Ind, Col, Gen, Edu, Inc, yNull, yInd, yCol)
+    for (var in judvars) {
+
+        var[var == "-99"] <- NA
+
+    }
+
+    k1_df$jud.score <- as.numeric(k1_df$jud.fam) + as.numeric(k1_df$jud.com) + (6 - as.numeric(k1_df$jud.judg)) + (6 - as.numeric(k1_df$jud.emb)) + (6 - as.numeric(k1_df$jud.ups))
+    k1_df$jud.score.z <- (k1_df$jud.score - mean(k1_df$jud.score)) / sd(k1_df$jud.score)
+
+    ## Affect ##
+
+    affvars <- c(k1_df$aff.pos, k1_df$aff.ash, k1_df$aff.pow, k1_df$aff.fina)
+
+    for (var in judvars) {
+
+        var[var == "-99"] <- NA
+
+    }
+
+    k1_df$aff.score <- as.numeric(k1_df$aff.pos) + as.numeric(k1_df$aff.pow) + (7 - as.numeric(k1_df$aff.ash)) + (7 - as.numeric(k1_df$aff.fina))
+    k1_df$aff.score.z <- (k1_df$aff.score - mean(k1_df$aff.score)) / sd(k1_df$aff.score)
+
+    ## Video selection ##
+
+    k1_df$vid.imp1 <- ifelse(k1_df$vid.dec1 == "3" | k1_df$vid.dec1 == "5", 1, 0)
+    k1_df$vid.imp2 <- ifelse(k1_df$vid.dec2 == "3" | k1_df$vid.dec2 == "5", 1, 0)
+    k1_df$vid.num <- k1_df$vid.imp1 + k1_df$vid.imp2
+
+    ## Intertemporal choice ##
+
+    k1_df$sav.save = ifelse(k1_df$sav.dec == "2" | k1_df$sav.dec == "3", 1, 0)
+    k1_df$sav.amt[k1_df$sav.dec == "1"] = 0
+    k1_df$sav.amt[k1_df$sav.dec == "2"] = 100
+    k1_df$sav.amt[k1_df$sav.dec == "3"] = 200
+
+    # variable for inconsistent choice, interval estimates of discounting parameter
+    # recode refusals?
+
+    ## Query theory (savings) ##
+
+    que_df <- k1_df[names(k1_df) %in% c("survey.id", "que.rat1", "que.rat2", "que.rat3", "que.rat4", "que.rat5")]
+
+    k1_df$que.nonm <- apply(que_df[, 1:5], 1, function(x) length(x[is.na(x) == FALSE]))
+
+    que_df <- melt(que_df, id = c("survey.id"))
+    que_df$variable <- as.numeric(que_df$variable)
+    que_df$value <- as.numeric(que_df$value)
+    que_df <- dcast(que_df[is.na(que_df$value) == FALSE, ], survey.id ~ value, median, value.var = "variable")
+    names(que_df) <- c("survey.id", "que.mri", "que.mrp")
+    k1_df <- merge(k1_df, que_df, all.x = TRUE)
+
+    k1_df$que.smrd <- (2 * (k1_df$que.mrp - k1_df$que.mri)) / k1_df$que.nonm
+    k1_df$que.smrd[is.na(k1_df$que.mrp)] <- 1
+    k1_df$que.smrd[is.na(k1_df$que.mri)] <- -1
+
+    # dealing with missing by filling in bounds for now, obs with values over this have duplicates
+
+    ## Frame evaluation ##
+
+    k1_df$msg.dec <- recode(k1_df$msg.dec, "2" = 1, "1" = 0)
+
+    k1_df$eva.poor[k1_df$msg1 == 0] <- as.numeric(k1_df$eva.msg1[k1_df$msg1 == 0])
+    k1_df$eva.poor[k1_df$msg2 == 0] <- as.numeric(k1_df$eva.msg2[k1_df$msg2 == 0])
+    k1_df$eva.poor[k1_df$msg3 == 0] <- as.numeric(k1_df$eva.msg3[k1_df$msg3 == 0])
+
+    k1_df$eva.ind[k1_df$msg1 == 1] <- as.numeric(k1_df$eva.msg1[k1_df$msg1 == 1])
+    k1_df$eva.ind[k1_df$msg2 == 1] <- as.numeric(k1_df$eva.msg2[k1_df$msg2 == 1])
+    k1_df$eva.ind[k1_df$msg3 == 1] <- as.numeric(k1_df$eva.msg3[k1_df$msg3 == 1])
+
+    k1_df$eva.com[k1_df$msg1 == 2] <- as.numeric(k1_df$eva.msg1[k1_df$msg1 == 2])
+    k1_df$eva.com[k1_df$msg2 == 2] <- as.numeric(k1_df$eva.msg2[k1_df$msg2 == 2])
+    k1_df$eva.com[k1_df$msg3 == 2] <- as.numeric(k1_df$eva.msg3[k1_df$msg3 == 2])
+
+    k1_df$eva.vid.poor <- as.numeric(k1_df$eva.rank.vid_8)
+    k1_df$eva.vid.ind <- as.numeric(k1_df$eva.rank.vid_9)
+    k1_df$eva.vid.com <- as.numeric(k1_df$eva.rank.vid_10)
+
+    k1_df$eva.conf <- as.numeric(k1_df$eva.conf)
+
+    k1_df$eva.emp.poor <- as.numeric(k1_df$eva.rank.emp_5)
+    k1_df$eva.emp.ind <- as.numeric(k1_df$eva.rank.emp_6)
+    k1_df$eva.emp.com <- as.numeric(k1_df$eva.rank.emp_7)
+
+    ## Ladder scales ##
+
+    k1_df$ses.lad.now <- as.numeric(k1_df$ses.lad.now)
+    k1_df$ses.lad.y2 <- as.numeric(k1_df$ses.lad.y2)
+
+    ## Sociodemographics ##
+
+    k1_df$soc.age <- as.numeric(as.character(k1_df$soc.age))
+    k1_df$soc.pri[is.na(k1_df$soc.edu) == FALSE] <- ifelse(as.numeric(k1_df$soc.edu[is.na(k1_df$soc.edu) == FALSE]) >= 4, 1, 0)
+    k1_df$soc.fem[is.na(k1_df$soc.gen) == FALSE] <- ifelse(k1_df$soc.gen[is.na(k1_df$soc.gen) == FALSE] == "2", 1, 0)
+    k1_df$soc.chr[is.na(k1_df$soc.rel) == FALSE] <- ifelse(k1_df$soc.rel[is.na(k1_df$soc.rel) == FALSE] == "1", 1, 0)
+    k1_df$ses.unemp <- ifelse(k1_df$ses.emp == "1", 1, 0)
+    k1_df$soc.inc <- as.numeric(k1_df$soc.inc)
+    k1_df$soc.con <- as.numeric(k1_df$soc.con)
+    k1_df$soc.sav <- as.numeric(k1_df$soc.sav) - 1
+
+    ## Survey validity ##
+
+    k1_df$end.hear <- as.numeric(k1_df$end.hear) - 1
 
 @
 
@@ -526,30 +629,53 @@
 
 <<K1teffects, results = 'hold'>>=
 
-    hypotheses <- c("Ind = 0", "Col = 1", "Ind - Col = 0")
-    equations <- c("yNull ~ Ind + Col", "yInd ~ Ind + Col", "yCol ~ Ind + Col")
+    hypotheses <- c("ind = 0", "com = 1", "ind - com = 0")
+    depvars <- c("vid.num", "sav.save", "msg.dec")
+    mechvars <- c("sel.score", "jud.score", "aff.score", "que.smrd", "ses.lad.now", "ses.lad.y2")
 
     for (h in hypotheses) {
 
         RES <- matrix(nrow = 1, ncol = 5)
 
-        for (eqn in equations) {
+        for (depvar in depvars) {
 
-            # RES <- rbind(RES, RegTest(eqn, clustvars = TestData$ID, hypotheses = c(h), data = TestData))
-            RES <- rbind(RES, PermTest(eqn, treatvars = c("Treat"), clustvars = TestData$ID, hypotheses = c(h), iterations = 100, data = TestData))
+            eqn <- paste(depvar, "~ ind  + com", sep = " ")
+            RES <- rbind(RES, PermTest(eqn, treatvars = c("treatment", "poor", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 100, data = k1_df))
 
         }
 
         RES <- RES[2:nrow(RES), 1:ncol(RES)]
         RES <- cbind(RES, FDR(RES[, 4]))
 
-        rownames(RES) <- equations
+        rownames(RES) <- depvars
         colnames(RES)[6] <- "Min. Q"
 
-        print("--------------------------------------------------------------------", quote = FALSE)
+        print("----------------------------------------------------------------", quote = FALSE)
         print(paste("H_0:", h), quote = FALSE)
         print(RES, quote = FALSE)
-        print("--------------------------------------------------------------------", quote = FALSE)
+
+    }
+
+    for (h in hypotheses) {
+
+        RES <- matrix(nrow = 1, ncol = 5)
+
+        for (depvar in mechvars) {
+
+            eqn <- paste(depvar, "~ ind  + com", sep = " ")
+            RES <- rbind(RES, PermTest(eqn, treatvars = c("treatment", "poor", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 100, data = k1_df))
+
+        }
+
+        RES <- RES[2:nrow(RES), 1:ncol(RES)]
+        RES <- cbind(RES, FDR(RES[, 4]))
+
+        rownames(RES) <- mechvars
+        colnames(RES)[6] <- "Min. Q"
+
+        print("----------------------------------------------------------------", quote = FALSE)
+        print(paste("H_0:", h), quote = FALSE)
+        print(RES, quote = FALSE)
 
     }
 
@@ -559,30 +685,28 @@
 
 <<K1covadj, results = 'hold'>>=
 
-    hypotheses <- c("Ind = 0", "Col = 1", "Ind - Col = 0")
-    equations <- c("yNull ~ Ind + Col + Gen + LnInc", "yInd ~ Ind + Col + Gen + LnInc", "yCol ~ Ind + Col + Gen + LnInc")
+    covariates <- c("soc.fem", "soc.age", "soc.pri", "soc.chr", "soc.sav", "ses.unemp", "soc.inc")
 
     for (h in hypotheses) {
 
         RES <- matrix(nrow = 1, ncol = 5)
 
-        for (eqn in equations) {
+        for (depvar in depvars) {
 
-            # RES <- rbind(RES, RegTest(eqn, clustvars = TestData$ID, hypotheses = c(h), data = TestData))
-            RES <- rbind(RES, PermTest(eqn, treatvars = c("Treat"), clustvars = TestData$ID, hypotheses = c(h), iterations = 100, data = TestData))
+            eqn <- paste(depvar, "~ ind  + com +", covariates, sep = " ")
+            RES <- rbind(RES, PermTest(eqn, treatvars = c("treatment", "poor", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 100, data = k1_df))
 
         }
 
         RES <- RES[2:nrow(RES), 1:ncol(RES)]
         RES <- cbind(RES, FDR(RES[, 4]))
 
-        rownames(RES) <- equations
+        rownames(RES) <- depvars
         colnames(RES)[6] <- "Min. Q"
 
-        print("--------------------------------------------------------------------", quote = FALSE)
+        print("----------------------------------------------------------------", quote = FALSE)
         print(paste("H_0:", h), quote = FALSE)
         print(RES, quote = FALSE)
-        print("--------------------------------------------------------------------", quote = FALSE)
 
     }
 
@@ -590,6 +714,40 @@
 
     \subsection{Heterogeneous treatment effects}
 
+<<K1het, results = 'hold'>>=
+
+    hetvars <- c("soc.fem", "soc.age", "soc.pri", "soc.chr", "soc.sav", "ses.unemp")
+
+    for (hetvar in hetvars) {
+
+        hypotheses <- c(paste("ind:", hetvar, " = 0", sep = ""), paste(hetvar, ":com", " = 0", sep = ""), paste("ind:", hetvar, " - ", hetvar, ":com", " = 0", sep = ""))
+
+        for (h in hypotheses) {
+
+            RES <- matrix(nrow = 1, ncol = 5)
+
+            for (depvar in depvars) {
+
+                eqn <- paste(depvar, " ~ ind*", hetvar, " + com*", hetvar)
+                RES <- rbind(RES, PermTest(eqn, treatvars = c("treatment", "poor", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 100, data = k1_df))
+
+            }
+
+            RES <- RES[2:nrow(RES), 1:ncol(RES)]
+            RES <- cbind(RES, FDR(RES[, 4]))
+
+            rownames(RES) <- depvars
+            colnames(RES)[6] <- "Min. Q"
+
+            print("----------------------------------------------------------------", quote = FALSE)
+            print(paste("H_0:", h), quote = FALSE)
+            print(RES, quote = FALSE)
+
+        }
+
+    }
+
+@
 
 \end{footnotesize}
 
