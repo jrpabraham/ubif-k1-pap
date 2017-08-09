@@ -92,7 +92,7 @@
 
     \subsection{Experimental procedure}
 
-        The survey questionnaire will be delivered in English with Kiswahili translations. The following summarizes the schedule of tasks in the questionnaire.\footnote{We will use a single survey instrument, programmed with Qualtrics, for treatment delivery and subsequent data collection. The programmed and paper versions of the survey are included as supplementary materials.}
+        The survey questionnaire will be delivered in English with side-by-side Kiswahili translations. The following summarizes the schedule of tasks in the questionnaire.\footnote{We will use a single survey instrument, programmed with Qualtrics, for treatment delivery and subsequent data collection. The programmed and paper versions of the survey are included as supplementary materials.}
 
         \begin{enumerate}
             \item Consent agreement
@@ -148,11 +148,57 @@
     \subsection{Judgement questionnaire (5 items)}
     \subsection{Affect questionnaire (4 items)}
     \subsection{Video selection task}
-    \subsection{Savings task}
+
+        This task asks participants to make a choice about watching 3-4 minute video clips. Enumerators describe the following six videos and the participant will choose to watch two at the end of the survey. Participant may not select the same clip more than once. Video clips will be played after the completion of the sociodemographic questionnaire.
+
+        \begin{itemize}
+            \item A video from the Mark Angel comedy group, featuring Emanuela (leisure)
+            \item A trailer for the Nigerian movie, featuring Ramsey Noah (leisure)
+            \item A video on math skills for business or CBO management (self-improvement)
+            \item A video of football highlights from around the world (leisure)
+            \item A video on using equity and debt for financing business development (self-improvement)
+            \item A Naswa prank skit (leisure)
+        \end{itemize}
+
+        This task provides information on participants' willingness to engage in self-improvement activities over leisurely activities. We collect data on the participant's ordered first and second choices. We classify each clip as either for leisure or for self-improvement and observe the number of self-improvement clips the participant chooses to watch.
+
+    \subsection{Intertemporal choice task}
+
+        This task allows participants to forego a portion of their endowment for a delayed payoff. Enumerators remind the participant about receiving KES 400 and present the participant with the following two choices.
+
+        \begin{enumerate}
+            \item ``If you send us 100 right now, after two weeks you will get back 150 KSh.''
+            \item ``If you send us 200 right now, after two weeks you will get back 300 KSh.''
+        \end{enumerate}
+
+        If the participant chooses to delay payment, enumerators instruct them to return the appropriate amount of money to the enumerators using M-Pesa. We also use M-Pesa to complete transfers scheduled in two weeks. M-Pesa allows us to offer intertemporal choices that can be realized in the future and as soon as the same day, while holding the transaction costs of receiving payment constant. To further reduce uncertainty regarding the delayed payment, we provide a phone number for participants to call to complete the transaction.
+
+        In addition to observing the participants' intertemporal allocation, we employ the framework of \textcite{johnson_aspects_2007} and elicit thoughts the participant may have regarding the choice to delay payment. This is done prior to the participant making the choice to delay payment. Enumerators ask participants to list up to five `queries' regarding the decision. They are then asked to classify each query as either in favor of or against delaying payment. We collect data on both the content of the queries and their classification. We calculate for each participant a standardized median rank difference of aspect types to summarize the tendency to produce delay-favored queries before opposed queries.
+
+        \begin{equation}
+            \frac{2 (MR_p - MR_i)}{n}
+        \end{equation}
+
+        $MR_p$ is the median rank of queries supporting delayed payment, $MR_i$ is the median rank against delayed payment, and $n$ is the total number of queries listed.
+
     \subsection{Frame evaluation}
     \subsection{Message of support}
     \subsection{Subjective social status ladder scale (2 items)}
     \subsection{Sociodemographic questionnaire (9 items)}
+
+        The final portion of the survey asks participants to report various sociodemographic characteristics including:
+
+        \begin{enumerate}
+            \item Gender
+            \item Highest level of education
+            \item Religious affiliation
+            \item Age
+            \item Employment status
+            \item Monthly income
+            \item Consumption (in Ksh) in the last seven days
+            \item Whether participant has saved more than KSh 1000
+            \item Difficulty in raising KSh 3000 within 2 days
+        \end{enumerate}
 
 \section{Empirical Analysis}
 
@@ -181,7 +227,6 @@
         Video selection & Dummy variable for having chosen at least one business video &  &  &  \\
         Savings choice & Dummy variable for sending non-zero amount &  &  &  \\
         Message recording & Dummy variable for recording message of support &  &  &  \\
-        Effect forecast & &  &  &  \\
         \bottomrule
         \end{tabular} }
         \end{table}
