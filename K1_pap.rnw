@@ -28,6 +28,7 @@
       \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
 
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 
 \title{\textsc{Framing an Unconditional Cash Transfer: Pre-Analysis Plan}}
 \author{Author\footnote{The Busara Center for Behavioral Economics}}
