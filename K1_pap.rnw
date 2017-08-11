@@ -28,16 +28,27 @@
       \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
 
 \begin{document}
-\SweaveOpts{concordance=TRUE}
 
-\title{\textsc{Framing an Unconditional Cash Transfer: Pre-Analysis Plan}}
-\author{Author\footnote{The Busara Center for Behavioral Economics}}
+\title{More Than Money: Effects of Cash Transfer Narratives on Agency and Self-Investment}
+\begin{onehalfspace}
+
+\author{
+  Justin Abraham \thanks{University of California, San Diego.$^{\dagger\dagger}$Contributed
+equally.}~$^{\ddagger\ddagger}$,
+  Nicholas Otis\thanks{University of California, Berkeley. $^{\dagger\dagger}$Contributed
+equally.}~$^{^{\ddagger\ddagger}}$,
+  Catherine Thomas\thanks{Stanford University $^{\dagger\dagger}$Contributed equally.}~$^{^{\ddagger\ddagger}}$,
+  Hazel Markus \thanks{Stanford University },
+  Greg Walton \thanks{Stanford University }
+        }
+
+\end{onehalfspace}
 
 \maketitle
 
 \begin{abstract}
 
-    This document describes the pre-analysis plan for a randomized experiment examining the effects of framing of welfare payments on self-concept and economic behavior. In this study, we will provide small, unconditional cash transfers to residents of an informal settlement in Nairobi and vary the way in which the transfers are framed to participants. Participants will be randomly assigned to one of three treatment groups: the transfer framed as a means toward poverty alleviation, individual empowerment, or collective support. We will then collect self-reported measures of self-efficacy, judgement, and affect and observed measures of temporal discounting and investment. This pre-analysis plan outlines our hypotheses, the schedule of experimental tasks, and our empirical strategy. In order to guarantee transparency and bind ourselves from fishing for results, we will pre-register the source files to be used for data analysis.
+    This document describes the pre-analysis plan for a randomized experiment examining the effects of narratives accompanying unconditional cash transfers on self-concept and economic behavior. We provided small, unconditional cash transfers to residents of two informal settlements in Nairobi and vary the message participants receive with the cash. Participants received a constant amount of cash, and randomly received a message that the cash is intended for poverty alleviation, individual empowerment, or community empowerment. We then collected self-reported measures of self-efficacy, stigma, and affect and behavioral measures of future-orientation, self-investment, and program support. This pre-analysis plan outlines our hypotheses, the schedule of experimental tasks, and our empirical strategy. In order to guarantee transparency and bind ourselves from fishing for results, we will pre-register the source files to be used for data analysis.
 
 \end{abstract}
 
@@ -53,30 +64,24 @@
 
     \subsection{Sampling}
 
-        This study will be conducted in conjunction with the Busara Center for Behavioral Economics in Nairobi with 525 participants residing in Kibera and Kawangware, two of Kenya's largest urban slums \parencite{haushofer_methodology_2014}. Treatment and data collection will take place with household surveys in the Kibera settlement with Busara Center enumerators. This section outlines the sampling procedure to be used in the experiment.
+        This study was conducted in conjunction with the Busara Center for Behavioral Economics in Nairobi with 565 participants residing in Kibera and Kawangware, two of Kenya's largest informal settlements \parencite{haushofer_methodology_2014}. Treatment and data collection was conducted by Busara Center enumerators with participants from Kibera and Kawangware in lab and lab-in-the-field settings in Nairobi, using tablets to display audio and video media and record participant responses. This section outlines the sampling procedure used in the experiment.
 
-        The study area will be partitioned into seven, non-overlapping catchment regions to be used for sample selection. Research staff will visit one catchment region per day and will not visit the same region more than once. Table \ref{tab:location} summarizes these areas. Beginning at a designated intersection in the catchment region, a team of nine enumerators and a guide\footnote{Guides will accompany enumerators but will not be involved in sampling or data collection.} will select every eighth household in each direction for survey. From that visit on, enumerators will select the eighth house down from the subsequent structure, away from the intersection and on the opposite side of the road. If participants are not available at the selected households enumerators will move to the next door away from the origin.
-
-        Sampled individuals will be enrolled in the survey if they meet the following eligibility criteria:
+        Participants were recruited from the Busara participant pool and were asked to participate in the survey in one of the lab settings. There were seven survey locations used throughout the study period. Table \ref{tab:location} summarizes these areas. Participants were recruited to participate in the study if they meet the following eligibility criteria:
 
         \begin{enumerate}
-            \item Between 18 and 50 years old
             \item Member of the Busara Center's participant pool
             \item Resident of Kibera or Kawangware
-            \item Not surveyed by the Busara Center for any other study in the past 10 days
             \item Owns a working phone and an M-Pesa account registered under the participant's name
         \end{enumerate}
 
-        If an eligible person is available at the selected household, they will be enrolled as a participant. If there are multiple members, enumerators will prioritize the youngest eligible person of the opposite gender than in the previous survey. We will sample from the study area for a total of 525 surveys.
-
-        \begin{table}[t]
+        \begin{table}[h]
         \centering
         \caption{Survey location}
         \label{tab:location}
         \maxsizebox*{\textwidth}{\textheight}{
         \begin{tabular}{@{}lllll@{}}
         \toprule
-        Area & Origin &  &  &  \\ \midrule
+        Participant origin a & Survey location &  &  &  \\ \midrule
         Kibera & AIC Church &  &  &  \\
         Kibera & Kibera Immanuel Technical Institute &  &  &  \\
         Kibera & Kibera Labour Hall &  &  &  \\
@@ -89,33 +94,32 @@
 
     \subsection{Statistical power}
 
-        % Include any power calculations here
+        To achieve power of 80\% for an estimated effect size of 0.30, the required sample size of each arm was 175 participants.
 
     \subsection{Experimental procedure}
 
-        The survey questionnaire will be delivered in English with side-by-side Kiswahili translations. The following summarizes the schedule of tasks in the questionnaire.\footnote{We will use a single survey instrument, programmed with Qualtrics, for treatment delivery and subsequent data collection. The programmed and paper versions of the survey are included as supplementary materials.}
+        The survey questionnaire was delivered by enumerators to participants in Kiswahili or English, as preferred by the participant. The following summarizes the schedule of tasks in the questionnaire.\footnote{We will use a single survey instrument, programmed with Qualtrics, for treatment delivery and subsequent data collection.}
 
         \begin{enumerate}
             \item Consent agreement
             \item Cash transfer framing
-            \item Self-efficacy questionnaire (5 items)
-            \item Judgement questionnaire (5 items)
-            \item Affect questionnaire (4 items)
+            \item Self-efficacy module (5 items)
+            \item Stigma module (5 items)
+            \item Affect module (4 items)
             \item Video selection task
             \item Savings task
-            \item Frame evaluation
+            \item Message evaluation
             \item Message of support
-            \item Subjective social status ladder scale (2 items)
-            \item Sociodemographic questionnaire (9 items)
+            \item Sociodemographic module (9 items)
         \end{enumerate}
 
     \subsection{Treatment}
 
-        At the outset of the survey, eligible and consenting participants will be told they are receiving an unconditional cash transfer of KES 400 (USD PPP 10.5) from an organization unaffiliated with the Busara Center.\footnote{This study will be conducted with Kenyan shillings (KES). We report USD values calculated at purchasing power parity using a conversion factor for private consumption of 38.15 in 2013. The price level ratio of PPP conversion factor (GDP) to KES market exchange rate for 2011 was 0.444.} Participants will be randomly assigned by the survey software\footnote{We evenly assign treatment groups to achive balance in group size.} to receive one of three messages introducing the purpose of the cash transfer. All frames are identical in content and structure save for the described purpose of the cash transfer. In the poverty allevation framing, the payment is described as a means to meet basic needs. The individual empowerment framing describes the payment as a means toward individual goals and the collective support framing as a means toward goals regarding family and the community. Participants will listen to the message in their preferred language (English or Kiswahili) with pre-recorded audio clips or as read by the enumerator.
+        At the outset of the survey, eligible and consenting participants were told they are receiving an unconditional cash transfer of KES 400 (USD PPP 10.5) from an organization unaffiliated with the Busara Center.\footnote{This study was conducted with Kenyan shillings (KES). We report USD values calculated at purchasing power parity using a conversion factor for private consumption of 38.15 in 2013. The price level ratio of PPP conversion factor (GDP) to KES market exchange rate for 2011 was 0.444.} Participants were randomly assigned by the survey software within enumerator\footnote{We evenly assigned treatment groups to achieve balance in group size.} to receive one of three messages introducing the purpose of the cash transfer. The three messages had a similar structure, but we experimentally vary the described purpose of the cash transfer, in particular the stated goals of the organization, rationale for providing money, assumptions about recipients, and expectations and goals for the use of the transfer. In the poverty alleviation framing, the payment was described as a means to meet basic needs. The individual empowerment framing described the payment as a means toward individual goals and advancement. The community empowerment framing described the payment as a means toward goals advancing one's family and the community for community advancement. Participants listened to the message twice in their preferred language (English or Kiswahili) with pre-recorded audio clips or as read by the enumerator.
 
-        After framing, enumerators will send USD PPP 10.5 to the participant via the mobile money system M-Pesa.\footnote{For more information on M-Pesa, we refer the reader to \textcite{jack_mobile_2011} and \textcite{mbiti_mobile_2011}.} Enumerators will be instructed to confirm receipt of the payment. In the individual empowerment and collective support treatments, enumerators will also elicit participants to list either individual or collective goals and beliefs about the purpose of the payment. Enumerators play the message once again after the transfer
+        After hearing the framing once, senior enumerators were alerted to use a project MPESA account to send USD PPP 10.5 to the participant via the mobile money system M-Pesa.\footnote{For more information on M-Pesa, we refer the reader to \textcite{jack_mobile_2011} and \textcite{mbiti_mobile_2011}.} Enumerators were instructed to confirm receipt of the payment on the respondent's phone, after which enumerators will play the message for a second time. Then, enumerators lead the respondent's through a series of questions on how they view the transfer. In particular they are asked questions on their current needs (in the ``poverty alleviation'' arm) or goals (in the ``individual empowerment'' and "community empowerment" arms) are, the name they would assign to these funds (for example "education fund"), how receipt of these funds would affect their relationship with others, and their perceived goal of the organization.
 
-        % lastly, we had difficulties in the payments and after the 3rd day (after about ~100 respondents) we switched to each SFO having a phone and physically coming over to the survey pair of FO and respondent and transferring them the money during the intervention.
+        Lastly, for the first day and a half of the survey period (for approximately approximately 100 respondents), we used a system in which the respondent texted a code which enabled the direct transfer of the money to their account. However, due to technical difficulties, we were required to change to the above system.
 
         \subsubsection{Poverty alleviation framing}
 
@@ -133,7 +137,7 @@
 
             \end{quote}
 
-        \subsubsection{Collective support framing}
+        \subsubsection{Community empowerment framing}
 
             \begin{quote}
 
@@ -145,36 +149,36 @@
 
     This section describes the data collected following the cash transfer treatment.
 
-    \subsection{Self-efficacy questionnaire (5 items)}
-    \subsection{Judgement questionnaire (5 items)}
-    \subsection{Affect questionnaire (4 items)}
+    \subsection{Self-efficacy module (5 items)}
+    \subsection{Stigma module (5 items)}
+    \subsection{Affect module (4 items)}
     \subsection{Video selection task}
 
-        This task asks participants to make a choice about watching 3-4 minute video clips. Enumerators describe the following six videos and the participant will choose to watch two at the end of the survey. Participant may not select the same clip more than once. Video clips will be played after the completion of the sociodemographic questionnaire.
+        This task asked participants to make a choice about watching 3-4 minute video clips. Enumerators described the following six videos and the participant chose to watch two at the end of the survey. Participant could not select the same clip more than once. Video clips were played after the completion of the sociodemographic questionnaire.
 
         \begin{itemize}
             \item A video from the Mark Angel comedy group, featuring Emanuela (leisure)
             \item A trailer for the Nigerian movie, featuring Ramsey Noah (leisure)
-            \item A video on math skills for business or CBO management (self-improvement)
+            \item A Noa Ubongo video on math skills for business or CBO management (self-improvement)
             \item A video of football highlights from around the world (leisure)
-            \item A video on using equity and debt for financing business development (self-improvement)
+            \item A Noa Ubongo video on using equity and debt for financing business development (self-improvement)
             \item A Naswa prank skit (leisure)
         \end{itemize}
 
-        This task provides information on participants' willingness to engage in self-improvement activities over leisurely activities. We collect data on the participant's ordered first and second choices. We classify each clip as either for leisure or for self-improvement and observe the number of self-improvement clips the participant chooses to watch.
+        This task provided information on participants' willingness to engage in self-improvement activities over leisurely activities. We collected data on the participant's ordered first and second choices. We classified each clip as either for leisure or for self-improvement and observe the number of self-improvement clips (0, 1, or 2) the participant chooses to watch.
 
-    \subsection{Intertemporal choice task}
+    \subsection{Savings decision task}
 
-        This task allows participants to forego a portion of their endowment for a delayed payoff. Enumerators remind the participant about receiving KES 400 and present the participant with the following two choices.
+        This task allowed participants to invest a portion (either one-quarter or one-half of their initial endowment) in savings with an interest rate of 50\%, to be paid out in two weeks. Enumerators reminded the participant about receiving KES 400 and present the participant with the following two choices.
 
         \begin{enumerate}
             \item ``If you send us 100 right now, after two weeks you will get back 150 KSh.''
             \item ``If you send us 200 right now, after two weeks you will get back 300 KSh.''
         \end{enumerate}
 
-        If the participant chooses to delay payment, enumerators instruct them to return the appropriate amount of money to the enumerators using M-Pesa. We also use M-Pesa to complete transfers scheduled in two weeks. M-Pesa allows us to offer intertemporal choices that can be realized in the future and as soon as the same day, while holding the transaction costs of receiving payment constant. To further reduce uncertainty regarding the delayed payment, we provide a phone number for participants to call to complete the transaction.
+        If the participant chose to save, enumerators instruct them to send the appropriate amount of money to a project phone number a project phone number using M-Pesa. We also use M-Pesa to complete transfers scheduled in two weeks. To further reduce uncertainty regarding the delayed payment, we provided a phone number for participants to call to follow up on the transaction.
 
-        In addition to observing the participants' intertemporal allocation, we employ the framework of \textcite{johnson_aspects_2007} and elicit thoughts the participant may have regarding the choice to delay payment. This is done prior to the participant making the choice to delay payment. Enumerators ask participants to list up to five `queries' regarding the decision. They are then asked to classify each query as either in favor of or against delaying payment. We collect data on both the content of the queries and their classification. We calculate for each participant a standardized median rank difference of aspect types to summarize the tendency to produce delay-favored queries before opposed queries.
+        In addition to observing the participants' intertemporal allocation, we employed the framework of \textcite{johnson_aspects_2007} and elicited thoughts the participant may have regarding the choice to delay payment. This was done prior to the participant making the choice to delay payment. Enumerators asked participants to list up to five `queries' regarding the decision. They were then asked to classify each query as either in favor of or against choosing to save the money. We collected data on both the content of the queries and their classification. We calculated for each participant a standardized median rank difference of aspect types to summarize the tendency to produce delay-favored queries before opposed queries.
 
         \begin{equation}
             \frac{2 (MR_p - MR_i)}{n}
@@ -182,32 +186,43 @@
 
         $MR_p$ is the median rank of queries supporting delayed payment, $MR_i$ is the median rank against delayed payment, and $n$ is the total number of queries listed.
 
-    \subsection{Frame evaluation}
-    \subsection{Message of support}
-    \subsection{Subjective social status ladder scale (2 items)}
+    \subsection{Message evaluation}
+    \subsection{Recording a message of support}
     \subsection{Sociodemographic questionnaire (9 items)}
 
-        The final portion of the survey asks participants to report various sociodemographic characteristics including:
+        The final portion of the survey asked participants to report various sociodemographic characteristics including:
 
         \begin{enumerate}
-            \item Gender
-            \item Highest level of education
-            \item Religious affiliation
+            \item MacArthur Subjective Social Status Ladder (normalized)
+            \item Participant is female
+            \item Participant completed standard 8
+            \item Participant is Christian
             \item Age
-            \item Employment status
-            \item Monthly income
-            \item Consumption (in Ksh) in the last seven days
-            \item Whether participant has saved more than KSh 1000
-            \item Difficulty in raising KSh 3000 within 2 days
+            \item Participant is unemployed and looking for work
+            \item Participant is not looking for work
+            \item Average monthly income (in KSh log transformed and Winsorized at the top 1\%)
+            \item Consumption in the last seven days (in KSH log transformed and Winsorized at the top 1\%)
+            \item Participant has KSh 1000 stored away
+            \item Difficulty in raising KSh 3000 within 2 days (normalized)
         \end{enumerate}
 
 \section{Empirical Analysis}
 
-    \subsection{Treatment effect of cash transfer frames}
+    \subsection{Randomization balance checks}
 
-        % Specify balance checks?
+        Although the randomization of the treatment ensures balance across groups in expectation, we test for differences in sociodemographic characteristics using the following specification.
 
-        We will use the following reduced-form specification to estimate the treatment effect of different frames.\footnote{We will conduct the data analysis outlined in this section using the R programming language with the scripts included in Appendix \ref{sec:rscripts}.}
+        \begin{equation} \label{eq:balance}
+        Y_{i} = \beta_{0} + \beta_{1}\text{\textsc{Ind}}_{i} + \beta_{2}\text{\textsc{Com}}_{i} + \varepsilon_{i}
+        \end{equation}
+
+        $Y_{i}$ refers to the sociodemographic variables listed in Table \ref{tab:controlvars} for individual $i$ measured at the end of the survey. \textsc{Ind}$_{i}$ indicates assignment to the individual empowerment message while \textsc{Com}$_{i}$ indicates assignment to the community empowerment message. The reference category in this model is the poverty alleviation message. We will estimate cluster-robust standard errors at the individual level.
+
+        We include any sociodemographic variable for which we reject balance as a control variable when estimating treatment effects.
+
+    \subsection{Treatment effect of cash transfer messages}
+
+        We will use the following reduced-form specification to estimate the treatment effect of different messages.\footnote{We will conduct the data analysis outlined in this section using the R programming language with the scripts included in Appendix \ref{sec:rscripts}.}
 
   		\begin{equation} \label{eq:teffect}
             Y_{i} = \beta_{0} + \beta_{1}\text{\textsc{Ind}}_{i} + \beta_{2}\text{\textsc{Com}}_{i} + \varepsilon_{i}
@@ -215,9 +230,16 @@
 
         % Consider alternative response functions for categorical vars?
 
-        $Y_{i}$ refers to the outcome variables for individual $i$ measured after the manipulation. The outcome variables described in Table \ref{tab:depvars} will be the focus of this analysis. \textsc{Ind}$_{i}$ indicates assignment to the individual empowerment frame while \textsc{Com}$_{i}$ indicates assignment to the collective support frame. The reference category in this model is the poverty alleviation frame. We will estimate cluster-robust standard errors at the individual level. Table \ref{tab:hypotheses} lists the hypotheses we will test using Equation \ref{eq:teffect}. In addition to our primary outcomes, we estimate the effect on intermediate outcomes in Table \ref{tab:mechvars} to test potential mechanisms.
+        $Y_{i}$ refers to the outcome variables for individual $i$ measured after the manipulation. The outcome variables described in Table \ref{tab:depvars} will be the focus of this analysis. \textsc{Ind}$_{i}$ indicates assignment to the individual empowerment message while \textsc{Com}$_{i}$ indicates assignment to the community support message. The reference category in this model is the poverty alleviation message. We will estimate cluster-robust standard errors at the individual level. Table \ref{tab:hypotheses} lists the hypotheses we will test using Equation \ref{eq:teffect}. In addition to our primary outcomes, we estimate the effect on secondary outcomes listed below. We will analyze these variables by both looking at individual items and constructing summary indices. Given low covariance, items may be excluded from the summary index.
 
-        \begin{table}[t]
+        \begin{enumerate}
+            \item Self-efficacy
+            \item Stigma
+            \item Affect
+            \item Standardized mean rank difference of thoughts in favor of and against saving
+        \end{enumerate}
+
+        \begin{table}[h]
         \centering
         \caption{Primary outcome variables}
         \label{tab:depvars}
@@ -225,14 +247,14 @@
         \begin{tabular}{@{}lllll@{}}
         \toprule
         Variable & Description &  &  &  \\ \midrule
-        Video selection & Dummy variable for having chosen at least one business video &  &  &  \\
-        Savings choice & Dummy variable for sending non-zero amount &  &  &  \\
-        Message recording & Dummy variable for recording message of support &  &  &  \\
+        Video selection & Number of self-investment videos chosen (0, 1, 2 out of 6)  &  &  &  \\
+        Savings choice & Amount saved (0 KSh, 100 KSh, 200 KSh) &  &  &  \\
+        Message recording & Dummy variable for decision to record message of support &  &  &  \\
         \bottomrule
         \end{tabular} }
         \end{table}
 
-        \begin{table}[t]
+        \begin{table}[h]
         \centering
         \caption{Primary hypothesis tests}
         \label{tab:hypotheses}
@@ -240,30 +262,15 @@
         \begin{tabular}{@{}lllll@{}}
         \toprule
         Null hypothesis & Description &  &  &  \\ \midrule
-        $H_0: \beta_1 = 0$ & Effect of individual empowerment frame relative to poverty alleviation frame &  &  &  \\
-        $H_0: \beta_2 = 0$ & Effect of collective support frame relative to poverty alleviation frame &  &  &  \\
-        $H_0: \beta_1 = \beta_2$ & Effect of collective support frame relative to individual empowerment frame &  &  &  \\ \bottomrule
+        $H_0: \beta_1 = 0$ & Effect of individual empowerment message relative to poverty alleviation message &  &  &  \\
+        $H_0: \beta_2 = 0$ & Effect of community empowerment message relative to poverty alleviation message &  &  &  \\
+        $H_0: \beta_1 = \beta_2$ & Effect of community empowerment message relative to individual empowerment message &  &  &  \\ \bottomrule
         \end{tabular} }
         \end{table}
 
-        \begin{table}[t]
-        \centering
-        \caption{Intermediate outcomes for mechanism analysis}
-        \label{tab:mechvars}
-        \maxsizebox*{\textwidth}{\textheight}{
-        \begin{tabular}{@{}lllll@{}}
-        \toprule
-        Variable & Description &  &  &  \\ \midrule
-        Self-efficacy &  &  &  &  \\
-        Judgement &  &  &  &  \\
-        Affect &  &  &  &  \\
-        Subjective social status &  &  &  &  \\
-        SMRD of thoughts about saving & Standardized mean rank difference of thoughts in favor of and against saving &  &  &  \\
-        \bottomrule
-        \end{tabular} }
-        \end{table}
+      \subsection{Covariate adjustment}
 
-        To improve precision, we will also apply covariate adjustment with a vector of baseline indicators $\mathbf{X}_i$. We obtain the covariate-adjusted treatment effect estimate by estimating Equation \ref{eq:teffect} including the demeaned covariate vector $\mathbf{\dot X}_{i} = \mathbf{X}_{i} - \mathbf{\bar X}_{i}$ as an additive term and as an interaction with the treatment indicator. % scrap this maybe
+        To improve precision, we will also apply covariate adjustment with a vector of baseline indicators $\mathbf{X}_i$. We obtain the covariate-adjusted treatment effect estimate by estimating Equation \ref{eq:teffect} including the demeaned covariate vector $\mathbf{\dot X}_{i} = \mathbf{X}_{i} - \mathbf{\bar X}_{i}$ as an additive term and as an interaction with the treatment indicator.
 
         \begin{equation} \label{eq:controls}
             Y_{i} = \beta_{0} + \beta_{1}\text{\textsc{Ind}}_{i} + \beta_{2}\text{\textsc{Com}}_{i} + \gamma_{0} \mathbf{\dot X}'_i + \gamma_{1}\text{\textsc{Ind}}_{i} \mathbf{\dot X}'_i + \gamma_{2}\text{\textsc{Com}}_{i} \mathbf{\dot X}'_i + \varepsilon_{i}
@@ -271,7 +278,7 @@
 
         The set of indicators partitions our sample so that our estimate for $\beta_j$ remains unbiased for the average treatment effect \parencite{lin_agnostic_2013}. We will estimate cluster-robust standard errors at the individual level. We use this model to test the hypotheses detailed in Table \ref{tab:hypotheses} including the control variables listed in Table \ref{tab:controlvars}.
 
-        \begin{table}[t]
+        \begin{table}[h]
         \centering
         \caption{Control variables for covariate adjustment}
         \label{tab:controlvars}
@@ -279,16 +286,22 @@
         \begin{tabular}{@{}lllll@{}}
         \toprule
         Variable & Description &  &  &  \\ \midrule
-        Age & Dummy variable indicating participant is over 25 &  &  &  \\
-        Gender & Dummy variable indicating participant is female &  &  &  \\
-        Employment status & Dummy variable indicating participant is unemployed &  &  &  \\
-        Education & Dummy variable indicating participant completed std. 8 &  &  &  \\
-        Savings & Dummy variable having more than Ksh 1000 saved &  &  &  \\
+        Subjective social status & MacArthur Subjective Social Status Ladder (normalized) &  &  & \\
+        Gender & Participant is female &  &  & \\
+        Education & Participant completed standard 8 &  &  & \\
+        Religion & Participant is Christian &  &  & \\
+        Age & Participant age &  &  & \\
+        Unemployment & Participant is unemployed and looking for work &  &  & \\
+        Not working & Participant is not looking for work &  &  & \\
+        Income & Average monthly income (in KSh log transformed and Winsorized at the top 1\%) &  &  & \\
+        Consumptio & Consumption in the last seven days (in KSH log transformed and Winsorized at the top 1\%) &  &  & \\
+        Savings & Participant has KSh 1000 stored away &  &  & \\
+        Emergency spending & Difficulty in raising KSh 3000 within 2 days (normalized) &  &  & \\
         \bottomrule
         \end{tabular} }
         \end{table}
 
-    \subsection{Randomization inference} % scrap this maybe
+    \subsection{Randomization inference}
 
         One potential concern is that inference might be invalidated by finite sample bias in estimates of the standard errors. To address this issue, we will conduct randomization inference to test the Fisherian sharp null hypothesis of no treatment effect for every participant \parencite{fisher_design_1935}.\footnote{Note that this is more restrictive than the null hypothesis of zero average treatment effect we will test in the previous section.} We perform Monte Carlo approximations of the exact $p$-values using $M=10,000$ permutations of the treatment assignment. We will then estimate our primary specification within each $m^{th}$ permutation and calculate the standard Wald statistics for each of our hypothesis tests. We will compare the Wald statistics from the original sample with the distribution of permuted statistics to produce approximations of the exact $p$-values:
 
@@ -304,13 +317,28 @@
 
     \subsection{Heterogeneous treatment effects}
 
-        We will analyze the extent to which the policy frames produced heterogeneous treatment effects with the following specification.
+        We will analyze the extent to which the policy messages produced heterogeneous treatment effects with the following specification.
 
         \begin{equation}
             Y_{i} = \beta_{0} + \beta_{1}\text{\textsc{Ind}}_{i} + \beta_{2}\text{\textsc{Com}}_{i} + \delta_{0} x_i + \delta_{1}\text{\textsc{Ind}}_{i} x_i + \delta_{2}\text{\textsc{Com}}_{i} x_i + \varepsilon_{i}
         \label{eq:heteffect} \end{equation}
 
-        $x_{i}$ is the binary dimension of heterogeneity measured before treatment assignment. $\delta_{1}$ and $\delta_{2}$ identify the heterogeneous treatment effects of the individual empowerment and collective support frames relative to the poverty alleviation frame. Testing $\delta_{1} = \delta_{2}$ identifies heterogeneous effects between the former two frames. Standard errors are clustered at the individual level. We estimate this model with the baseline variables summarized in Table \ref{tab:controlvars}.
+        $x_{i}$ is the binary dimension of heterogeneity. $\delta_{1}$ and $\delta_{2}$ identify the heterogeneous treatment effects of the individual empowerment and community empowerment messages relative to the poverty alleviation message. Testing $\delta_{1} = \delta_{2}$ identifies heterogeneous effects between the former two messages. Standard errors are clustered at the individual level. We estimate this model with the  variables summarized in Table \ref{tab:hetvars}.
+
+        \begin{table}[h]
+        \centering
+        \caption{Dimensions of heterogeneity}
+        \label{tab:hetvars}
+        \maxsizebox*{\textwidth}{\textheight}{
+        \begin{tabular}{@{}lllll@{}}
+        \toprule
+        Variable & Description &  &  &  \\ \midrule
+        Gender & Participant is female  &  &  &  \\
+        Savings & Participant has KSh 1000 stored away &  &  &  \\
+        Education & Participant completed standard 8 &  &  &  \\
+        \bottomrule
+        \end{tabular} }
+        \end{table}
 
 \newpage
 
@@ -320,436 +348,436 @@
 
 \appendix
 
-\section{Consent Form}
-
-    \maxsizebox*{\textwidth}{\textheight}{\includegraphics[page=1]{UBI_Consent_S4_Kenya.pdf}}
-    \maxsizebox*{\textwidth}{\textheight}{\includegraphics[page=2]{UBI_Consent_S4_Kenya.pdf}}
-    \maxsizebox*{\textwidth}{\textheight}{\includegraphics[page=3]{UBI_Consent_S4_Kenya.pdf}}
-
-\section{Survey Instrument}
-
-\section{Data Analysis Scripts} \label{sec:rscripts}
-
-\begin{footnotesize}
-
-    \subsection{Packages}
-
-<<K1packages, results = 'hide', message = FALSE, warning = FALSE>>=
-
-    setwd("/Users/Justin/Google Drive/UBIF/UBIF_Deliverables/UBIF_PAP/K1_PAP")
-    set.seed(47269801)
-
-    required.packages <- c("dplyr", "multiwayvcov", "multcomp", "reshape2", "knitr")
-    packages.missing <- required.packages[!required.packages %in% installed.packages()[,"Package"]]
-
-    if(length(packages.missing) > 0) {install.packages(required.packages, repo="https://cran.cnr.berkeley.edu/")}
-    lapply(required.packages, library, character.only = TRUE)
-
-@
-
-    \subsection{User-defined functions}
-
-<<K1functions, results = 'hide'>>=
-
-    ## RegTest conducts asymptotic test from linear model ##
-
-    RegTest <- function(equation, clustvars, hypotheses, data) {
-
-        model <- lm(equation, data = data, na.action = na.omit)
-
-        if (missing(clustvars)) model$vcov <- vcov(model)
-        else model$vcov <- cluster.vcov(model, cluster = clustvars)
-
-        model$test <- summary(glht(model, linfct = hypotheses, vcov = model$vcov))$test
-
-        numhyp <- length(hypotheses)
-
-        EST <- matrix(nrow = numhyp, ncol = 4)
-
-        for (i in 1:numhyp) {
-
-            EST[i, 1] <- model$test$coefficients[i]
-            EST[i, 2] <- model$test$tstat[i]
-            EST[i, 3] <- model$test$sigma[i]
-            EST[i, 4] <- model$test$pvalues[i]
-
-        }
-
-        colnames(EST) <- c("Estimate", "Tstat", "SE", "P")
-
-        return(EST)
-
-    }
-
-    ## PermTest returns MC approximations of the exact p-value ##
-
-    PermTest <- function(equation, treatvars, clustvars, hypotheses, iterations, data) {
-
-        stopifnot(length(hypotheses) <= 1)
-
-        obsEST <- RegTest(equation, clustvars, hypotheses, data)
-        obsStat <- obsEST[1, 2]
-
-        simEST <- matrix(ncol = 4)
-
-        for (i in 1:iterations) {
-
-            simTreat <- data[, treatvars, drop = FALSE]
-            simTreat <- simTreat[sample(nrow(simTreat)),]
-
-            simData <- cbind(simTreat, data[, !(names(data) %in% treatvars), drop = FALSE])
-            colnames(simData)[1:length(treatvars)] <- treatvars
-
-            simEST <- rbind(simEST, RegTest(equation, clustvars, hypotheses, data = simData))
-
-        }
-
-        simSTAT <- simEST[2:nrow(simEST), 2]
-        countSTAT <- matrix(abs(simSTAT) >= abs(obsStat), ncol = 1)
-
-        ExactP <- colSums(countSTAT) / iterations
-
-        EST <- cbind(obsEST, ExactP)
-
-        colnames(EST) <- c("Estimate", "Tstat", "SE", "P", "ExactP")
-
-        return(EST)
-
-    }
-
-    ## FDR returns minimum q-values ##
-
-    FDR <- function(pvals, step) {
-
-        if (sum(is.na(pvals) == FALSE) <= 1) {return(pvals)}
-        if (missing(step)) {step <- 0.001}
-
-        allpvals <- cbind(as.matrix(pvals), matrix(1:nrow(as.matrix(pvals)), ncol = 1))
-
-        pvals <- na.omit(allpvals)
-        nump <- nrow(pvals)
-
-        pvals <- pvals[order(pvals[, 1]), ]
-        rank <- matrix(1:nump, ncol = 1)
-        pvals <- cbind(pvals, rank, matrix(0, nrow = nump, ncol = 1))
-
-        qval <- 1
-
-        while (qval > 0) {
-
-            qfirst <- qval / (1 + qval)
-            fdrtemp <- (qfirst * rank) / nump
-
-            subrank <- which(fdrtemp >= as.matrix(pvals[, 1]))
-
-            if (length(subrank) < 1) {
-                numreject <- 0
-            } else numreject <- max(subrank)
-
-            qsec <- qfirst * (nump / (nump - numreject))
-            fdrtemp <- (qsec * rank) / nump
-
-            subrank <- which(fdrtemp >= as.matrix(pvals[, 1]))
-
-            if (length(subrank) < 1) {
-                numreject <- 0
-            } else numreject <- max(subrank)
-
-            pvals[which(pvals[, 3] <= numreject), 4] <- qval
-
-            qval <- qval - step
-
-        }
-
-        pvals <- pvals[order(pvals[, 2]), ]
-
-        qvals <- matrix(nrow = nrow(allpvals), ncol = 1)
-        qvals[match(pvals[, 2], allpvals[, 2]), 1] <- pvals[, 4]
-
-        return(as.matrix(qvals))
-
-    }
-
-@
-
-    \subsection{Data cleaning}
-
-<<K1data, results = 'hide'>>=
-
-    k1_df <- read.delim(file = "K1__Field_Survey_v34.csv", header = TRUE, sep = ",", stringsAsFactors = TRUE, na.strings = "")
-    k1_df <- as.data.frame(k1_df[2:nrow(k1_df), ])
-    attach(k1_df)
-
-    ## Participant ID ##
-
-    k1_df$survey.id <- as.numeric(as.character(k1_df$numb1))
-    k1_df$survey.id[is.na(k1_df$survey.id)] <- as.numeric(as.character(k1_df$numb2))
-    data <- data[complete.cases(k1_df$survey.id), ]
-
-    # sum(duplicated(k1_df$survey.id))
-
-    ## Treatment assignment ##
-
-    k1_df$treatment[k1_df$condition == "poor"] <- 0
-    k1_df$treatment[k1_df$condition == "individual"] <- 1
-    k1_df$treatment[k1_df$condition == "community"] <- 2
-
-    factor(k1_df$treatment)
-
-    k1_df$poor <- ifelse(k1_df$condition == "poor", 1, 0)
-    k1_df$ind <- ifelse(k1_df$condition == "individual", 1, 0)
-    k1_df$com <- ifelse(k1_df$condition == "community", 1, 0)
-
-    k1_df$msg1 <- recode(as.numeric(k1_df$ORG_MESSAGE), `2` = 0, `3` = 2)
-    k1_df$msg2 <- recode(as.numeric(k1_df$ORG_MESSAGE_2), `2` = 0)
-    k1_df$msg3 <- recode(as.numeric(k1_df$ORG_MESSAGE_3), `3` = 2)
-
-    ## Self-efficacy ##
-
-    selvars <- c(k1_df$sel.con, k1_df$sel.pers, k1_df$sel.com, k1_df$sel.prob, k1_df$sel.bett)
-
-    for (var in selvars) {
-
-        var[var == "-99"] <- NA
-
-    }
-
-    k1_df$sel.score <- as.numeric(k1_df$sel.con) + as.numeric(k1_df$sel.pers) + as.numeric(k1_df$sel.com) + as.numeric(k1_df$sel.prob) + as.numeric(k1_df$sel.bett)
-    k1_df$sel.score.z <- (k1_df$sel.score - mean(k1_df$sel.score)) / sd(k1_df$sel.score)
-
-    ## Judgement ##
-
-    judvars <- c(k1_df$jud.fam, k1_df$jud.com, k1_df$jud.judg, k1_df$jud.emb, k1_df$jud.ups)
-
-    for (var in judvars) {
-
-        var[var == "-99"] <- NA
-
-    }
-
-    k1_df$jud.score <- as.numeric(k1_df$jud.fam) + as.numeric(k1_df$jud.com) + (6 - as.numeric(k1_df$jud.judg)) + (6 - as.numeric(k1_df$jud.emb)) + (6 - as.numeric(k1_df$jud.ups))
-    k1_df$jud.score.z <- (k1_df$jud.score - mean(k1_df$jud.score)) / sd(k1_df$jud.score)
-
-    ## Affect ##
-
-    affvars <- c(k1_df$aff.pos, k1_df$aff.ash, k1_df$aff.pow, k1_df$aff.fina)
-
-    for (var in judvars) {
-
-        var[var == "-99"] <- NA
-
-    }
-
-    k1_df$aff.score <- as.numeric(k1_df$aff.pos) + as.numeric(k1_df$aff.pow) + (7 - as.numeric(k1_df$aff.ash)) + (7 - as.numeric(k1_df$aff.fina))
-    k1_df$aff.score.z <- (k1_df$aff.score - mean(k1_df$aff.score)) / sd(k1_df$aff.score)
-
-    ## Video selection ##
-
-    k1_df$vid.imp1 <- ifelse(k1_df$vid.dec1 == "3" | k1_df$vid.dec1 == "5", 1, 0)
-    k1_df$vid.imp2 <- ifelse(k1_df$vid.dec2 == "3" | k1_df$vid.dec2 == "5", 1, 0)
-    k1_df$vid.num <- k1_df$vid.imp1 + k1_df$vid.imp2
-
-    ## Intertemporal choice ##
-
-    k1_df$sav.save = ifelse(k1_df$sav.dec == "2" | k1_df$sav.dec == "3", 1, 0)
-    k1_df$sav.amt[k1_df$sav.dec == "1"] = 0
-    k1_df$sav.amt[k1_df$sav.dec == "2"] = 100
-    k1_df$sav.amt[k1_df$sav.dec == "3"] = 200
-
-    # variable for inconsistent choice, interval estimates of discounting parameter
-    # recode refusals?
-
-    ## Query theory (savings) ##
-
-    que_df <- k1_df[names(k1_df) %in% c("survey.id", "que.rat1", "que.rat2", "que.rat3", "que.rat4", "que.rat5")]
-
-    k1_df$que.nonm <- apply(que_df[, 1:5], 1, function(x) length(x[is.na(x) == FALSE]))
-
-    que_df <- melt(que_df, id = c("survey.id"))
-    que_df$variable <- as.numeric(que_df$variable)
-    que_df$value <- as.numeric(que_df$value)
-    que_df <- dcast(que_df[is.na(que_df$value) == FALSE, ], survey.id ~ value, median, value.var = "variable")
-    names(que_df) <- c("survey.id", "que.mri", "que.mrp")
-    k1_df <- merge(k1_df, que_df, all.x = TRUE)
-
-    k1_df$que.smrd <- (2 * (k1_df$que.mrp - k1_df$que.mri)) / k1_df$que.nonm
-    k1_df$que.smrd[is.na(k1_df$que.mrp)] <- 1
-    k1_df$que.smrd[is.na(k1_df$que.mri)] <- -1
-
-    # dealing with missing by filling in bounds for now, obs with values over this have duplicates
-
-    ## Frame evaluation ##
-
-    k1_df$msg.dec <- recode(k1_df$msg.dec, "2" = 1, "1" = 0)
-
-    k1_df$eva.poor[k1_df$msg1 == 0] <- as.numeric(k1_df$eva.msg1[k1_df$msg1 == 0])
-    k1_df$eva.poor[k1_df$msg2 == 0] <- as.numeric(k1_df$eva.msg2[k1_df$msg2 == 0])
-    k1_df$eva.poor[k1_df$msg3 == 0] <- as.numeric(k1_df$eva.msg3[k1_df$msg3 == 0])
-
-    k1_df$eva.ind[k1_df$msg1 == 1] <- as.numeric(k1_df$eva.msg1[k1_df$msg1 == 1])
-    k1_df$eva.ind[k1_df$msg2 == 1] <- as.numeric(k1_df$eva.msg2[k1_df$msg2 == 1])
-    k1_df$eva.ind[k1_df$msg3 == 1] <- as.numeric(k1_df$eva.msg3[k1_df$msg3 == 1])
-
-    k1_df$eva.com[k1_df$msg1 == 2] <- as.numeric(k1_df$eva.msg1[k1_df$msg1 == 2])
-    k1_df$eva.com[k1_df$msg2 == 2] <- as.numeric(k1_df$eva.msg2[k1_df$msg2 == 2])
-    k1_df$eva.com[k1_df$msg3 == 2] <- as.numeric(k1_df$eva.msg3[k1_df$msg3 == 2])
-
-    k1_df$eva.vid.poor <- as.numeric(k1_df$eva.rank.vid_8)
-    k1_df$eva.vid.ind <- as.numeric(k1_df$eva.rank.vid_9)
-    k1_df$eva.vid.com <- as.numeric(k1_df$eva.rank.vid_10)
-
-    k1_df$eva.conf <- as.numeric(k1_df$eva.conf)
-
-    k1_df$eva.emp.poor <- as.numeric(k1_df$eva.rank.emp_5)
-    k1_df$eva.emp.ind <- as.numeric(k1_df$eva.rank.emp_6)
-    k1_df$eva.emp.com <- as.numeric(k1_df$eva.rank.emp_7)
-
-    ## Ladder scales ##
-
-    k1_df$ses.lad.now <- as.numeric(k1_df$ses.lad.now)
-    k1_df$ses.lad.y2 <- as.numeric(k1_df$ses.lad.y2)
-
-    ## Sociodemographics ##
-
-    k1_df$soc.age <- as.numeric(as.character(k1_df$soc.age))
-    k1_df$soc.pri[is.na(k1_df$soc.edu) == FALSE] <- ifelse(as.numeric(k1_df$soc.edu[is.na(k1_df$soc.edu) == FALSE]) >= 4, 1, 0)
-    k1_df$soc.fem[is.na(k1_df$soc.gen) == FALSE] <- ifelse(k1_df$soc.gen[is.na(k1_df$soc.gen) == FALSE] == "2", 1, 0)
-    k1_df$soc.chr[is.na(k1_df$soc.rel) == FALSE] <- ifelse(k1_df$soc.rel[is.na(k1_df$soc.rel) == FALSE] == "1", 1, 0)
-    k1_df$ses.unemp <- ifelse(k1_df$ses.emp == "1", 1, 0)
-    k1_df$soc.inc <- as.numeric(k1_df$soc.inc)
-    k1_df$soc.con <- as.numeric(k1_df$soc.con)
-    k1_df$soc.sav <- as.numeric(k1_df$soc.sav) - 1
-
-    ## Survey validity ##
-
-    k1_df$end.hear <- as.numeric(k1_df$end.hear) - 1
-
-@
-
-    \subsection{Treatment effect}
-
-<<K1teffects, results = 'hold'>>=
-
-    hypotheses <- c("ind = 0", "com = 1", "ind - com = 0")
-    depvars <- c("vid.num", "sav.save", "msg.dec")
-    mechvars <- c("sel.score", "jud.score", "aff.score", "que.smrd", "ses.lad.now", "ses.lad.y2")
-
-    for (h in hypotheses) {
-
-        RES <- matrix(nrow = 1, ncol = 5)
-
-        for (depvar in depvars) {
-
-            eqn <- paste(depvar, "~ ind  + com", sep = " ")
-            RES <- rbind(RES, PermTest(eqn, treatvars = c("treatment", "poor", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 100, data = k1_df))
-
-        }
-
-        RES <- RES[2:nrow(RES), 1:ncol(RES)]
-        RES <- cbind(RES, FDR(RES[, 4]))
-
-        rownames(RES) <- depvars
-        colnames(RES)[6] <- "Min. Q"
-
-        print("----------------------------------------------------------------", quote = FALSE)
-        print(paste("H_0:", h), quote = FALSE)
-        print(RES, quote = FALSE)
-
-    }
-
-    for (h in hypotheses) {
-
-        RES <- matrix(nrow = 1, ncol = 5)
-
-        for (depvar in mechvars) {
-
-            eqn <- paste(depvar, "~ ind  + com", sep = " ")
-            RES <- rbind(RES, PermTest(eqn, treatvars = c("treatment", "poor", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 100, data = k1_df))
-
-        }
-
-        RES <- RES[2:nrow(RES), 1:ncol(RES)]
-        RES <- cbind(RES, FDR(RES[, 4]))
-
-        rownames(RES) <- mechvars
-        colnames(RES)[6] <- "Min. Q"
-
-        print("----------------------------------------------------------------", quote = FALSE)
-        print(paste("H_0:", h), quote = FALSE)
-        print(RES, quote = FALSE)
-
-    }
-
-@
-
-    \subsection{Covariate-adjustment}
-
-<<K1covadj, results = 'hold'>>=
-
-    covariates <- c("soc.fem", "soc.age", "soc.pri", "soc.chr", "soc.sav", "ses.unemp", "soc.inc")
-
-    for (h in hypotheses) {
-
-        RES <- matrix(nrow = 1, ncol = 5)
-
-        for (depvar in depvars) {
-
-            eqn <- paste(depvar, "~ ind  + com +", covariates, sep = " ")
-            RES <- rbind(RES, PermTest(eqn, treatvars = c("treatment", "poor", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 100, data = k1_df))
-
-        }
-
-        RES <- RES[2:nrow(RES), 1:ncol(RES)]
-        RES <- cbind(RES, FDR(RES[, 4]))
-
-        rownames(RES) <- depvars
-        colnames(RES)[6] <- "Min. Q"
-
-        print("----------------------------------------------------------------", quote = FALSE)
-        print(paste("H_0:", h), quote = FALSE)
-        print(RES, quote = FALSE)
-
-    }
-
-@
-
-    \subsection{Heterogeneous treatment effects}
-
-<<K1het, results = 'hold'>>=
-
-    hetvars <- c("soc.fem", "soc.age", "soc.pri", "soc.chr", "soc.sav", "ses.unemp")
-
-    for (hetvar in hetvars) {
-
-        hypotheses <- c(paste("ind:", hetvar, " = 0", sep = ""), paste(hetvar, ":com", " = 0", sep = ""), paste("ind:", hetvar, " - ", hetvar, ":com", " = 0", sep = ""))
-
-        for (h in hypotheses) {
-
-            RES <- matrix(nrow = 1, ncol = 5)
-
-            for (depvar in depvars) {
-
-                eqn <- paste(depvar, " ~ ind*", hetvar, " + com*", hetvar)
-                RES <- rbind(RES, PermTest(eqn, treatvars = c("treatment", "poor", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 100, data = k1_df))
-
-            }
-
-            RES <- RES[2:nrow(RES), 1:ncol(RES)]
-            RES <- cbind(RES, FDR(RES[, 4]))
-
-            rownames(RES) <- depvars
-            colnames(RES)[6] <- "Min. Q"
-
-            print("----------------------------------------------------------------", quote = FALSE)
-            print(paste("H_0:", h), quote = FALSE)
-            print(RES, quote = FALSE)
-
-        }
-
-    }
-
-@
-
-\end{footnotesize}
+% \section{Consent Form}
+%
+%     \maxsizebox*{\textwidth}{\textheight}{\includegraphics[page=1]{UBI_Consent_S4_Kenya.pdf}}
+%     \maxsizebox*{\textwidth}{\textheight}{\includegraphics[page=2]{UBI_Consent_S4_Kenya.pdf}}
+%     \maxsizebox*{\textwidth}{\textheight}{\includegraphics[page=3]{UBI_Consent_S4_Kenya.pdf}}
+%
+% \section{Survey Instrument}
+%
+% \section{Data Analysis Scripts} \label{sec:rscripts}
+%
+% \begin{footnotesize}
+%
+% \subsection{Packages}
+%
+% <<K1packages, results = 'hide', message = FALSE, warning = FALSE>>=
+%
+%     setwd("/Users/Justin/Google Drive/UBIF/UBIF_Deliverables/UBIF_PAP/K1_PAP")
+%     set.seed(47269801)
+%
+%     required.packages <- c("dplyr", "multiwayvcov", "multcomp", "reshape2", "knitr")
+%     packages.missing <- required.packages[!required.packages %in% installed.packages()[,"Package"]]
+%
+%     if(length(packages.missing) > 0) {install.packages(required.packages, repo="https://cran.cnr.berkeley.edu/")}
+%     lapply(required.packages, library, character.only = TRUE)
+%
+% @
+%
+%     \subsection{User-defined functions}
+%
+% <<K1functions, results = 'hide'>>=
+%
+%     ## RegTest conducts asymptotic test from linear model ##
+%
+%     RegTest <- function(equation, clustvars, hypotheses, data) {
+%
+%         model <- lm(equation, data = data, na.action = na.omit)
+%
+%         if (missing(clustvars)) model$vcov <- vcov(model)
+%         else model$vcov <- cluster.vcov(model, cluster = clustvars)
+%
+%         model$test <- summary(glht(model, linfct = hypotheses, vcov = model$vcov))$test
+%
+%         numhyp <- length(hypotheses)
+%
+%         EST <- matrix(nrow = numhyp, ncol = 4)
+%
+%         for (i in 1:numhyp) {
+%
+%             EST[i, 1] <- model$test$coefficients[i]
+%             EST[i, 2] <- model$test$tstat[i]
+%             EST[i, 3] <- model$test$sigma[i]
+%             EST[i, 4] <- model$test$pvalues[i]
+%
+%         }
+%
+%         colnames(EST) <- c("Estimate", "Tstat", "SE", "P")
+%
+%         return(EST)
+%
+%     }
+%
+%     ## PermTest returns MC approximations of the exact p-value ##
+%
+%     PermTest <- function(equation, treatvars, clustvars, hypotheses, iterations, data) {
+%
+%         stopifnot(length(hypotheses) <= 1)
+%
+%         obsEST <- RegTest(equation, clustvars, hypotheses, data)
+%         obsStat <- obsEST[1, 2]
+%
+%         simEST <- matrix(ncol = 4)
+%
+%         for (i in 1:iterations) {
+%
+%             simTreat <- data[, treatvars, drop = FALSE]
+%             simTreat <- simTreat[sample(nrow(simTreat)),]
+%
+%             simData <- cbind(simTreat, data[, !(names(data) %in% treatvars), drop = FALSE])
+%             colnames(simData)[1:length(treatvars)] <- treatvars
+%
+%             simEST <- rbind(simEST, RegTest(equation, clustvars, hypotheses, data = simData))
+%
+%         }
+%
+%         simSTAT <- simEST[2:nrow(simEST), 2]
+%         countSTAT <- matrix(abs(simSTAT) >= abs(obsStat), ncol = 1)
+%
+%         ExactP <- colSums(countSTAT) / iterations
+%
+%         EST <- cbind(obsEST, ExactP)
+%
+%         colnames(EST) <- c("Estimate", "Tstat", "SE", "P", "ExactP")
+%
+%         return(EST)
+%
+%     }
+%
+%     ## FDR returns minimum q-values ##
+%
+%     FDR <- function(pvals, step) {
+%
+%         if (sum(is.na(pvals) == FALSE) <= 1) {return(pvals)}
+%         if (missing(step)) {step <- 0.001}
+%
+%         allpvals <- cbind(as.matrix(pvals), matrix(1:nrow(as.matrix(pvals)), ncol = 1))
+%
+%         pvals <- na.omit(allpvals)
+%         nump <- nrow(pvals)
+%
+%         pvals <- pvals[order(pvals[, 1]), ]
+%         rank <- matrix(1:nump, ncol = 1)
+%         pvals <- cbind(pvals, rank, matrix(0, nrow = nump, ncol = 1))
+%
+%         qval <- 1
+%
+%         while (qval > 0) {
+%
+%             qfirst <- qval / (1 + qval)
+%             fdrtemp <- (qfirst * rank) / nump
+%
+%             subrank <- which(fdrtemp >= as.matrix(pvals[, 1]))
+%
+%             if (length(subrank) < 1) {
+%                 numreject <- 0
+%             } else numreject <- max(subrank)
+%
+%             qsec <- qfirst * (nump / (nump - numreject))
+%             fdrtemp <- (qsec * rank) / nump
+%
+%             subrank <- which(fdrtemp >= as.matrix(pvals[, 1]))
+%
+%             if (length(subrank) < 1) {
+%                 numreject <- 0
+%             } else numreject <- max(subrank)
+%
+%             pvals[which(pvals[, 3] <= numreject), 4] <- qval
+%
+%             qval <- qval - step
+%
+%         }
+%
+%         pvals <- pvals[order(pvals[, 2]), ]
+%
+%         qvals <- matrix(nrow = nrow(allpvals), ncol = 1)
+%         qvals[match(pvals[, 2], allpvals[, 2]), 1] <- pvals[, 4]
+%
+%         return(as.matrix(qvals))
+%
+%     }
+%
+% @
+%
+%     \subsection{Data cleaning}
+%
+% <<K1data, results = 'hide'>>=
+%
+%     k1_df <- read.delim(file = "K1__Field_Survey_v34.csv", header = TRUE, sep = ",", stringsAsFactors = TRUE, na.strings = "")
+%     k1_df <- as.data.message(k1_df[2:nrow(k1_df), ])
+%     attach(k1_df)
+%
+%     ## Participant ID ##
+%
+%     k1_df$survey.id <- as.numeric(as.character(k1_df$numb1))
+%     k1_df$survey.id[is.na(k1_df$survey.id)] <- as.numeric(as.character(k1_df$numb2))
+%     data <- data[complete.cases(k1_df$survey.id), ]
+%
+%     # sum(duplicated(k1_df$survey.id))
+%
+%     ## Treatment assignment ##
+%
+%     k1_df$treatment[k1_df$condition == "poor"] <- 0
+%     k1_df$treatment[k1_df$condition == "individual"] <- 1
+%     k1_df$treatment[k1_df$condition == "community"] <- 2
+%
+%     factor(k1_df$treatment)
+%
+%     k1_df$poor <- ifelse(k1_df$condition == "poor", 1, 0)
+%     k1_df$ind <- ifelse(k1_df$condition == "individual", 1, 0)
+%     k1_df$com <- ifelse(k1_df$condition == "community", 1, 0)
+%
+%     k1_df$msg1 <- recode(as.numeric(k1_df$ORG_MESSAGE), `2` = 0, `3` = 2)
+%     k1_df$msg2 <- recode(as.numeric(k1_df$ORG_MESSAGE_2), `2` = 0)
+%     k1_df$msg3 <- recode(as.numeric(k1_df$ORG_MESSAGE_3), `3` = 2)
+%
+%     ## Self-efficacy ##
+%
+%     selvars <- c(k1_df$sel.con, k1_df$sel.pers, k1_df$sel.com, k1_df$sel.prob, k1_df$sel.bett)
+%
+%     for (var in selvars) {
+%
+%         var[var == "-99"] <- NA
+%
+%     }
+%
+%     k1_df$sel.score <- as.numeric(k1_df$sel.con) + as.numeric(k1_df$sel.pers) + as.numeric(k1_df$sel.com) + as.numeric(k1_df$sel.prob) + as.numeric(k1_df$sel.bett)
+%     k1_df$sel.score.z <- (k1_df$sel.score - mean(k1_df$sel.score)) / sd(k1_df$sel.score)
+%
+%     ## Judgement ##
+%
+%     judvars <- c(k1_df$jud.fam, k1_df$jud.com, k1_df$jud.judg, k1_df$jud.emb, k1_df$jud.ups)
+%
+%     for (var in judvars) {
+%
+%         var[var == "-99"] <- NA
+%
+%     }
+%
+%     k1_df$jud.score <- as.numeric(k1_df$jud.fam) + as.numeric(k1_df$jud.com) + (6 - as.numeric(k1_df$jud.judg)) + (6 - as.numeric(k1_df$jud.emb)) + (6 - as.numeric(k1_df$jud.ups))
+%     k1_df$jud.score.z <- (k1_df$jud.score - mean(k1_df$jud.score)) / sd(k1_df$jud.score)
+%
+%     ## Affect ##
+%
+%     affvars <- c(k1_df$aff.pos, k1_df$aff.ash, k1_df$aff.pow, k1_df$aff.fina)
+%
+%     for (var in judvars) {
+%
+%         var[var == "-99"] <- NA
+%
+%     }
+%
+%     k1_df$aff.score <- as.numeric(k1_df$aff.pos) + as.numeric(k1_df$aff.pow) + (7 - as.numeric(k1_df$aff.ash)) + (7 - as.numeric(k1_df$aff.fina))
+%     k1_df$aff.score.z <- (k1_df$aff.score - mean(k1_df$aff.score)) / sd(k1_df$aff.score)
+%
+%     ## Video selection ##
+%
+%     k1_df$vid.imp1 <- ifelse(k1_df$vid.dec1 == "3" | k1_df$vid.dec1 == "5", 1, 0)
+%     k1_df$vid.imp2 <- ifelse(k1_df$vid.dec2 == "3" | k1_df$vid.dec2 == "5", 1, 0)
+%     k1_df$vid.num <- k1_df$vid.imp1 + k1_df$vid.imp2
+%
+%     ## Intertemporal choice ##
+%
+%     k1_df$sav.save = ifelse(k1_df$sav.dec == "2" | k1_df$sav.dec == "3", 1, 0)
+%     k1_df$sav.amt[k1_df$sav.dec == "1"] = 0
+%     k1_df$sav.amt[k1_df$sav.dec == "2"] = 100
+%     k1_df$sav.amt[k1_df$sav.dec == "3"] = 200
+%
+%     # variable for inconsistent choice, interval estimates of discounting parameter
+%     # recode refusals?
+%
+%     ## Query theory (savings) ##
+%
+%     que_df <- k1_df[names(k1_df) %in% c("survey.id", "que.rat1", "que.rat2", "que.rat3", "que.rat4", "que.rat5")]
+%
+%     k1_df$que.nonm <- apply(que_df[, 1:5], 1, function(x) length(x[is.na(x) == FALSE]))
+%
+%     que_df <- melt(que_df, id = c("survey.id"))
+%     que_df$variable <- as.numeric(que_df$variable)
+%     que_df$value <- as.numeric(que_df$value)
+%     que_df <- dcast(que_df[is.na(que_df$value) == FALSE, ], survey.id ~ value, median, value.var = "variable")
+%     names(que_df) <- c("survey.id", "que.mri", "que.mrp")
+%     k1_df <- merge(k1_df, que_df, all.x = TRUE)
+%
+%     k1_df$que.smrd <- (2 * (k1_df$que.mrp - k1_df$que.mri)) / k1_df$que.nonm
+%     k1_df$que.smrd[is.na(k1_df$que.mrp)] <- 1
+%     k1_df$que.smrd[is.na(k1_df$que.mri)] <- -1
+%
+%     # dealing with missing by filling in bounds for now, obs with values over this have duplicates
+%
+%     ## Message evaluation ##
+%
+%     k1_df$msg.dec <- recode(k1_df$msg.dec, "2" = 1, "1" = 0)
+%
+%     k1_df$eva.poor[k1_df$msg1 == 0] <- as.numeric(k1_df$eva.msg1[k1_df$msg1 == 0])
+%     k1_df$eva.poor[k1_df$msg2 == 0] <- as.numeric(k1_df$eva.msg2[k1_df$msg2 == 0])
+%     k1_df$eva.poor[k1_df$msg3 == 0] <- as.numeric(k1_df$eva.msg3[k1_df$msg3 == 0])
+%
+%     k1_df$eva.ind[k1_df$msg1 == 1] <- as.numeric(k1_df$eva.msg1[k1_df$msg1 == 1])
+%     k1_df$eva.ind[k1_df$msg2 == 1] <- as.numeric(k1_df$eva.msg2[k1_df$msg2 == 1])
+%     k1_df$eva.ind[k1_df$msg3 == 1] <- as.numeric(k1_df$eva.msg3[k1_df$msg3 == 1])
+%
+%     k1_df$eva.com[k1_df$msg1 == 2] <- as.numeric(k1_df$eva.msg1[k1_df$msg1 == 2])
+%     k1_df$eva.com[k1_df$msg2 == 2] <- as.numeric(k1_df$eva.msg2[k1_df$msg2 == 2])
+%     k1_df$eva.com[k1_df$msg3 == 2] <- as.numeric(k1_df$eva.msg3[k1_df$msg3 == 2])
+%
+%     k1_df$eva.vid.poor <- as.numeric(k1_df$eva.rank.vid_8)
+%     k1_df$eva.vid.ind <- as.numeric(k1_df$eva.rank.vid_9)
+%     k1_df$eva.vid.com <- as.numeric(k1_df$eva.rank.vid_10)
+%
+%     k1_df$eva.conf <- as.numeric(k1_df$eva.conf)
+%
+%     k1_df$eva.emp.poor <- as.numeric(k1_df$eva.rank.emp_5)
+%     k1_df$eva.emp.ind <- as.numeric(k1_df$eva.rank.emp_6)
+%     k1_df$eva.emp.com <- as.numeric(k1_df$eva.rank.emp_7)
+%
+%     ## Ladder scales ##
+%
+%     k1_df$ses.lad.now <- as.numeric(k1_df$ses.lad.now)
+%     k1_df$ses.lad.y2 <- as.numeric(k1_df$ses.lad.y2)
+%
+%     ## Sociodemographics ##
+%
+%     k1_df$soc.age <- as.numeric(as.character(k1_df$soc.age))
+%     k1_df$soc.pri[is.na(k1_df$soc.edu) == FALSE] <- ifelse(as.numeric(k1_df$soc.edu[is.na(k1_df$soc.edu) == FALSE]) >= 4, 1, 0)
+%     k1_df$soc.fem[is.na(k1_df$soc.gen) == FALSE] <- ifelse(k1_df$soc.gen[is.na(k1_df$soc.gen) == FALSE] == "2", 1, 0)
+%     k1_df$soc.chr[is.na(k1_df$soc.rel) == FALSE] <- ifelse(k1_df$soc.rel[is.na(k1_df$soc.rel) == FALSE] == "1", 1, 0)
+%     k1_df$ses.unemp <- ifelse(k1_df$ses.emp == "1", 1, 0)
+%     k1_df$soc.inc <- as.numeric(k1_df$soc.inc)
+%     k1_df$soc.con <- as.numeric(k1_df$soc.con)
+%     k1_df$soc.sav <- as.numeric(k1_df$soc.sav) - 1
+%
+%     ## Survey validity ##
+%
+%     k1_df$end.hear <- as.numeric(k1_df$end.hear) - 1
+%
+% @
+%
+%     \subsection{Treatment effect}
+%
+% <<K1teffects, results = 'hold'>>=
+%
+%     hypotheses <- c("ind = 0", "com = 1", "ind - com = 0")
+%     depvars <- c("vid.num", "sav.save", "msg.dec")
+%     mechvars <- c("sel.score", "jud.score", "aff.score", "que.smrd", "ses.lad.now", "ses.lad.y2")
+%
+%     for (h in hypotheses) {
+%
+%         RES <- matrix(nrow = 1, ncol = 5)
+%
+%         for (depvar in depvars) {
+%
+%             eqn <- paste(depvar, "~ ind  + com", sep = " ")
+%             RES <- rbind(RES, PermTest(eqn, treatvars = c("treatment", "poor", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 100, data = k1_df))
+%
+%         }
+%
+%         RES <- RES[2:nrow(RES), 1:ncol(RES)]
+%         RES <- cbind(RES, FDR(RES[, 4]))
+%
+%         rownames(RES) <- depvars
+%         colnames(RES)[6] <- "Min. Q"
+%
+%         print("----------------------------------------------------------------", quote = FALSE)
+%         print(paste("H_0:", h), quote = FALSE)
+%         print(RES, quote = FALSE)
+%
+%     }
+%
+%     for (h in hypotheses) {
+%
+%         RES <- matrix(nrow = 1, ncol = 5)
+%
+%         for (depvar in mechvars) {
+%
+%             eqn <- paste(depvar, "~ ind  + com", sep = " ")
+%             RES <- rbind(RES, PermTest(eqn, treatvars = c("treatment", "poor", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 100, data = k1_df))
+%
+%         }
+%
+%         RES <- RES[2:nrow(RES), 1:ncol(RES)]
+%         RES <- cbind(RES, FDR(RES[, 4]))
+%
+%         rownames(RES) <- mechvars
+%         colnames(RES)[6] <- "Min. Q"
+%
+%         print("----------------------------------------------------------------", quote = FALSE)
+%         print(paste("H_0:", h), quote = FALSE)
+%         print(RES, quote = FALSE)
+%
+%     }
+%
+% @
+%
+%     \subsection{Covariate-adjustment}
+%
+% <<K1covadj, results = 'hold'>>=
+%
+%     covariates <- c("soc.fem", "soc.age", "soc.pri", "soc.chr", "soc.sav", "ses.unemp", "soc.inc")
+%
+%     for (h in hypotheses) {
+%
+%         RES <- matrix(nrow = 1, ncol = 5)
+%
+%         for (depvar in depvars) {
+%
+%             eqn <- paste(depvar, "~ ind  + com +", covariates, sep = " ")
+%             RES <- rbind(RES, PermTest(eqn, treatvars = c("treatment", "poor", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 100, data = k1_df))
+%
+%         }
+%
+%         RES <- RES[2:nrow(RES), 1:ncol(RES)]
+%         RES <- cbind(RES, FDR(RES[, 4]))
+%
+%         rownames(RES) <- depvars
+%         colnames(RES)[6] <- "Min. Q"
+%
+%         print("----------------------------------------------------------------", quote = FALSE)
+%         print(paste("H_0:", h), quote = FALSE)
+%         print(RES, quote = FALSE)
+%
+%     }
+%
+% @
+%
+%     \subsection{Heterogeneous treatment effects}
+%
+% <<K1het, results = 'hold'>>=
+%
+%     hetvars <- c("soc.fem", "soc.age", "soc.pri", "soc.chr", "soc.sav", "ses.unemp")
+%
+%     for (hetvar in hetvars) {
+%
+%         hypotheses <- c(paste("ind:", hetvar, " = 0", sep = ""), paste(hetvar, ":com", " = 0", sep = ""), paste("ind:", hetvar, " - ", hetvar, ":com", " = 0", sep = ""))
+%
+%         for (h in hypotheses) {
+%
+%             RES <- matrix(nrow = 1, ncol = 5)
+%
+%             for (depvar in depvars) {
+%
+%                 eqn <- paste(depvar, " ~ ind*", hetvar, " + com*", hetvar)
+%                 RES <- rbind(RES, PermTest(eqn, treatvars = c("treatment", "poor", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 100, data = k1_df))
+%
+%             }
+%
+%             RES <- RES[2:nrow(RES), 1:ncol(RES)]
+%             RES <- cbind(RES, FDR(RES[, 4]))
+%
+%             rownames(RES) <- depvars
+%             colnames(RES)[6] <- "Min. Q"
+%
+%             print("----------------------------------------------------------------", quote = FALSE)
+%             print(paste("H_0:", h), quote = FALSE)
+%             print(RES, quote = FALSE)
+%
+%         }
+%
+%     }
+%
+% @
+%
+% \end{footnotesize}
 
 \end{document}
