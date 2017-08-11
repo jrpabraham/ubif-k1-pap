@@ -288,9 +288,11 @@ k1_df$ses.nowork <- ifelse(as.numeric(k1_df$ses.emp) == 7, 1, 0)
 
 k1_df$soc.inc <- as.numeric(as.character(k1_df$soc.inc))
 k1_df$soc.inc.wins[k1_df$soc.inc <= quantile(k1_df$soc.inc, .99)] <- k1_df$soc.inc[k1_df$soc.inc <= quantile(k1_df$soc.inc, .99)]
+k1_df$soc.inc.wins.ln <- log(k1_df$soc.inc.wins + sqrt(k1_df$soc.inc.wins^2 + 1))
 
 k1_df$soc.con <- as.numeric(as.character(k1_df$soc.con))
 k1_df$soc.con.wins[k1_df$soc.con <= quantile(k1_df$soc.con, .99)] <- k1_df$soc.con[k1_df$soc.con <= quantile(k1_df$soc.con, .99)]
+k1_df$soc.con.wins.ln <- log(k1_df$soc.con.wins + sqrt(k1_df$soc.con.wins^2 + 1))
 
 k1_df$soc.sav <- ifelse(as.numeric(k1_df$soc.sav) == 3, 1, 0)
 
@@ -309,7 +311,7 @@ k1_df$end.hear <- ifelse(as.numeric(k1_df$end.hear) == 3, 1, 0)
 ## Randomization balance checks ##
 
 hypotheses <- c("ind = 0", "com = 1", "ind - com = 0")
-depvars <- c("ses.lad.now.z", "soc.fem", "soc.pri", "soc.chr", "soc.age", "ses.unemp", "ses.nowork", "soc.inc.wins", "soc.con.wins", "soc.sav", "soc.eme.z")
+depvars <- c("ses.lad.now.z", "soc.fem", "soc.pri", "soc.chr", "soc.age", "ses.unemp", "ses.nowork", "soc.inc.wins.ln", "soc.con.wins.ln", "soc.sav", "soc.eme.z")
 
 for (h in hypotheses) {
 
@@ -394,7 +396,7 @@ for (h in hypotheses) {
 
 hypotheses <- c("ind = 0", "com = 1", "ind - com = 0")
 depvars <- c("vid.num", "sav.amt", "msg.dec")
-covariates <- c("ses.lad.now.z", "soc.fem", "soc.pri", "soc.chr", "soc.age", "ses.unemp", "ses.nowork", "soc.inc.wins", "soc.con.wins", "soc.sav", "soc.eme.z")
+covariates <- c("ses.lad.now.z", "soc.fem", "soc.pri", "soc.chr", "soc.age", "ses.unemp", "ses.nowork", "soc.inc.wins.ln", "soc.con.wins.ln", "soc.sav", "soc.eme.z")
 
 for (h in hypotheses) {
 
