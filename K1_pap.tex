@@ -78,6 +78,7 @@
       \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \begin{document}
+%\SweaveOpts{concordance=TRUE}
 
 \title{More Than Money: Effects of Cash Transfer Narratives on Agency and Self-Investment}
 \begin{onehalfspace}
@@ -98,7 +99,7 @@ equally.}~$^{^{\ddagger\ddagger}}$,
 
 \begin{abstract}
 
-    This document describes the pre-analysis plan for a randomized experiment examining the effects of narratives accompanying unconditional cash transfers on self-concept and economic behavior. We provided small, unconditional cash transfers to residents of two informal settlements in Nairobi and vary the message participants receive with the cash. Participants received a constant amount of cash, and randomly received a message that the cash is intended for poverty alleviation, individual empowerment, or community empowerment. We then collected self-reported measures of self-efficacy, stigma, and affect and behavioral measures of future-orientation, self-investment, and program support. This pre-analysis plan outlines our hypotheses, the schedule of experimental tasks, and our empirical strategy. In order to guarantee transparency and bind ourselves from fishing for results, we will pre-register the scripts to be used for data analysis.
+    This document describes the pre-analysis plan for a randomized experiment examining the effects of narratives accompanying unconditional cash transfers on self-concept and economic behavior. We provided small, unconditional cash transfers to residents of two informal settlements in Nairobi and randomly assign participants to receive one of three messages with a constant amount of cash. Respondents will receive a message stating that the cash is intended for 1) poverty alleviation, 2) individual empowerment, or 3) community empowerment. We then collected self-reported measures of self-efficacy, stigma, and affect and behavioral measures of future-orientation, self-investment, and program support. This pre-analysis plan outlines our hypotheses, the schedule of experimental tasks, and our empirical strategy. In order to guarantee transparency and bind ourselves from fishing for results, we will pre-register the scripts to be used for data analysis.
 
 \end{abstract}
 
@@ -125,7 +126,7 @@ equally.}~$^{^{\ddagger\ddagger}}$,
         \maxsizebox*{\textwidth}{\textheight}{
         \begin{tabular}{@{}lllll@{}}
         \toprule
-        Participant origin a & Survey location &  &  &  \\ \midrule
+        Participant origin & Survey location &  &  &  \\ \midrule
         Kibera & AIC Church &  &  &  \\
         Kibera & Kibera Immanuel Technical Institute &  &  &  \\
         Kibera & Kibera Labour Hall &  &  &  \\
@@ -163,7 +164,8 @@ Participants were recruited to participate in the study if they meet the followi
             \item Video selection task
             \item Savings task
             \item Message evaluation
-            \item Message of support
+            \item Support for organization and message
+            \item MacArthur Subjective Social Status Ladders (normalized)
             \item Sociodemographic module
         \end{enumerate}
 
@@ -173,10 +175,8 @@ Participants were recruited to participate in the study if they meet the followi
         
         Participants were randomly assigned by the survey software within enumerator\footnote{We evenly assigned treatment groups to achieve balance in group size.} to receive one of three messages introducing the purpose of the cash transfer. The three messages had a similar structure, but we experimentally varied the described purpose of the cash transfer. Specifically, we changed the stated goals of the organization, rationale for providing money, assumptions about recipients, and expectations and goals for the use of the transfer. In the poverty alleviation message, the payment was described as a means to meet basic needs. The individual empowerment message described the payment as a means toward individual goals and advancement. The community empowerment message described the payment as a means toward goals advancing one's family and the community for community advancement. Participants listened to the message twice in their preferred language (English or Kiswahili) with pre-recorded audio clips or as read by the enumerator. \\
 
-        After hearing the message once, senior enumerators were alerted to use a project MPESA account to send USD PPP 10.5 to the participant via the mobile money system M-Pesa.\footnote{For more information on M-Pesa, we refer the reader to \textcite{jack_mobile_2011} and \textcite{mbiti_mobile_2011}.} Enumerators were instructed to confirm receipt of the payment on the respondent's phone, after which enumerators played the message a second time.\footnote{For the first day and a half of the survey period (for approximately approximately 100 respondents), we used a system in which the respondent texted a code which enabled the direct transfer of the money to their account. Due to technical difficulties, we were required to change to the above system.} Then, enumerators led the respondent's through a series of questions on how they view the transfer. In particular they are asked questions on their current needs (in the ``poverty alleviation'' arm) or goals (in the ``individual empowerment'' and "community empowerment" arms) are, the name they would assign to these funds (for example ``education fund''), how receipt of these funds would affect their relationship with others, and their perceived goal of the organization. \\
+        After hearing the message once, senior enumerators were alerted to use a project MPESA account to send USD PPP 10.5 to the participant via the mobile money system M-Pesa.\footnote{For more information on M-Pesa, we refer the reader to \textcite{jack_mobile_2011} and \textcite{mbiti_mobile_2011}.} Enumerators were instructed to confirm receipt of the payment on the respondent's phone, after which enumerators played the message a second time.\footnote{For the first day and a half of the survey period (for approximately approximately 100 respondents), we used a system in which the respondent texted a code which enabled the direct transfer of the money to their account. Due to technical difficulties, we were required to change to the above system.} Then, enumerators led the respondent's through a series of questions on how they view the transfer. In particular they are asked questions on their current needs (in the ``poverty alleviation'' arm) or goals (in the ``individual empowerment'' and "community empowerment" arms), the name they would assign to these funds (for example ``education fund''), how receipt of these funds would affect their relationship with others, and their perceived goal of the organization. \\
 
-         \\
-        
         Below, we list the three treatment messages that respondents received: \\
 
         \textbf{Poverty alleviation message:} \textit{The goal of this Poverty Alleviation Organization is to alleviate poverty and reduce financial hardship among the poor. This organization believes that people living in poverty should be given income support to help them meet their basic needs. This organization aims to help promote a decent standard of living among the poor and help them deal with emergencies. Thus, the Poverty Alleviation Organization gives financial assistance to people like you, to help them make ends meet. For example, with the financial assistance, people might be able to struggle less to afford basic needs, like paying off debts, paying rent, and buying clothes and food. Now we are going to send you 400 KSh. Please note that this is a one-time transfer of financial assistance.} \\
@@ -187,11 +187,41 @@ Participants were recruited to participate in the study if they meet the followi
 
 \section{Data}
 
-    This section describes the data collected following the cash transfer treatment.
+    This section describes the data collected following the cash transfer and messaging.
 
     \subsection{Self-efficacy module}
+    This module assesses the extent to which respondents feel capable of  improving their lives and the lives of others important to them in the current moment.
+     \begin{itemize}
+        \itemsep0em 
+            \item In this moment, how much do you feel in control of your financial situation, such as your success in your business or employment, or other income generating activities.
+            \item In this moment, how much do you feel capable of making progress towards your goals.
+            \item In this moment, how much do you feel capable of making progress towards goals for your community, such as helping and empowering others you care about.
+            \item In this moment, how much do you feel that life will get better?
+      \end{itemize}
+
     \subsection{Stigma module}
+    This module assesses the ways in which respondents feel that they or other recipients feel judged by others.
+        \begin{itemize}
+        \itemsep0em 
+            \item People may negatively judge others for various reasons. How much do you feel that other people in Kenya make judgments about you based on your economic status? By economic status, I mean things like the place where you live, your job, or the amount of money you have.
+            \item How much would other people feel embarrassed if they received money from the [ORGANIZATION NAME]?
+            \item If your neighors found out that you received money from the [ORGANIZATION NAME], how upset or jealous would they be with you?
+            \item In this moment, how much do you feel like a good family member, whatever that means to you?
+            \item In this moment, how much do you feel like a good community member, whatever you means to you?
+      \end{itemize}
+
     \subsection{Affect module}
+    The affect module assesses the extent of experienced positive and negative emotional states.
+       \begin{itemize}
+        \itemsep0em   
+            \item Recall that you just received some cash from [ORGANIZATION], which has a goal of [ORGANIZATION]. 
+            \item Different experiences and conversations can make people feel different emotions, sometimes sad, sometimes excited, sometimes nervous. We want to know how you're feeling right now, from the time we started this conversation. Please answer as quickly and honestly as you can because we want to get your immediate thoughts.
+            \item In this moment, how bad or good do you feel?
+            \item In this moment, how embarrassed do you feel?
+            \item In this moment, how empowered do you feel?
+            \item In this moment, how much do you feel worried/concerned about your finances? 
+        \end{itemize}
+    
     \subsection{Video selection task}
 
         This task asked participants to make a choice about watching 3-4 minute video clips. Enumerators described the following six videos and the participant chose to watch two at the end of the survey. Participant could not select the same clip more than once. Video clips were played after the completion of the sociodemographic questionnaire.
@@ -200,13 +230,13 @@ Participants were recruited to participate in the study if they meet the followi
         \itemsep0em 
             \item A video from the Mark Angel comedy group, featuring Emanuela (leisure)
             \item A trailer for the Nigerian movie, featuring Ramsey Noah (leisure)
-            \item A Noa Ubongo video on math skills for business or CBO management (self-improvement)
+            \item A Noa Ubongo video on math skills for business or CBO management (self-investment)
             \item A video of football highlights from around the world (leisure)
-            \item A Noa Ubongo video on using equity and debt for financing business development (self-improvement)
+            \item A Noa Ubongo video on using equity and debt for financing business development (self-investment)
             \item A Naswa prank skit (leisure)
         \end{itemize}
 
-        This task provided information on participants' willingness to engage in self-improvement activities over leisurely activities. We collected data on the participant's ordered first and second choices. We classified each clip as either for leisure or for self-improvement and observe the number of self-improvement clips (0, 1, or 2) the participant chooses to watch.
+        This task provided information on participants' willingness to engage in self-investment (i.e. skills building) activities over leisurely activities. We collected data on the participant's ordered first and second choices. We classified each clip as either for leisure or for self-investment and observe the number of self-investment videos (0, 1, or 2) the participant chooses to watch.
 
     \subsection{Savings decision task}
 
@@ -228,15 +258,26 @@ Participants were recruited to participate in the study if they meet the followi
 
         $MR_p$ is the median rank of queries supporting delayed payment, $MR_i$ is the median rank against delayed payment, and $n$ is the total number of queries listed.
 
-    \subsection{Message evaluation}
-    \subsection{Recording a message of support}
+    \subsection{Support for organization and message}
+    
+    Participants were reminded of the organization's goal by listening to the audio message once more. They were then asked to evaluate the message and were asked whether they would want to show their support for the organization by recording the organization's message themselves. 
+        \begin{enumerate}
+        \itemsep0em 
+       \item  How empowering is this recorded message? 
+       \item  Overall do you like or dislike this audio message?
+       \item  This [ORGANIZATION] is asking recipients whether they want to help promote their goal of [ORGANIZATION] by recording the voices of recipients saying their message. They want to share these recordings with possible future recipients as a show of support from current recipients. If you support their goal, you could stay after the survey ends to record the message you heard earlier. Would you like to end after watching the videos, or to continue and do a recording to show support for this organization?
+          \end{enumerate}
+
+    \subsection{Messages evaluation}
+    
+    We ask participants to forecast how many business videos other participants in different treatment arms would watch. Respondents make forecasts for each treatment arm, starting with the treatment message they received, and tell us their level of confidence, allowing us to roughly calculate how well participants are able to forecast treatment effects, and how these forecasts vary by participant confidence. 
+    
     \subsection{Sociodemographic questionnaire (9 items)}
 
         The final portion of the survey asked participants to report various sociodemographic characteristics including:
 
         \begin{enumerate}
         \itemsep0em 
-            \item MacArthur Subjective Social Status Ladder (normalized)
             \item Participant is female
             \item Participant completed standard 8
             \item Participant is Christian
@@ -245,7 +286,7 @@ Participants were recruited to participate in the study if they meet the followi
             \item Participant is not looking for work
             \item Average monthly income (in KSh log transformed and Winsorized at the top 1\%)
             \item Consumption in the last seven days (in KSH log transformed and Winsorized at the top 1\%)
-            \item Participant has KSh 1000 stored away
+            \item Participant has KSh 1000 stored away 
             \item Difficulty in raising KSh 3000 within 2 days (normalized)
         \end{enumerate}
 
@@ -259,7 +300,7 @@ Participants were recruited to participate in the study if they meet the followi
         Y_{i} = \beta_{0} + \beta_{1}\text{\textsc{Ind}}_{i} + \beta_{2}\text{\textsc{Com}}_{i} + \varepsilon_{i}
         \end{equation}
 
-        $Y_{i}$ refers to the sociodemographic variables listed in Table \ref{tab:controlvars} for individual $i$ measured at the end of the survey. \textsc{Ind}$_{i}$ indicates assignment to the individual empowerment message while \textsc{Com}$_{i}$ indicates assignment to the community empowerment message. The reference category in this model is the poverty alleviation message. We will estimate cluster-robust standard errors at the individual level.
+        $Y_{i}$ refers to the sociodemographic variables listed in Table \ref{tab:controlvars} for individual $i$ measured at the end of the survey. \textsc{Ind}$_{i}$ indicates assignment to the individual empowerment message while \textsc{Com}$_{i}$ indicates assignment to the community empowerment message. The reference category in this model is the poverty alleviation message. We will estimate cluster-robust standard errors at the individual level. \\
 
         We include any sociodemographic variable for which we reject balance as a control variable when estimating treatment effects.
 
@@ -273,17 +314,9 @@ Participants were recruited to participate in the study if they meet the followi
 
         % Consider alternative response functions for categorical vars?
 
-        $Y_{i}$ refers to the outcome variables for individual $i$ measured after the manipulation. The outcome variables described in Table \ref{tab:depvars} will be the focus of this analysis. \textsc{Ind}$_{i}$ indicates assignment to the individual empowerment message while \textsc{Com}$_{i}$ indicates assignment to the community support message. The reference category in this model is the poverty alleviation message. We will estimate cluster-robust standard errors at the individual level. Table \ref{tab:hypotheses} lists the hypotheses we will test using Equation \ref{eq:teffect}. In addition to our primary outcomes, we estimate the effect on secondary outcomes listed below. We will analyze these variables by both looking at individual items and constructing summary indices. Given low covariance, items may be excluded from the summary index.
-
-        \begin{enumerate}
-        \itemsep0em 
-            \item Self-efficacy
-            \item Stigma
-            \item Affect
-            \item Standardized mean rank difference of thoughts in favor of and against saving
-        \end{enumerate}
-
-        \begin{table}[h]
+        $Y_{i}$ refers to the outcome variables for individual $i$ measured after the manipulation. The outcome variables described in Table \ref{tab:depvars} will be the focus of this analysis.
+        
+          \begin{table}[h]
         \centering
         \caption{Primary outcome variables}
         \label{tab:depvars}
@@ -298,6 +331,9 @@ Participants were recruited to participate in the study if they meet the followi
         \end{tabular} }
         \end{table}
 
+        \textsc{Ind}$_{i}$ indicates assignment to the individual empowerment message while \textsc{Com}$_{i}$ indicates assignment to the community support message. The reference category in this model is the poverty alleviation message. We will estimate cluster-robust standard errors at the individual level. Table \ref{tab:hypotheses} lists the hypotheses we will test using Equation \ref{eq:teffect}. 
+
+        
         \begin{table}[h]
         \centering
         \caption{Primary hypothesis tests}
@@ -310,7 +346,9 @@ Participants were recruited to participate in the study if they meet the followi
         $H_0: \beta_2 = 0$ & Effect of community empowerment message relative to poverty alleviation message &  &  &  \\
         $H_0: \beta_1 = \beta_2$ & Effect of community empowerment message relative to individual empowerment message &  &  &  \\ \bottomrule
         \end{tabular} }
-        \end{table}
+        \end{table} 
+        
+In addition to our primary outcomes, we estimate the effect on self-efficacy, stigma, affect, support of message, MacArthur subjective social status ladders, and standardized mean rank difference of thoughts in favor of and against saving listed below. We will analyze these variables by both looking at individual items and constructing summary indices. Given low covariance, items may be excluded from the summary indices. 
 
       \subsection{Covariate adjustment}
 
@@ -330,7 +368,6 @@ Participants were recruited to participate in the study if they meet the followi
         \begin{tabular}{@{}lllll@{}}
         \toprule
         Variable & Description &  &  &  \\ \midrule
-        Subjective social status & MacArthur Subjective Social Status Ladder (normalized) &  &  & \\
         Gender & Participant is female &  &  & \\
         Education & Participant completed standard 8 &  &  & \\
         Religion & Participant is Christian &  &  & \\
@@ -338,7 +375,7 @@ Participants were recruited to participate in the study if they meet the followi
         Unemployment & Participant is unemployed and looking for work &  &  & \\
         Not working & Participant is not looking for work &  &  & \\
         Income & Average monthly income (in KSh log transformed and Winsorized at the top 1\%) &  &  & \\
-        Consumptio & Consumption in the last seven days (in KSH log transformed and Winsorized at the top 1\%) &  &  & \\
+        Consumption & Consumption in the last seven days (in KSH log transformed and Winsorized at the top 1\%) &  &  & \\
         Savings & Participant has KSh 1000 stored away &  &  & \\
         Emergency spending & Difficulty in raising KSh 3000 within 2 days (normalized) &  &  & \\
         \bottomrule
@@ -383,6 +420,30 @@ Participants were recruited to participate in the study if they meet the followi
         \bottomrule
         \end{tabular} }
         \end{table}
+
+\subsection{Summary of models}
+The Table \ref{tab:summary} below contains a summary of the models we will be running: 
+   
+\begin{table}[h]
+\caption{Summary of models}
+\label{tab:summary}
+\centering
+\begin{tabular}{|c|c|>{\centering}p{3.5cm}|}
+\hline 
+ & Standard OLS & OLS with hetergeneous treatment effects\tabularnewline
+\hline 
+Base model & Yes{*} & Yes{*}\tabularnewline
+\hline 
+Covariance adjusted model & Yes{*} & Yes{*}\tabularnewline
+\hline 
+Kitchen sink model & Yes{*} & No\tabularnewline
+\hline 
+\multicolumn{3}{|>{\raggedright}p{11cm}|}{{*}Estimated separately using i) robust standard errors, ii) FDR corrected
+errors, and iii) Fisherian sharp null}\tabularnewline
+\hline 
+\end{tabular}
+\end{table}
+
 
 \newpage
 

@@ -2,7 +2,7 @@
 ## Install missing packages ##
 ##############################
 
-setwd("/Users/Justin/Google Drive/UBIF/UBIF_Deliverables/UBIF_PAP/K1_PAP")
+setwd("/Users/catherine.c.thomas/Google Drive/UBIF/UBIF_Deliverables/UBIF_PAP/K1_PAP")
 set.seed(47269801)
 
 required.packages <- c("dplyr", "multiwayvcov", "multcomp", "reshape2", "knitr")
@@ -142,6 +142,14 @@ k1_df <- read.delim(file = "K1_FieldSurvey.csv", header = TRUE, sep = ",", strin
 k1_df <- as.data.frame(k1_df[2:nrow(k1_df), ])
 attach(k1_df)
 
+## Survey meta data ##
+
+k1_df$start.time.mst <- as.POSIXct(as.character(k1_df$V3), format = "%m/%d/%y %H:%M")
+k1_df$start.time.eat <- k1_df$start.time.mst + (60 * 60 * 9)
+
+k1_df$end.time.mst <- as.POSIXct(as.character(k1_df$V4), format = "%m/%d/%y %H:%M")
+k1_df$end.time.eat <- k1_df$end.time.mst + (60 * 60 * 9)
+
 ## Participant ID ##
 
 k1_df$survey.id <- as.character(k1_df$V1)
@@ -180,7 +188,7 @@ for (var in selvars) {
 k1_df$sel.score <- as.numeric(k1_df$sel.con) + as.numeric(k1_df$sel.pers) + as.numeric(k1_df$sel.com) + as.numeric(k1_df$sel.prob) + as.numeric(k1_df$sel.bett)
 k1_df$sel.score.z <- (k1_df$sel.score - mean(k1_df$sel.score)) / sd(k1_df$sel.score)
 
-## Judgement ##
+## Judgment ##
 
 judvars <- c(k1_df$jud.fam, k1_df$jud.com, k1_df$jud.judg, k1_df$jud.emb, k1_df$jud.ups)
 
