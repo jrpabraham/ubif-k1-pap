@@ -2,7 +2,7 @@
 ## Install missing packages ##
 ##############################
 
-setwd("/Users/catherine.c.thomas/Google Drive/UBIF/UBIF_Deliverables/UBIF_PAP/K1_PAP")
+setwd("/Users/Justin/Google Drive/UBIF/UBIF_Deliverables/UBIF_PAP/K1_PAP")
 set.seed(47269801)
 
 required.packages <- c("dplyr", "multiwayvcov", "multcomp", "reshape2", "knitr")
@@ -138,26 +138,24 @@ FDR <- function(pvals, step) {
 ## Clean data ##
 ################
 
-k1_df <- read.delim(file = "K1_FieldSurvey.csv", header = TRUE, sep = ",", stringsAsFactors = TRUE, na.strings = "", nrows = 600)
-k1_df <- as.data.frame(k1_df[2:nrow(k1_df), ])
-attach(k1_df)
+varnames <- as.vector(read.delim(file = "K1__Field_Survey_v34+35_Appended.csv", sep = ",", header = FALSE, stringsAsFactors = FALSE, na.strings = "", nrows = 1))
+k1_df <- read.delim(file = "K1__Field_Survey_v34+35_Appended.csv", sep = ",", header = FALSE, stringsAsFactors = FALSE, na.strings = "", skip = 2, nrows = 600, col.names = varnames)
 
 ## Survey meta data ##
 
 k1_df$start.time.mst <- as.POSIXct(as.character(k1_df$V3), format = "%m/%d/%y %H:%M")
-k1_df$start.time.eat <- k1_df$start.time.mst + (60 * 60 * 9)
+k1_df$start.time.eat <- k1_df$start.time.mst + (3600 * 9)
 
 k1_df$end.time.mst <- as.POSIXct(as.character(k1_df$V4), format = "%m/%d/%y %H:%M")
-k1_df$end.time.eat <- k1_df$end.time.mst + (60 * 60 * 9)
+k1_df$end.time.eat <- k1_df$end.time.mst + (3600 * 9)
 
 ## Participant ID ##
 
-k1_df$survey.id <- as.character(k1_df$V1)
+k1_df$survey.id <- k1_df$V1
 k1_df <- k1_df[complete.cases(k1_df$survey.id), ]
 
-badvals <- c("R_5ZkChbiXDIj6KsK", "R_7N8rNtLsxF5a9on", "R_97Tx2cAjy30fqMR", "R_lYnRvOAJhuax6LS", "R_8dky4iSC7rfEuNc", "R_nczo7KPxLkkKkgo", "R_5j1OiNu3wMp265N", "R_0GYX0scNN16ICfQ", "R_6PoFtAhwvSBNYzi", "R_696kAyWai9bDkFI", "R_hPaLwAaYCnY0l69", "R_oGNBAVexMWYhMml", "R_3rwTGdEULwOGH2y", "R_bhNv0SnArTa32Xe", "R_5txHVIbQY6twLIZ", "R_kaSM6nunZ9Ynatj", "R_0ppcidBVCPaEkXK", "R_oWceQFJG5NnSokN", "R_h5Cw4tvVUeDY8NI", "R_9ib4ASBi450NZPt", "R_mAlfPdxj5GQsJF5", "R_kbW6NDTS1FWXyn3", "R_b1GC7jpoQrJKrFN", "R_5YpNpbPWOxnSNWc", "R_mwLFSjScVyrgs9J", "R_1jbOtmMIrvgTgaE", "R_if5tz3h1N9MzTp2", "R_aFmo1jRrWIwsLjI", "R_2itxVUcUstO3Syp", "R_9LP4exOnWpJ1TrE", "R_cQLu9PDCtFwbn7K", "R_oFl39knSVL3SKpz", "R_11Y1KTzawxBJmvy")
-
-k1_df <- k1_df[! k1_df$survey.id %in% badvals, ]
+nonentry <- c("R_5ZkChbiXDIj6KsK", "R_7N8rNtLsxF5a9on", "R_97Tx2cAjy30fqMR", "R_lYnRvOAJhuax6LS", "R_8dky4iSC7rfEuNc", "R_nczo7KPxLkkKkgo", "R_5j1OiNu3wMp265N", "R_0GYX0scNN16ICfQ", "R_6PoFtAhwvSBNYzi", "R_696kAyWai9bDkFI", "R_hPaLwAaYCnY0l69", "R_oGNBAVexMWYhMml", "R_3rwTGdEULwOGH2y", "R_bhNv0SnArTa32Xe", "R_5txHVIbQY6twLIZ", "R_kaSM6nunZ9Ynatj", "R_0ppcidBVCPaEkXK", "R_oWceQFJG5NnSokN", "R_h5Cw4tvVUeDY8NI", "R_9ib4ASBi450NZPt", "R_mAlfPdxj5GQsJF5", "R_kbW6NDTS1FWXyn3", "R_b1GC7jpoQrJKrFN", "R_5YpNpbPWOxnSNWc", "R_mwLFSjScVyrgs9J", "R_1jbOtmMIrvgTgaE", "R_if5tz3h1N9MzTp2", "R_aFmo1jRrWIwsLjI", "R_2itxVUcUstO3Syp", "R_9LP4exOnWpJ1TrE", "R_cQLu9PDCtFwbn7K", "R_oFl39knSVL3SKpz", "R_11Y1KTzawxBJmvy")
+k1_df <- k1_df[! k1_df$survey.id %in% nonentry, ]
 
 ## Treatment assignment ##
 
@@ -171,64 +169,58 @@ k1_df$poor <- ifelse(k1_df$condition == "poor", 1, 0)
 k1_df$ind <- ifelse(k1_df$condition == "individual", 1, 0)
 k1_df$com <- ifelse(k1_df$condition == "community", 1, 0)
 
-k1_df$msg1 <- recode(as.numeric(k1_df$ORG_MESSAGE), `2` = 0, `3` = 2)
-k1_df$msg2 <- recode(as.numeric(k1_df$ORG_MESSAGE_2), `2` = 0)
-k1_df$msg3 <- recode(as.numeric(k1_df$ORG_MESSAGE_3), `3` = 2)
+k1_df$msg1 <- recode(as.numeric(as.factor(k1_df$ORG_MESSAGE)), `2` = 0, `3` = 2)
+k1_df$msg2 <- recode(as.numeric(as.factor(k1_df$ORG_MESSAGE_2)), `2` = 0)
+k1_df$msg3 <- recode(as.numeric(as.factor(k1_df$ORG_MESSAGE_3)), `3` = 2)
 
 ## Self-efficacy ##
 
-selvars <- c(k1_df$sel.con, k1_df$sel.pers, k1_df$sel.com, k1_df$sel.prob, k1_df$sel.bett)
+for (var in c(k1_df$sel.con, k1_df$sel.pers, k1_df$sel.com, k1_df$sel.prob, k1_df$sel.bett)) {
 
-for (var in selvars) {
-
-    var[var == "-99"] <- NA
+    var[var < 0] <- NA
 
 }
 
-k1_df$sel.score <- as.numeric(k1_df$sel.con) + as.numeric(k1_df$sel.pers) + as.numeric(k1_df$sel.com) + as.numeric(k1_df$sel.prob) + as.numeric(k1_df$sel.bett)
+k1_df$sel.score <- k1_df$sel.con + k1_df$sel.pers + k1_df$sel.com + k1_df$sel.prob + k1_df$sel.bett
 k1_df$sel.score.z <- (k1_df$sel.score - mean(k1_df$sel.score)) / sd(k1_df$sel.score)
 
-## Judgment ##
+## Stigma ##
 
-judvars <- c(k1_df$jud.fam, k1_df$jud.com, k1_df$jud.judg, k1_df$jud.emb, k1_df$jud.ups)
+for (var in c(k1_df$jud.fam, k1_df$jud.com, k1_df$jud.judg, k1_df$jud.emb, k1_df$jud.ups)) {
 
-for (var in judvars) {
-
-    var[var == "-99"] <- NA
+    var[var < 0] <- NA
 
 }
 
-k1_df$jud.score <- as.numeric(k1_df$jud.fam) + as.numeric(k1_df$jud.com) + (6 - as.numeric(k1_df$jud.judg)) + (6 - as.numeric(k1_df$jud.emb)) + (6 - as.numeric(k1_df$jud.ups))
-k1_df$jud.score.z <- (k1_df$jud.score - mean(k1_df$jud.score)) / sd(k1_df$jud.score)
+k1_df$sti.score <- (6 - k1_df$jud.fam) + (6 - k1_df$jud.com) + k1_df$jud.judg + k1_df$jud.emb + k1_df$jud.ups
+k1_df$sti.score.z <- (k1_df$sti.score - mean(k1_df$sti.score)) / sd(k1_df$sti.score)
 
 ## Affect ##
 
-affvars <- c(k1_df$aff.pos, k1_df$aff.ash, k1_df$aff.pow, k1_df$aff.fina)
+for (var in c(k1_df$aff.pos, k1_df$aff.ash, k1_df$aff.pow, k1_df$aff.fina)) {
 
-for (var in judvars) {
-
-    var[var == "-99"] <- NA
+    var[var < 0] <- NA
 
 }
 
-k1_df$aff.score <- as.numeric(k1_df$aff.pos) + as.numeric(k1_df$aff.pow) + (7 - as.numeric(k1_df$aff.ash)) + (7 - as.numeric(k1_df$aff.fina))
+k1_df$aff.score <- k1_df$aff.pos + k1_df$aff.pow + (7 - k1_df$aff.ash) + (7 - k1_df$aff.fina)
 k1_df$aff.score.z <- (k1_df$aff.score - mean(k1_df$aff.score)) / sd(k1_df$aff.score)
 
 ## Video selection ##
 
-k1_df$vid.imp1 <- ifelse(as.character(k1_df$vid.dec1) == "math1" | as.character(k1_df$vid.dec1) == "equity1", 1, 0)
-k1_df$vid.imp2 <- ifelse(as.character(k1_df$vid.dec2) == "math" | as.character(k1_df$vid.dec2) == "equity", 1, 0)
+k1_df$vid.imp1 <- k1_df$vid.dec1 %in% c(3, 5)
+k1_df$vid.imp2 <- k1_df$vid.dec2 %in% c(3, 5)
 k1_df$vid.num <- k1_df$vid.imp1 + k1_df$vid.imp2
 
 ## Intertemporal choice ##
 
-k1_df$sav.save = ifelse(as.numeric(k1_df$sav.dec) == 1 | as.numeric(k1_df$sav.dec) == 2, 1, 0)
-k1_df$sav.amt[as.numeric(k1_df$sav.dec) == 1] = 100
-k1_df$sav.amt[as.numeric(k1_df$sav.dec) == 2] = 200
-k1_df$sav.amt[as.numeric(k1_df$sav.dec) == 3] = 0
+k1_df$sav.save <- k1_df$sav.dec > 1
+k1_df$sav.save[k1_df$sav.dec < 0] <- NA
 
-# variable for inconsistent choice, interval estimates of discounting parameter
-# recode refusals?
+k1_df$sav.amt[k1_df$sav.dec == 1] = 0
+k1_df$sav.amt[k1_df$sav.dec == 2] = 100
+k1_df$sav.amt[k1_df$sav.dec == 3] = 200
+k1_df$sav.amt[k1_df$sav.dec < 0] <- NA
 
 ## Query theory (savings) ##
 
@@ -238,10 +230,7 @@ k1_df$que.nonm <- apply(que_df[, 1:5], 1, function(x) length(x[is.na(x) == FALSE
 
 que_df <- melt(que_df, id = c("survey.id"))
 que_df$variable <- as.numeric(que_df$variable)
-que_df$value <- as.numeric(as.factor(que_df$value))
-que_df$value[que_df$value == 1] <- 2
-
-que_df <- dcast(que_df[is.na(que_df$value) == FALSE, ], survey.id ~ value, median, value.var = "variable")
+que_df <- dcast(que_df[is.na(que_df$value) == FALSE & que_df$value > 0, ], survey.id ~ value, median, value.var = "variable")
 names(que_df) <- c("survey.id", "que.mri", "que.mrp")
 k1_df <- merge(k1_df, que_df, all.x = TRUE)
 
@@ -249,68 +238,70 @@ k1_df$que.smrd <- (2 * (k1_df$que.mrp - k1_df$que.mri)) / k1_df$que.nonm
 k1_df$que.smrd[is.na(k1_df$que.mrp)] <- 1
 k1_df$que.smrd[is.na(k1_df$que.mri)] <- -1
 
-# dealing with missing by filling in bounds for now
+# dealing with missing by filling in upper/lower bounds for now
+
+## Message of support ##
+
+k1_df$msg.dec[k1_df$msg.dec < 0] = NA
+k1_df$msg.dec <- k1_df$msg.dec - 1
 
 ## Frame evaluation ##
 
-k1_df$msg.dec <- 3 - as.numeric(k1_df$msg.dec)
+k1_df$eva.poor[k1_df$msg1 == 0] <- k1_df$eva.msg1[k1_df$msg1 == 0]
+k1_df$eva.poor[k1_df$msg2 == 0] <- k1_df$eva.msg2[k1_df$msg2 == 0]
+k1_df$eva.poor[k1_df$msg3 == 0] <- k1_df$eva.msg3[k1_df$msg3 == 0]
 
-k1_df$eva.poor[k1_df$msg1 == 0] <- as.numeric(k1_df$eva.msg1[k1_df$msg1 == 0])
-k1_df$eva.poor[k1_df$msg2 == 0] <- as.numeric(k1_df$eva.msg2[k1_df$msg2 == 0])
-k1_df$eva.poor[k1_df$msg3 == 0] <- as.numeric(k1_df$eva.msg3[k1_df$msg3 == 0])
+k1_df$eva.ind[k1_df$msg1 == 1] <- k1_df$eva.msg1[k1_df$msg1 == 1]
+k1_df$eva.ind[k1_df$msg2 == 1] <- k1_df$eva.msg2[k1_df$msg2 == 1]
+k1_df$eva.ind[k1_df$msg3 == 1] <- k1_df$eva.msg3[k1_df$msg3 == 1]
 
-k1_df$eva.ind[k1_df$msg1 == 1] <- as.numeric(k1_df$eva.msg1[k1_df$msg1 == 1])
-k1_df$eva.ind[k1_df$msg2 == 1] <- as.numeric(k1_df$eva.msg2[k1_df$msg2 == 1])
-k1_df$eva.ind[k1_df$msg3 == 1] <- as.numeric(k1_df$eva.msg3[k1_df$msg3 == 1])
+k1_df$eva.com[k1_df$msg1 == 2] <- k1_df$eva.msg1[k1_df$msg1 == 2]
+k1_df$eva.com[k1_df$msg2 == 2] <- k1_df$eva.msg2[k1_df$msg2 == 2]
+k1_df$eva.com[k1_df$msg3 == 2] <- k1_df$eva.msg3[k1_df$msg3 == 2]
 
-k1_df$eva.com[k1_df$msg1 == 2] <- as.numeric(k1_df$eva.msg1[k1_df$msg1 == 2])
-k1_df$eva.com[k1_df$msg2 == 2] <- as.numeric(k1_df$eva.msg2[k1_df$msg2 == 2])
-k1_df$eva.com[k1_df$msg3 == 2] <- as.numeric(k1_df$eva.msg3[k1_df$msg3 == 2])
+k1_df$eva.vid.poor <- k1_df$eva.rank.vid_8
+k1_df$eva.vid.ind <- k1_df$eva.rank.vid_9
+k1_df$eva.vid.com <- k1_df$eva.rank.vid_10
 
-k1_df$eva.vid.poor <- as.numeric(k1_df$eva.rank.vid_8)
-k1_df$eva.vid.ind <- as.numeric(k1_df$eva.rank.vid_9)
-k1_df$eva.vid.com <- as.numeric(k1_df$eva.rank.vid_10)
+k1_df$eva.conf[k1_df$eva.conf < 0] <- NA
 
-k1_df$eva.conf <- as.numeric(k1_df$eva.conf)
-
-k1_df$eva.emp.poor <- as.numeric(k1_df$eva.rank.emp_5)
-k1_df$eva.emp.ind <- as.numeric(k1_df$eva.rank.emp_6)
-k1_df$eva.emp.com <- as.numeric(k1_df$eva.rank.emp_7)
+k1_df$eva.emp.poor <- k1_df$eva.rank.emp_5
+k1_df$eva.emp.ind <- k1_df$eva.rank.emp_6
+k1_df$eva.emp.com <- k1_df$eva.rank.emp_7
 
 ## Ladder scales ##
 
-k1_df$ses.lad.now <- as.numeric(as.character(k1_df$ses.lad.now))
+k1_df$ses.lad.now[k1_df$ses.lad.now < 0] <- NA
 k1_df$ses.lad.now.z <- (k1_df$ses.lad.now - mean(k1_df$ses.lad.now)) / sd(k1_df$ses.lad.now)
 
-k1_df$ses.lad.y2 <- as.numeric(as.character(k1_df$ses.lad.y2))
+k1_df$ses.lad.y2[k1_df$ses.lad.y2 < 0] <- NA
 k1_df$ses.lad.y2.z <- (k1_df$ses.lad.y2 - mean(k1_df$ses.lad.y2)) / sd(k1_df$ses.lad.y2)
 
 ## Sociodemographics ##
 
-k1_df$soc.age <- as.numeric(as.character(k1_df$soc.age))
-k1_df$soc.pri <- ifelse(as.numeric(k1_df$soc.edu) %in% c(1, 2, 3, 6, 8), 1, 0)
-k1_df$soc.fem <- ifelse(as.numeric(k1_df$soc.gen) == 1, 1, 0)
-k1_df$soc.chr <- ifelse(as.numeric(k1_df$soc.rel) %in% c(3, 4), 1, 0)
-k1_df$ses.unemp <- ifelse(as.numeric(k1_df$ses.emp) == 6, 1, 0)
-k1_df$ses.nowork <- ifelse(as.numeric(k1_df$ses.emp) == 7, 1, 0)
+k1_df$soc.age[k1_df$soc.age < 0] <- NA
+k1_df$soc.pri <- as.numeric(k1_df$soc.edu > 3)
+k1_df$soc.fem <- k1_df$soc.gen - 1
+k1_df$soc.chr <- k1_df$soc.rel %in% c(1, 2)
+k1_df$ses.unemp <- as.numeric(k1_df$ses.emp == 1)
+k1_df$ses.nowork <- as.numeric(k1_df$ses.emp == 2)
 
-k1_df$soc.inc <- as.numeric(as.character(k1_df$soc.inc))
+k1_df$soc.inc[k1_df$soc.inc < 0] <- NA
 k1_df$soc.inc.wins[k1_df$soc.inc <= quantile(k1_df$soc.inc, .99)] <- k1_df$soc.inc[k1_df$soc.inc <= quantile(k1_df$soc.inc, .99)]
 k1_df$soc.inc.wins.ln <- log(k1_df$soc.inc.wins + sqrt(k1_df$soc.inc.wins^2 + 1))
 
-k1_df$soc.con <- as.numeric(as.character(k1_df$soc.con))
+k1_df$soc.con[k1_df$soc.con < 0] <- NA
 k1_df$soc.con.wins[k1_df$soc.con <= quantile(k1_df$soc.con, .99)] <- k1_df$soc.con[k1_df$soc.con <= quantile(k1_df$soc.con, .99)]
 k1_df$soc.con.wins.ln <- log(k1_df$soc.con.wins + sqrt(k1_df$soc.con.wins^2 + 1))
 
-k1_df$soc.sav <- ifelse(as.numeric(k1_df$soc.sav) == 3, 1, 0)
+k1_df$soc.sav <- k1_df$soc.sav - 1
 
-k1_df$soc.eme <- ifelse(as.numeric(k1_df$soc.eme) == 3, NA, as.numeric(k1_df$soc.eme))
-k1_df$soc.eme <- ifelse(k1_df$soc.eme < 4, 7 - k1_df$soc.eme, 8 - k1_df$soc.eme)
 k1_df$soc.eme.z <- (k1_df$soc.eme - mean(k1_df$soc.eme)) / sd(k1_df$soc.eme)
 
 ## Survey validity ##
 
-k1_df$end.hear <- ifelse(as.numeric(k1_df$end.hear) == 3, 1, 0)
+k1_df$end.hear <- k1_df$end.hear - 1
+k1_df$end.hear[k1_df$end.hear < 0] <- NA
 
 ################
 ## Estimation ##
@@ -375,7 +366,7 @@ for (h in hypotheses) {
 ## Plain OLS for secondary outcomes ##
 
 hypotheses <- c("ind = 0", "com = 1", "ind - com = 0")
-depvars <- c("sel.score.z", "jud.score.z", "aff.score.z", "que.smrd")
+depvars <- c("sel.score.z", "sti.score.z", "aff.score.z", "que.smrd")
 
 for (h in hypotheses) {
 
