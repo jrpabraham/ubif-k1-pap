@@ -142,7 +142,7 @@ equally.}~$^{^{\ddagger\ddagger}}$,
 
     \subsection{Self-efficacy module}
 
-        This module assesses the extent to which respondents feel capable of  improving their lives and the lives of others important to them in the current moment.
+        This module assesses the extent to which respondents feel capable of improving their lives and the lives of others important to them in the current moment.
 
         \begin{itemize}
         \itemsep0em
@@ -240,8 +240,7 @@ equally.}~$^{^{\ddagger\ddagger}}$,
             \item Participant completed standard 8
             \item Participant is Christian
             \item Age
-            \item Participant is unemployed and looking for work
-            \item Participant is not looking for work
+            \item Participant employment status
             \item Average monthly income (in KSh, log transformed, and Winsorized at the top 1\%)
             \item Consumption in the last seven days (in KSH, log transformed, and Winsorized at the top 1\%)
             \item Participant has KSh 1000 stored away
@@ -303,7 +302,7 @@ equally.}~$^{^{\ddagger\ddagger}}$,
         \end{tabular} }
         \end{table}
 
-        In addition to our primary outcomes, we estimate the effect of the treatment on self-efficacy, stigma, affect, support of message, MacArthur subjective social status ladders, and standardized mean rank difference of thoughts in favor of and against saving. We will analyze these variables by both looking at individual items and constructing summary indices. Given low covariance, items may be excluded from the summary indices.
+        In addition to our primary outcomes, we estimate the effect of the treatment on self-efficacy, stigma, affect, support of message, MacArthur subjective social status ladders, and standardized mean rank difference of thoughts in favor of and against saving. We will analyze these variables by both looking at individual items and constructing summary indices. Indices of self-efficacy, stigma, and affect will be constructed by taking the sum of the normalized constituent items and standardizing the index by its mean and SD.
 
     \subsection{Covariate adjustment}
 
@@ -313,7 +312,7 @@ equally.}~$^{^{\ddagger\ddagger}}$,
             Y_{i} = \beta_{0} + \beta_{1}\text{\textsc{Ind}}_{i} + \beta_{2}\text{\textsc{Com}}_{i} + \gamma_{0} \mathbf{\dot X}'_i + \gamma_{1}\text{\textsc{Ind}}_{i} \mathbf{\dot X}'_i + \gamma_{2}\text{\textsc{Com}}_{i} \mathbf{\dot X}'_i + \varepsilon_{i}
         \end{equation}
 
-        The set of indicators partitions our sample so that our estimate for $\beta_j$ remains unbiased for the average treatment effect \parencite{lin_agnostic_2013}. We will estimate cluster-robust standard errors at the individual level. We use this model to test the hypotheses detailed in Table \ref{tab:hypotheses} including the control variables listed in Table \ref{tab:controlvars}. Equation \ref{eq:teffect} without covariate adjustment remains our preferred specification and report both estimates for robustness.
+        The set of indicators partitions our sample so that our estimate for $\beta_j$ remains unbiased for the average treatment effect \parencite{lin_agnostic_2013}. We will estimate cluster-robust standard errors at the individual level. We use this model to test the hypotheses detailed in Table \ref{tab:hypotheses} including the control variables listed in Table \ref{tab:controlvars}. These variables were chosen based on prior expectations about their predictive power in relation to the outcomes. Because these covariates were measured after treatment, we exclude any variables found to be significantly correlated with the treatmet. Equation \ref{eq:teffect} without covariate adjustment remains our preferred specification and report both estimates for robustness.
 
         \begin{table}[h]
         \centering
@@ -325,14 +324,11 @@ equally.}~$^{^{\ddagger\ddagger}}$,
         Variable & Description &  &  &  \\ \midrule
         Gender & Participant is female &  &  & \\
         Education & Participant completed standard 8 &  &  & \\
-        Religion & Participant is Christian &  &  & \\
         Age & Participant age &  &  & \\
-        Unemployment & Participant is unemployed and looking for work &  &  & \\
-        Not working & Participant is not looking for work &  &  & \\
+        Unemployed & Participant is unemployed &  &  & \\
         Income & Average monthly income (in KSh, log transformed, and Winsorized at the top 1\%) &  &  & \\
         Consumption & Consumption in the last seven days (in KSH, log transformed, and Winsorized at the top 1\%) &  &  & \\
         Savings & Participant has KSh 1000 stored away &  &  & \\
-        Emergency spending & Difficulty in raising KSh 3000 within 2 days (normalized) &  &  & \\
         \bottomrule
         \end{tabular} }
         \end{table}
@@ -345,7 +341,7 @@ equally.}~$^{^{\ddagger\ddagger}}$,
             Y_{i} = \beta_{0} + \beta_{1}\text{\textsc{Ind}}_{i} + \beta_{2}\text{\textsc{Com}}_{i} + \delta_{0} x_i + \delta_{1}\text{\textsc{Ind}}_{i} x_i + \delta_{2}\text{\textsc{Com}}_{i} x_i + \varepsilon_{i}
         \label{eq:heteffect} \end{equation}
 
-        $x_{i}$ is the binary dimension of heterogeneity. $\delta_{1}$ and $\delta_{2}$ identify the heterogeneous treatment effects of the individual empowerment and community empowerment messages relative to the poverty alleviation message. Testing $\delta_{1} = \delta_{2}$ identifies heterogeneous effects between the former two messages. Standard errors are clustered at the individual level. We estimate this model with the  variables summarized in Table \ref{tab:hetvars}.
+        $x_{i}$ is the binary dimension of heterogeneity. $\delta_{1}$ and $\delta_{2}$ identify the heterogeneous treatment effects of the individual empowerment and community empowerment messages relative to the poverty alleviation message. Testing $\delta_{1} = \delta_{2}$ identifies heterogeneous effects between the former two messages. Standard errors are clustered at the individual level. We estimate this model with the  variables summarized in Table \ref{tab:hetvars}. Because these variables were measured after treatment, we exclude any found to be significantly correlated with treatment.
 
         \begin{table}[h]
         \centering
@@ -374,30 +370,39 @@ equally.}~$^{^{\ddagger\ddagger}}$,
 
     \subsection{Multiple testing adjustment}
 
-        Given that our survey instrument included several items related to a single behavior or dimension, we will calculate sharpened $q$-values over outcomes in Table \ref{tab:depvars} and \ref{tab:controlvars} to control the false discovery rate \parencite{benjamini_adaptive_2006}. Rather than specifying a single $q$, we will report the minimum $q$-value at which each hypothesis is rejected \parencite{anderson_multiple_2008}. We will apply this correction over each set of outcomes but separately for each hypothesis test and equation. We will report standard $p$-values and use minimum $q$-values as primary in our analysis.
+        Given that our survey instrument included several items related to a single behavior or dimension, we will calculate sharpened $q$-values over outcomes in Table \ref{tab:depvars} and \ref{tab:controlvars} to control the false discovery rate \parencite{benjamini_adaptive_2006}. Rather than specifying a single $q$, we will report the minimum $q$-value at which each hypothesis is rejected \parencite{anderson_multiple_2008}. We will apply this correction over each set of outcomes but separately for each hypothesis test and equation. When estimating Equation \ref{eq:heteffect}, we correct over different dimensions of heterogeneity separately. We will report standard $p$-values and use minimum $q$-values as primary in our analysis. Table \ref{tab:summary} summarizes the specified models and methods of statistical inference.
 
-    \subsection{Summary of models}
-
-        Table \ref{tab:summary} below contains a summary of the models we will be running:
+        % \begin{table}[h]
+        % \caption{Summary of models}
+        % \label{tab:summary}
+        % \centering
+        % \begin{tabular}{|c|c|>{\centering}p{3.5cm}|}
+        % \hline
+        %  & Treatment effect & Heterogeneous effects\tabularnewline
+        % \hline
+        % Equation \ref{eq:teffect} & Yes{*} & Yes{*}\tabularnewline
+        % \hline
+        % Equation \ref{eq:controls} & Yes{*} & No\tabularnewline
+        % \hline
+        % \multicolumn{3}{|>{\raggedright}p{11cm}|}{{*}Inference using robust standard errors, approximations of the exact $p$-value, and $p$-values controlling for the FDR.}\tabularnewline
+        % \hline
+        % \end{tabular}
+        % \end{table}
 
         \begin{table}[h]
+        \centering
         \caption{Summary of models}
         \label{tab:summary}
-        \centering
-        \begin{tabular}{|c|c|>{\centering}p{3.5cm}|}
-        \hline
-         & Standard OLS & OLS with hetergeneous treatment effects\tabularnewline
-        \hline
-        Base model & Yes{*} & Yes{*}\tabularnewline
-        \hline
-        Covariance adjusted model & Yes{*} & Yes{*}\tabularnewline
-        \hline
-        Kitchen sink model & Yes{*} & No\tabularnewline
-        \hline
-        \multicolumn{3}{|>{\raggedright}p{11cm}|}{{*}Estimated separately using i) robust standard errors, ii) FDR corrected
-        errors, and iii) Fisherian sharp null}\tabularnewline
-        \hline
-        \end{tabular}
+        \maxsizebox*{\textwidth}{\textheight}{
+        \begin{tabular}{@{}lll@{}}
+        \toprule
+         & Treatment effect & Heterogeneous effects  \\ \midrule
+        Equation \ref{eq:teffect} & Yes{*} & Yes{*}   \\
+        Equation \ref{eq:teffect} with imblanced covariates & Yes{*} & Yes{*}   \\
+        Equation \ref{eq:controls} & Yes{*} & No  \\
+        \bottomrule
+        \multicolumn{3}{>{\raggedright}p{11cm}}{{*}Inference using robust standard errors, approximations of the exact $p$-value, and $p$-values controlling for the FDR.}
+        \end{tabular} }
         \end{table}
 
 \newpage
