@@ -363,7 +363,7 @@ equally.}~$^{^{\ddagger\ddagger}}$,
             Y_{i} = \beta_{0} + \beta_{1}\text{\textsc{Ind}}_{i} + \beta_{2}\text{\textsc{Com}}_{i} + \gamma_{0} \mathbf{\dot X}'_i + \gamma_{1}\text{\textsc{Ind}}_{i} \mathbf{\dot X}'_i + \gamma_{2}\text{\textsc{Com}}_{i} \mathbf{\dot X}'_i + \varepsilon_{i}
         \end{equation}
 
-        The set of indicators partitions our sample so that our estimate for $\beta_j$ remains unbiased for the average treatment effect \parencite{lin_agnostic_2013}. We will estimate cluster-robust standard errors at the individual level. We use this model to test the hypotheses detailed in Table \ref{tab:hypotheses} including the control variables listed in Table \ref{tab:controlvars}.
+        The set of indicators partitions our sample so that our estimate for $\beta_j$ remains unbiased for the average treatment effect \parencite{lin_agnostic_2013}. We will estimate cluster-robust standard errors at the individual level. We use this model to test the hypotheses detailed in Table \ref{tab:hypotheses} including the control variables listed in Table \ref{tab:controlvars}. Equation \ref{eq:teffect} without covariate adjustment remains our preferred specification and report both estimates for robustness.
 
         \begin{table}[h]
         \centering
@@ -414,17 +414,17 @@ equally.}~$^{^{\ddagger\ddagger}}$,
 
     \subsection{Randomization inference}
 
-        One potential concern is that inference might be invalidated by finite sample bias in estimates of the standard errors. To address this issue, we will conduct randomization inference to test the Fisherian sharp null hypothesis of no treatment effect for every participant \parencite{fisher_design_1935}.\footnote{Note that this is more restrictive than the null hypothesis of zero average treatment effect we will test in the previous section.} We perform Monte Carlo approximations of the exact $p$-values using $M=10,000$ permutations of the treatment assignment. We will then estimate our primary specification within each $m^{th}$ permutation and calculate the standard Wald statistics for each of our hypothesis tests. We will compare the Wald statistics from the original sample with the distribution of permuted statistics to produce approximations of the exact $p$-values:
+        One potential concern is that inference might be invalidated by finite sample bias in estimates of the standard errors. To address this issue, we will conduct randomization inference to test the Fisherian sharp null hypothesis of no treatment effect for every participant \parencite{fisher_design_1935}.\footnote{Note that this is more restrictive than the null hypothesis of zero average treatment effect we will test in the previous section.} We perform Monte Carlo approximations of the exact $p$-values using 10,000 permutations of the treatment assignment. We will then estimate the treatment effct within each $m^{th}$ permutation and calculate the standard Wald statistics for each of our hypothesis tests. We will compare the Wald statistics from the original sample with the distribution of permuted statistics to produce approximations of the exact $p$-values:
 
         \begin{equation} \label{eq:exactp}
             \hat{p}_{\beta} =  \frac{1}{10,000}\sum_{m=1}^{10,000} \mathbf{1} \Big [ \mathbf{\hat{\beta'}}_m V(\mathbf{\hat{\beta}}_m)^{-1} \mathbf{\hat{\beta}}_m \geq \mathbf{\hat{\beta'}}_{obs.} V(\mathbf{\hat{\beta}}_{obs.})^{-1} \hat{\beta}_{obs.} \Big ]
         \end{equation}
 
-        Following \textcite{young_channeling_2015}, we will permute the data and calculate the regressions for all outcomes within each draw.
+        Following \textcite{young_channeling_2015}, we will permute the data and calculate the regressions for all outcomes within each draw. While we will highglight analytic $p$-values as primary, we report these bootstrapped $p$-values for robustness.
 
     \subsection{Multiple testing adjustment}
 
-        Given that our survey instrument included several items related to a single behavior or dimension, we will calculate sharpened $q$-values over outcomes in Table \ref{tab:depvars} to control the false discovery rate \parencite{benjamini_adaptive_2006}. Rather than specifying a single $q$, we will report the minimum $q$-value at which each hypothesis is rejected \parencite{anderson_multiple_2008}. We will apply this correction over the set of primary outcomes but separately for each hypothesis test and equation. We will report both standard $p$-values and minimum $q$-values in our analysis.
+        Given that our survey instrument included several items related to a single behavior or dimension, we will calculate sharpened $q$-values over outcomes in Table \ref{tab:depvars} and \ref{tab:controlvars} to control the false discovery rate \parencite{benjamini_adaptive_2006}. Rather than specifying a single $q$, we will report the minimum $q$-value at which each hypothesis is rejected \parencite{anderson_multiple_2008}. We will apply this correction over each set of outcomes but separately for each hypothesis test and equation. We will report standard $p$-values and use minimum $q$-values as primary in our analysis.
 
     \subsection{Summary of models}
 
