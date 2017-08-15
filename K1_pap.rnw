@@ -28,7 +28,7 @@
       \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
 
 \begin{document}
-%\SweaveOpts{concordance=TRUE} 
+%\SweaveOpts{concordance=TRUE}
 %%%This was causing an error for me--not sure why...%
 
 \title{More Than Money: Effects of Cash Transfer Narratives on Agency and Self-Investment}
@@ -39,9 +39,9 @@
 equally.}~$^{\ddagger\ddagger}$,
   Nicholas Otis\thanks{University of California, Berkeley. $^{\dagger\dagger}$Contributed
 equally.}~$^{^{\ddagger\ddagger}}$,
-  Catherine Thomas\thanks{Stanford University $^{\dagger\dagger}$Contributed equally.}~$^{^{\ddagger\ddagger}}$,
-  Hazel Markus \thanks{Stanford University },
-  Greg Walton \thanks{Stanford University }
+  Catherine Thomas\thanks{Stanford University. $^{\dagger\dagger}$Contributed equally.}~$^{^{\ddagger\ddagger}}$,
+  Hazel Markus \thanks{Stanford University.},
+  Greg Walton \thanks{Stanford University.}
         }
 
 \end{onehalfspace}
@@ -66,32 +66,32 @@ equally.}~$^{^{\ddagger\ddagger}}$,
 
     \subsection{Sampling}
 
-        This study was conducted in conjunction with the Busara Center for Behavioral Economics in Nairobi with 565 participants residing in Kibera and Kawangware, two of Kenya's largest informal settlements \parencite{haushofer_methodology_2014}. Treatment and data collection were conducted by Busara Center enumerators with participants from Kibera and Kawangware in lab and lab-in-the-field settings in Nairobi, using tablets to display audio and video media and record participant responses. This section outlines the sampling procedure used in the experiment. \\
+        This study was conducted in conjunction with the Busara Center for Behavioral Economics (Busara) in Nairobi with 565 participants residing in Kibera and Kawangware, two of Kenya's largest informal settlements \parencite{haushofer_methodology_2014}. Treatment and data collection were conducted by Busara Center enumerators with participants from Kibera and Kawangware in lab and field settings, using tablets to display audio and video media and record participant responses. This section outlines the sampling procedure used in the experiment. \\
 
-        Participants were recruited from the Busara participant pool and were asked to participate in the survey in one of the lab settings. There were seven survey locations used throughout the study period. Table \ref{tab:location} summarizes these areas. 
+        Participants were recruited from the Busara participant pool and were asked to participate in the survey in one of the lab settings. There were seven survey locations used throughout the study period. Table \ref{tab:location} summarizes these areas.
 
         \begin{table}[h]
         \centering
-        \caption{Survey location}
+        \caption{Survey locations}
         \label{tab:location}
         \maxsizebox*{\textwidth}{\textheight}{
         \begin{tabular}{@{}lllll@{}}
         \toprule
-        Participant origin & Survey location &  &  &  \\ \midrule
+        Area & Survey location &  &  &  \\ \midrule
         Kibera & AIC Church &  &  &  \\
         Kibera & Kibera Immanuel Technical Institute &  &  &  \\
         Kibera & Kibera Labour Hall &  &  &  \\
         Kibera & Kibera Chonesus Hall &  &  &  \\
-        Kibera & Busara Center &  &  &  \\
+        Kibera & Busara Center (Lab) &  &  &  \\
         Kawangware & Kawangware Pastor Ken's Hall &  &  &  \\
         Kawangware & Kawangware CDF Hall &  &  &  \\ \bottomrule
         \end{tabular} }
         \end{table}
 
-Participants were recruited to participate in the study if they meet the following eligibility criteria:
+        Participants were recruited to participate in the study if they met the following eligibility criteria:
 
         \begin{enumerate}
-        \itemsep0em 
+        \itemsep0em
             \item Member of the Busara Center's participant pool
             \item Resident of Kibera or Kawangware
             \item Owns a working phone and an M-Pesa account registered under the participant's name
@@ -99,14 +99,14 @@ Participants were recruited to participate in the study if they meet the followi
 
     \subsection{Statistical power}
 
-        To achieve power of 80\% for an estimated effect size of 0.30, the required sample size of each arm was 175 participants.
+        To achieve power of 80\% for an estimated effect size of 0.30 SD, the required sample size of each arm is 175 participants.
 
     \subsection{Experimental procedure}
 
-        The survey questionnaire was delivered by enumerators to participants in Kiswahili or English, as preferred by the participant. The following summarizes the schedule of tasks in the questionnaire.\footnote{We will use a single survey instrument, programmed with Qualtrics, for treatment delivery and subsequent data collection.}
+        The survey questionnaire was delivered by enumerators to participants in Swahili or English, as preferred by the participant. The following summarizes the schedule of tasks in the questionnaire.\footnote{We will use a single survey instrument, programmed with Qualtrics, for treatment delivery and subsequent data collection.}
 
         \begin{enumerate}
-        \itemsep0em 
+        \itemsep0em
             \item Consent agreement
             \item Cash transfer and message (randomized)
             \item Self-efficacy module
@@ -122,11 +122,11 @@ Participants were recruited to participate in the study if they meet the followi
 
     \subsection{Treatment}
 
-        At the outset of the survey, eligible and consenting participants were told they are receiving an unconditional cash transfer of KES 400 (USD PPP 10.5) from an organization unaffiliated with the Busara Center.\footnote{This study was conducted with Kenyan shillings (KES). We report USD values calculated at purchasing power parity using a conversion factor for private consumption of 38.15 in 2013. The price level ratio of PPP conversion factor (GDP) to KES market exchange rate for 2011 was 0.444.} \\
-        
-        Participants were randomly assigned by the survey software within enumerator\footnote{We evenly assigned treatment groups to achieve balance in group size.} to receive one of three messages introducing the purpose of the cash transfer. The three messages had a similar structure, but we experimentally varied the described purpose of the cash transfer. Specifically, we changed the stated goals of the organization, rationale for providing money, assumptions about recipients, and expectations and goals for the use of the transfer. In the poverty alleviation message, the payment was described as a means to meet basic needs. The individual empowerment message described the payment as a means toward individual goals and advancement. The community empowerment message described the payment as a means toward goals advancing one's family and the community for community advancement. Participants listened to the message twice in their preferred language (English or Kiswahili) with pre-recorded audio clips or as read by the enumerator. \\
+        At the outset of the survey, eligible and consenting participants were told they would be receiving an unconditional cash transfer of KES 400 (USD PPP 10.5) from an organization unaffiliated with the Busara Center.\footnote{This study was conducted with Kenyan shillings (KES). We report USD values calculated at purchasing power parity using a conversion factor for private consumption of 38.15 in 2013. The price level ratio of PPP conversion factor (GDP) to KES market exchange rate for 2011 was 0.444.} \\
 
-        After hearing the message once, senior enumerators were alerted to use a project MPESA account to send USD PPP 10.5 to the participant via the mobile money system M-Pesa.\footnote{For more information on M-Pesa, we refer the reader to \textcite{jack_mobile_2011} and \textcite{mbiti_mobile_2011}.} Enumerators were instructed to confirm receipt of the payment on the respondent's phone, after which enumerators played the message a second time.\footnote{For the first day and a half of the survey period (for approximately approximately 100 respondents), we used a system in which the respondent texted a code which enabled the direct transfer of the money to their account. Due to technical difficulties, we were required to change to the above system.} Then, enumerators led the respondent's through a series of questions on how they view the transfer. In particular they are asked questions on their current needs (in the ``poverty alleviation'' arm) or goals (in the ``individual empowerment'' and "community empowerment" arms), the name they would assign to these funds (for example ``education fund''), how receipt of these funds would affect their relationship with others, and their perceived goal of the organization. \\
+        Participants were randomly assigned by the survey software within enumerator\footnote{We evenly assigned treatment groups to achieve balance in group size.} to receive one of three messages introducing the purpose of the cash transfer. The three messages had a similar structure, but we experimentally varied the described purpose of the cash transfer. Specifically, we changed the stated goals of the organization, rationale for providing money, assumptions about recipients, and expectations and goals for the use of the transfer. In the poverty alleviation message, the payment was described as a means to meet basic needs. The individual empowerment message described the payment as a means toward individual goals and advancement. The community empowerment message described the payment as a means toward goals advancing one's family and the community for community advancement. Participants listened to the message twice in their preferred language (English or Swahili) with pre-recorded audio clips or as read by the enumerator. \\
+
+        After hearing the message once, senior enumerators were alerted to use a project MPESA account to send USD PPP 10.5 to the participant via the mobile money system M-Pesa.\footnote{For more information on M-Pesa, we refer the reader to \textcite{jack_mobile_2011} and \textcite{mbiti_mobile_2011}.} Enumerators were instructed to confirm receipt of the payment on the respondent's phone, after which enumerators played the message a second time.\footnote{For the first day and a half of the survey period (for approximately approximately 100 respondents), we used a system in which the respondent texted a code which enabled the direct transfer of the money to their account. Due to technical difficulties, we were required to change to the above system.} Then, enumerators led the respondent's through a series of questions on how they view the transfer. In particular they are asked questions on their current needs (in the ``poverty alleviation'' arm) or goals (in the ``individual empowerment'' and ``community empowerment'' arms), the name they would assign to these funds (for example ``education fund''), how receipt of these funds would affect their relationship with others, and their perceived goal of the organization. \\
 
         Below, we list the three treatment messages that respondents received: \\
 
@@ -141,19 +141,23 @@ Participants were recruited to participate in the study if they meet the followi
     This section describes the data collected following the cash transfer and messaging.
 
     \subsection{Self-efficacy module}
-    This module assesses the extent to which respondents feel capable of  improving their lives and the lives of others important to them in the current moment.
-     \begin{itemize}
-        \itemsep0em 
+
+        This module assesses the extent to which respondents feel capable of  improving their lives and the lives of others important to them in the current moment.
+
+        \begin{itemize}
+        \itemsep0em
             \item In this moment, how much do you feel in control of your financial situation, such as your success in your business or employment, or other income generating activities.
             \item In this moment, how much do you feel capable of making progress towards your goals.
             \item In this moment, how much do you feel capable of making progress towards goals for your community, such as helping and empowering others you care about.
             \item In this moment, how much do you feel that life will get better?
-      \end{itemize}
+        \end{itemize}
 
     \subsection{Stigma module}
-    This module assesses the ways in which respondents feel that they or other recipients feel judged by others.
+
+        This module assesses the ways in which respondents feel that they or other recipients feel judged by others.
+
         \begin{itemize}
-        \itemsep0em 
+        \itemsep0em
             \item People may negatively judge others for various reasons. How much do you feel that other people in Kenya make judgments about you based on your economic status? By economic status, I mean things like the place where you live, your job, or the amount of money you have.
             \item How much would other people feel embarrassed if they received money from the [ORGANIZATION NAME]?
             \item If your neighors found out that you received money from the [ORGANIZATION NAME], how upset or jealous would they be with you?
@@ -162,23 +166,25 @@ Participants were recruited to participate in the study if they meet the followi
       \end{itemize}
 
     \subsection{Affect module}
-    The affect module assesses the extent of experienced positive and negative emotional states.
-       \begin{itemize}
-        \itemsep0em   
-            \item Recall that you just received some cash from [ORGANIZATION], which has a goal of [ORGANIZATION]. 
+
+        The affect module assesses the extent of experienced positive and negative emotional states.
+
+        \begin{itemize}
+        \itemsep0em
+            \item Recall that you just received some cash from [ORGANIZATION], which has a goal of [ORGANIZATION].
             \item Different experiences and conversations can make people feel different emotions, sometimes sad, sometimes excited, sometimes nervous. We want to know how you're feeling right now, from the time we started this conversation. Please answer as quickly and honestly as you can because we want to get your immediate thoughts.
             \item In this moment, how bad or good do you feel?
             \item In this moment, how embarrassed do you feel?
             \item In this moment, how empowered do you feel?
-            \item In this moment, how much do you feel worried/concerned about your finances? 
+            \item In this moment, how much do you feel worried/concerned about your finances?
         \end{itemize}
-    
+
     \subsection{Video selection task}
 
         This task asked participants to make a choice about watching 3-4 minute video clips. Enumerators described the following six videos and the participant chose to watch two at the end of the survey. Participant could not select the same clip more than once. Video clips were played after the completion of the sociodemographic questionnaire.
 
         \begin{itemize}
-        \itemsep0em 
+        \itemsep0em
             \item A video from the Mark Angel comedy group, featuring Emanuela (leisure)
             \item A trailer for the Nigerian movie, featuring Ramsey Noah (leisure)
             \item A Noa Ubongo video on math skills for business or CBO management (self-investment)
@@ -194,7 +200,7 @@ Participants were recruited to participate in the study if they meet the followi
         This task allowed participants to invest a portion (either one-quarter or one-half of their initial endowment) in savings with an interest rate of 50\%, to be paid out in two weeks. Enumerators reminded the participant about receiving KES 400 and present the participant with the following two choices.
 
         \begin{enumerate}
-        \itemsep0em 
+        \itemsep0em
             \item ``If you send us 100 right now, after two weeks you will get back 150 KSh.''
             \item ``If you send us 200 right now, after two weeks you will get back 300 KSh.''
         \end{enumerate}
@@ -210,34 +216,35 @@ Participants were recruited to participate in the study if they meet the followi
         $MR_p$ is the median rank of queries supporting delayed payment, $MR_i$ is the median rank against delayed payment, and $n$ is the total number of queries listed.
 
     \subsection{Support for organization and message}
-    
-    Participants were reminded of the organization's goal by listening to the audio message once more. They were then asked to evaluate the message and were asked whether they would want to show their support for the organization by recording the organization's message themselves. 
+
+        Participants were reminded of the organization's goal by listening to the audio message treatment once more. They were then asked to evaluate the message and were asked whether they would want to show their support for the organization by recording the organization's message themselves.
+
         \begin{enumerate}
-        \itemsep0em 
-       \item  How empowering is this recorded message? 
-       \item  Overall do you like or dislike this audio message?
-       \item  This [ORGANIZATION] is asking recipients whether they want to help promote their goal of [ORGANIZATION] by recording the voices of recipients saying their message. They want to share these recordings with possible future recipients as a show of support from current recipients. If you support their goal, you could stay after the survey ends to record the message you heard earlier. Would you like to end after watching the videos, or to continue and do a recording to show support for this organization?
-          \end{enumerate}
+        \itemsep0em
+            \item  How empowering is this recorded message?
+            \item  Overall do you like or dislike this audio message?
+            \item  This [ORGANIZATION] is asking recipients whether they want to help promote their goal of [ORGANIZATION] by recording the voices of recipients saying their message. They want to share these recordings with possible future recipients as a show of support from current recipients. If you support their goal, you could stay after the survey ends to record the message you heard earlier. Would you like to end after watching the videos, or to continue and do a recording to show support for this organization?
+        \end{enumerate}
 
     \subsection{Messages evaluation}
-    
-    We ask participants to forecast how many business videos other participants in different treatment arms would watch. Respondents make forecasts for each treatment arm, starting with the treatment message they received, and tell us their level of confidence, allowing us to roughly calculate how well participants are able to forecast treatment effects, and how these forecasts vary by participant confidence. 
-    
+
+        We ask participants to forecast how many business videos other participants in different treatment arms would watch. Respondents make forecasts for each treatment arm, starting with the treatment message they received, and tell us their level of confidence, allowing us to roughly calculate how well participants are able to forecast treatment effects, and how these forecasts vary by participant confidence.
+
     \subsection{Sociodemographic questionnaire (9 items)}
 
         The final portion of the survey asked participants to report various sociodemographic characteristics including:
 
         \begin{enumerate}
-        \itemsep0em 
+        \itemsep0em
             \item Participant is female
             \item Participant completed standard 8
             \item Participant is Christian
             \item Age
             \item Participant is unemployed and looking for work
             \item Participant is not looking for work
-            \item Average monthly income (in KSh log transformed and Winsorized at the top 1\%)
-            \item Consumption in the last seven days (in KSH log transformed and Winsorized at the top 1\%)
-            \item Participant has KSh 1000 stored away 
+            \item Average monthly income (in KSh, log transformed, and Winsorized at the top 1\%)
+            \item Consumption in the last seven days (in KSH, log transformed, and Winsorized at the top 1\%)
+            \item Participant has KSh 1000 stored away
             \item Difficulty in raising KSh 3000 within 2 days (normalized)
         \end{enumerate}
 
@@ -263,11 +270,9 @@ Participants were recruited to participate in the study if they meet the followi
             Y_{i} = \beta_{0} + \beta_{1}\text{\textsc{Ind}}_{i} + \beta_{2}\text{\textsc{Com}}_{i} + \varepsilon_{i}
 		\end{equation}
 
-        % Consider alternative response functions for categorical vars?
-
         $Y_{i}$ refers to the outcome variables for individual $i$ measured after the manipulation. The outcome variables described in Table \ref{tab:depvars} will be the focus of this analysis.
-        
-          \begin{table}[h]
+
+        \begin{table}[h]
         \centering
         \caption{Primary outcome variables}
         \label{tab:depvars}
@@ -282,12 +287,11 @@ Participants were recruited to participate in the study if they meet the followi
         \end{tabular} }
         \end{table}
 
-        \textsc{Ind}$_{i}$ indicates assignment to the individual empowerment message while \textsc{Com}$_{i}$ indicates assignment to the community support message. The reference category in this model is the poverty alleviation message. We will estimate cluster-robust standard errors at the individual level. Table \ref{tab:hypotheses} lists the hypotheses we will test using Equation \ref{eq:teffect}. 
+        \textsc{Ind}$_{i}$ indicates assignment to the individual empowerment message while \textsc{Com}$_{i}$ indicates assignment to the community support message. The reference category in this model is the poverty alleviation message. We will estimate cluster-robust standard errors at the individual level. Table \ref{tab:hypotheses} lists the hypotheses we will test using Equation \ref{eq:teffect}.
 
-        
         \begin{table}[h]
         \centering
-        \caption{Primary hypothesis tests}
+        \caption{Hypothesis tests}
         \label{tab:hypotheses}
         \maxsizebox*{\textwidth}{\textheight}{
         \begin{tabular}{@{}lllll@{}}
@@ -297,13 +301,13 @@ Participants were recruited to participate in the study if they meet the followi
         $H_0: \beta_2 = 0$ & Effect of community empowerment message relative to poverty alleviation message &  &  &  \\
         $H_0: \beta_1 = \beta_2$ & Effect of community empowerment message relative to individual empowerment message &  &  &  \\ \bottomrule
         \end{tabular} }
-        \end{table} 
-        
-In addition to our primary outcomes, we estimate the effect on self-efficacy, stigma, affect, support of message, MacArthur subjective social status ladders, and standardized mean rank difference of thoughts in favor of and against saving listed below. We will analyze these variables by both looking at individual items and constructing summary indices. Given low covariance, items may be excluded from the summary indices. 
+        \end{table}
 
-      \subsection{Covariate adjustment}
+        In addition to our primary outcomes, we estimate the effect of the treatment on self-efficacy, stigma, affect, support of message, MacArthur subjective social status ladders, and standardized mean rank difference of thoughts in favor of and against saving. We will analyze these variables by both looking at individual items and constructing summary indices. Given low covariance, items may be excluded from the summary indices.
 
-        To improve precision, we will also apply covariate adjustment with a vector of baseline indicators $\mathbf{X}_i$. We obtain the covariate-adjusted treatment effect estimate by estimating Equation \ref{eq:teffect} including the demeaned covariate vector $\mathbf{\dot X}_{i} = \mathbf{X}_{i} - \mathbf{\bar X}_{i}$ as an additive term and as an interaction with the treatment indicator.
+    \subsection{Covariate adjustment}
+
+        To improve precision, we will apply covariate adjustment with a vector of baseline indicators $\mathbf{X}_i$. We obtain the covariate-adjusted treatment effect estimate by estimating Equation \ref{eq:teffect} including the demeaned covariate vector $\mathbf{\dot X}_{i} = \mathbf{X}_{i} - \mathbf{\bar X}_{i}$ as an additive term and as an interaction with the treatment indicator.
 
         \begin{equation} \label{eq:controls}
             Y_{i} = \beta_{0} + \beta_{1}\text{\textsc{Ind}}_{i} + \beta_{2}\text{\textsc{Com}}_{i} + \gamma_{0} \mathbf{\dot X}'_i + \gamma_{1}\text{\textsc{Ind}}_{i} \mathbf{\dot X}'_i + \gamma_{2}\text{\textsc{Com}}_{i} \mathbf{\dot X}'_i + \varepsilon_{i}
@@ -325,27 +329,13 @@ In addition to our primary outcomes, we estimate the effect on self-efficacy, st
         Age & Participant age &  &  & \\
         Unemployment & Participant is unemployed and looking for work &  &  & \\
         Not working & Participant is not looking for work &  &  & \\
-        Income & Average monthly income (in KSh log transformed and Winsorized at the top 1\%) &  &  & \\
-        Consumption & Consumption in the last seven days (in KSH log transformed and Winsorized at the top 1\%) &  &  & \\
+        Income & Average monthly income (in KSh, log transformed, and Winsorized at the top 1\%) &  &  & \\
+        Consumption & Consumption in the last seven days (in KSH, log transformed, and Winsorized at the top 1\%) &  &  & \\
         Savings & Participant has KSh 1000 stored away &  &  & \\
         Emergency spending & Difficulty in raising KSh 3000 within 2 days (normalized) &  &  & \\
         \bottomrule
         \end{tabular} }
         \end{table}
-
-    \subsection{Randomization inference}
-
-        One potential concern is that inference might be invalidated by finite sample bias in estimates of the standard errors. To address this issue, we will conduct randomization inference to test the Fisherian sharp null hypothesis of no treatment effect for every participant \parencite{fisher_design_1935}.\footnote{Note that this is more restrictive than the null hypothesis of zero average treatment effect we will test in the previous section.} We perform Monte Carlo approximations of the exact $p$-values using $M=10,000$ permutations of the treatment assignment. We will then estimate our primary specification within each $m^{th}$ permutation and calculate the standard Wald statistics for each of our hypothesis tests. We will compare the Wald statistics from the original sample with the distribution of permuted statistics to produce approximations of the exact $p$-values:
-
-        \begin{equation} \label{eq:exactp}
-            \hat{p}_{\beta} =  \frac{1}{10,000}\sum_{m=1}^{10,000} \mathbf{1} \Big [ \mathbf{\hat{\beta'}}_m V(\mathbf{\hat{\beta}}_m)^{-1} \mathbf{\hat{\beta}}_m \geq \mathbf{\hat{\beta'}}_{obs.} V(\mathbf{\hat{\beta}}_{obs.})^{-1} \hat{\beta}_{obs.} \Big ]
-        \end{equation}
-
-        Following \textcite{young_channeling_2015}, we will permute the data and calculate the regressions for all outcomes within each draw.
-
-    \subsection{Multiple testing adjustment}
-
-        Given that our survey instrument included several items related to a single behavior or dimension, we will calculate sharpened $q$-values over outcomes in Table \ref{tab:depvars} to control the false discovery rate \parencite{benjamini_adaptive_2006}. Rather than specifying a single $q$, we will report the minimum $q$-value at which each hypothesis is rejected \parencite{anderson_multiple_2008}. We will apply this correction separately for each hypothesis test and will report both standard $p$-values and minimum $q$-values in our analysis.
 
     \subsection{Heterogeneous treatment effects}
 
@@ -372,29 +362,43 @@ In addition to our primary outcomes, we estimate the effect on self-efficacy, st
         \end{tabular} }
         \end{table}
 
-\subsection{Summary of models}
-The Table \ref{tab:summary} below contains a summary of the models we will be running: 
-   
-\begin{table}[h]
-\caption{Summary of models}
-\label{tab:summary}
-\centering
-\begin{tabular}{|c|c|>{\centering}p{3.5cm}|}
-\hline 
- & Standard OLS & OLS with hetergeneous treatment effects\tabularnewline
-\hline 
-Base model & Yes{*} & Yes{*}\tabularnewline
-\hline 
-Covariance adjusted model & Yes{*} & Yes{*}\tabularnewline
-\hline 
-Kitchen sink model & Yes{*} & No\tabularnewline
-\hline 
-\multicolumn{3}{|>{\raggedright}p{11cm}|}{{*}Estimated separately using i) robust standard errors, ii) FDR corrected
-errors, and iii) Fisherian sharp null}\tabularnewline
-\hline 
-\end{tabular}
-\end{table}
+    \subsection{Randomization inference}
 
+        One potential concern is that inference might be invalidated by finite sample bias in estimates of the standard errors. To address this issue, we will conduct randomization inference to test the Fisherian sharp null hypothesis of no treatment effect for every participant \parencite{fisher_design_1935}.\footnote{Note that this is more restrictive than the null hypothesis of zero average treatment effect we will test in the previous section.} We perform Monte Carlo approximations of the exact $p$-values using $M=10,000$ permutations of the treatment assignment. We will then estimate our primary specification within each $m^{th}$ permutation and calculate the standard Wald statistics for each of our hypothesis tests. We will compare the Wald statistics from the original sample with the distribution of permuted statistics to produce approximations of the exact $p$-values:
+
+        \begin{equation} \label{eq:exactp}
+            \hat{p}_{\beta} =  \frac{1}{10,000}\sum_{m=1}^{10,000} \mathbf{1} \Big [ \mathbf{\hat{\beta'}}_m V(\mathbf{\hat{\beta}}_m)^{-1} \mathbf{\hat{\beta}}_m \geq \mathbf{\hat{\beta'}}_{obs.} V(\mathbf{\hat{\beta}}_{obs.})^{-1} \hat{\beta}_{obs.} \Big ]
+        \end{equation}
+
+        Following \textcite{young_channeling_2015}, we will permute the data and calculate the regressions for all outcomes within each draw.
+
+    \subsection{Multiple testing adjustment}
+
+        Given that our survey instrument included several items related to a single behavior or dimension, we will calculate sharpened $q$-values over outcomes in Table \ref{tab:depvars} to control the false discovery rate \parencite{benjamini_adaptive_2006}. Rather than specifying a single $q$, we will report the minimum $q$-value at which each hypothesis is rejected \parencite{anderson_multiple_2008}. We will apply this correction over the set of primary outcomes but separately for each hypothesis test and equation. We will report both standard $p$-values and minimum $q$-values in our analysis.
+
+    \subsection{Summary of models}
+
+        Table \ref{tab:summary} below contains a summary of the models we will be running:
+
+        \begin{table}[h]
+        \caption{Summary of models}
+        \label{tab:summary}
+        \centering
+        \begin{tabular}{|c|c|>{\centering}p{3.5cm}|}
+        \hline
+         & Standard OLS & OLS with hetergeneous treatment effects\tabularnewline
+        \hline
+        Base model & Yes{*} & Yes{*}\tabularnewline
+        \hline
+        Covariance adjusted model & Yes{*} & Yes{*}\tabularnewline
+        \hline
+        Kitchen sink model & Yes{*} & No\tabularnewline
+        \hline
+        \multicolumn{3}{|>{\raggedright}p{11cm}|}{{*}Estimated separately using i) robust standard errors, ii) FDR corrected
+        errors, and iii) Fisherian sharp null}\tabularnewline
+        \hline
+        \end{tabular}
+        \end{table}
 
 \newpage
 
@@ -404,7 +408,7 @@ errors, and iii) Fisherian sharp null}\tabularnewline
 
 \appendix
 
-% \section{Consent Form}
+\section{Consent Form}
 %
 %     \maxsizebox*{\textwidth}{\textheight}{\includegraphics[page=1]{UBI_Consent_S4_Kenya.pdf}}
 %     \maxsizebox*{\textwidth}{\textheight}{\includegraphics[page=2]{UBI_Consent_S4_Kenya.pdf}}
@@ -412,7 +416,7 @@ errors, and iii) Fisherian sharp null}\tabularnewline
 %
 % \section{Survey Instrument}
 %
-% \section{Data Analysis Scripts} \label{sec:rscripts}
+\section{Data Analysis Scripts} \label{sec:rscripts}
 %
 % \begin{footnotesize}
 %

@@ -245,6 +245,13 @@ k1_df$que.smrd[is.na(k1_df$que.mri)] <- -1
 k1_df$msg.dec[k1_df$msg.dec < 0] = NA
 k1_df$msg.dec <- k1_df$msg.dec - 1
 
+k1_df$msg.emp[k1_df$msg.emp < 0] = NA
+
+k1_df$msg.lik[k1_df$msg.lik < 0] = NA
+k1_df$msg.lik <- 7 - k1_df$msg.lik
+
+k1_df$msg.avg <- (k1_df$msg.emp + k1_df$msg.lik) / 2
+
 ## Frame evaluation ##
 
 k1_df$eva.poor[k1_df$msg1 == 0] <- k1_df$eva.msg1[k1_df$msg1 == 0]
@@ -276,6 +283,9 @@ k1_df$ses.lad.now.z <- (k1_df$ses.lad.now - mean(k1_df$ses.lad.now)) / sd(k1_df$
 
 k1_df$ses.lad.y2[k1_df$ses.lad.y2 < 0] <- NA
 k1_df$ses.lad.y2.z <- (k1_df$ses.lad.y2 - mean(k1_df$ses.lad.y2)) / sd(k1_df$ses.lad.y2)
+
+k1_df$ses.lad.diff <- k1_df$ses.lad.y2 - k1_df$ses.lad.now
+k1_df$ses.lad.avg <- (k1_df$ses.lad.y2 + k1_df$ses.lad.now) / 2
 
 ## Sociodemographics ##
 
@@ -310,7 +320,7 @@ k1_df$end.hear[k1_df$end.hear < 0] <- NA
 ## Randomization balance checks ##
 
 hypotheses <- c("ind = 0", "com = 1", "ind - com = 0")
-depvars <- c("ses.lad.now.z", "soc.fem", "soc.pri", "soc.chr", "soc.age", "ses.unemp", "ses.nowork", "soc.inc.wins.ln", "soc.con.wins.ln", "soc.sav", "soc.eme.z")
+depvars <- c("soc.fem", "soc.pri", "soc.chr", "soc.age", "ses.unemp", "ses.nowork", "soc.inc.wins.ln", "soc.con.wins.ln", "soc.sav", "soc.eme.z")
 
 for (h in hypotheses) {
 
@@ -366,7 +376,7 @@ for (h in hypotheses) {
 ## Plain OLS for secondary outcomes ##
 
 hypotheses <- c("ind = 0", "com = 1", "ind - com = 0")
-depvars <- c("sel.score.z", "sti.score.z", "aff.score.z", "que.smrd")
+depvars <- c("sel.score.z", "sti.score.z", "aff.score.z", "msg.emp", "msg.lik", "msg.avg", "que.smrd", "ses.lad.now", "ses.lad.y2", "ses.lad.diff", "ses.lad.avg")
 
 for (h in hypotheses) {
 
@@ -391,11 +401,11 @@ for (h in hypotheses) {
 
 }
 
-## Covariate adjustment ##
+## Covariate adjustment for primary outcomes ##
 
 hypotheses <- c("ind = 0", "com = 1", "ind - com = 0")
 depvars <- c("vid.num", "sav.amt", "msg.dec")
-covariates <- c("ses.lad.now.z", "soc.fem", "soc.pri", "soc.chr", "soc.age", "ses.unemp", "ses.nowork", "soc.inc.wins.ln", "soc.con.wins.ln", "soc.sav", "soc.eme.z")
+covariates <- c("soc.fem", "soc.pri", "soc.chr", "soc.age", "ses.unemp", "ses.nowork", "soc.inc.wins.ln", "soc.con.wins.ln", "soc.sav", "soc.eme.z")
 
 for (h in hypotheses) {
 
@@ -453,3 +463,38 @@ for (hetvar in hetvars) {
     }
 
 }
+
+# ## Het effects with covariate adjustment ##
+#
+# depvars <- c("vid.num", "sav.amt", "msg.dec")
+# hetvars <- c("soc.fem", "soc.sav", "soc.pri")
+# covariates <- c("soc.fem", "soc.pri", "soc.chr", "soc.age", "ses.unemp", "ses.nowork", "soc.inc.wins.ln", "soc.con.wins.ln", "soc.sav", "soc.eme.z")
+#
+# for (hetvar in hetvars) {
+#
+#     hypotheses <- c(paste("ind:", hetvar, " = 0", sep = ""), paste(hetvar, ":com", " = 0", sep = ""), paste("ind:", hetvar, " - ", hetvar, ":com", " = 0", sep = ""))
+#
+#     for (h in hypotheses) {
+#
+#         RES <- matrix(nrow = 1, ncol = 5)
+#
+#         for (depvar in depvars) {
+#
+#             eqn <- paste(depvar, "~ ind  + com +", covariates, sep = " ")
+#             RES <- rbind(RES, PermTest(eqn, treatvars = c("treatment", "poor", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10, data = k1_df))
+#
+#         }
+#
+#         RES <- RES[2:nrow(RES), 1:ncol(RES)]
+#         RES <- cbind(RES, FDR(RES[, 4]))
+#
+#         rownames(RES) <- depvars
+#         colnames(RES)[6] <- "Min. Q"
+#
+#         print("----------------------------------------------------------------", quote = FALSE)
+#         print(paste("H_0:", h), quote = FALSE)
+#         print(RES, quote = FALSE)
+#
+#     }
+#
+# }
