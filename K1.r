@@ -15,7 +15,7 @@ lapply(required.packages, library, character.only = TRUE)
 ## Define functions ##
 ######################
 
-## RegTest conducts asymptotic test from linear model ##
+## est conducts asymptotic test from linear model ##
 
 RegTest <- function(equation, clustvars, hypotheses, data) {
 
@@ -134,6 +134,22 @@ FDR <- function(pvals, step) {
 
 }
 
+## Interact returns a string of interacted variables ##
+
+Interact <- function(d, x) {
+
+    catstring <- ""
+
+    for (var in x) {
+
+        catstring <- paste(catstring, " + ", d, "*", var, sep = "")
+
+    }
+
+    return(substr(catstring, 3, nchar(catstring)))
+
+}
+
 ################
 ## Clean data ##
 ################
@@ -159,13 +175,12 @@ k1_df <- k1_df[! k1_df$survey.id %in% nonentry, ]
 
 ## Treatment assignment ##
 
-k1_df$treatment[k1_df$condition == "poor"] <- 0
-k1_df$treatment[k1_df$condition == "individual"] <- 1
-k1_df$treatment[k1_df$condition == "community"] <- 2
+k1_df$treat[k1_df$condition == "poor"] <- 0
+k1_df$treat[k1_df$condition == "individual"] <- 1
+k1_df$treat[k1_df$condition == "community"] <- 2
+k1_df$treat <- factor(k1_df$treat, labels = c("Pov", "Ind", "Com"))
 
-factor(k1_df$treatment)
-
-k1_df$poor <- ifelse(k1_df$condition == "poor", 1, 0)
+k1_df$pov <- ifelse(k1_df$condition == "poor", 1, 0)
 k1_df$ind <- ifelse(k1_df$condition == "individual", 1, 0)
 k1_df$com <- ifelse(k1_df$condition == "community", 1, 0)
 
@@ -313,14 +328,16 @@ k1_df$soc.eme.z <- (k1_df$soc.eme - mean(k1_df$soc.eme)) / sd(k1_df$soc.eme)
 k1_df$end.hear <- k1_df$end.hear - 1
 k1_df$end.hear[k1_df$end.hear < 0] <- NA
 
+attach(k1_df)
+
 ################
 ## Estimation ##
 ################
 
 ## Randomization balance checks ##
 
-hypotheses <- c("ind = 0", "com = 1", "ind - com = 0")
-depvars <- c("soc.fem", "soc.pri", "soc.chr", "soc.age", "ses.unemp", "ses.nowork", "soc.inc.wins.ln", "soc.con.wins.ln", "soc.sav", "soc.eme.z")
+hypotheses <- c("treatInd = 0", "treatCom = 1", "treatInd - treatCom = 0")
+depvars <- c("soc.fem", "soc.pri", "soc.age", "ses.unemp", "ses.nowork", "soc.inc.wins.ln", "soc.con.wins.ln", "soc.sav", "soc.eme.z")
 
 for (h in hypotheses) {
 
@@ -328,8 +345,8 @@ for (h in hypotheses) {
 
     for (depvar in depvars) {
 
-        eqn <- paste(depvar, "~ ind  + com", sep = " ")
-        RES <- rbind(RES, PermTest(eqn, treatvars = c("treatment", "poor", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10, data = k1_df))
+        eqn <- paste(depvar, "~ treat", sep = " ")
+        RES <- rbind(RES, PermTest(eqn, treatvars = c("treat", "pov", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10, data = k1_df))
 
     }
 
@@ -347,7 +364,7 @@ for (h in hypotheses) {
 
 ## Plain OLS for primary outcomes ##
 
-hypotheses <- c("ind = 0", "com = 1", "ind - com = 0")
+hypotheses <- c("treatInd = 0", "treatCom = 1", "treatInd - treatCom = 0")
 depvars <- c("vid.num", "sav.amt", "msg.dec")
 
 for (h in hypotheses) {
@@ -356,8 +373,8 @@ for (h in hypotheses) {
 
     for (depvar in depvars) {
 
-        eqn <- paste(depvar, "~ ind  + com", sep = " ")
-        RES <- rbind(RES, PermTest(eqn, treatvars = c("treatment", "poor", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10, data = k1_df))
+        eqn <- paste(depvar, "~ treat", sep = " ")
+        RES <- rbind(RES, PermTest(eqn, treatvars = c("treat", "pov", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10, data = k1_df))
 
     }
 
@@ -375,7 +392,7 @@ for (h in hypotheses) {
 
 ## Plain OLS for secondary outcomes ##
 
-hypotheses <- c("ind = 0", "com = 1", "ind - com = 0")
+hypotheses <- c("treatInd = 0", "treatCom = 1", "treatInd - treatCom = 0")
 depvars <- c("sel.score.z", "sti.score.z", "aff.score.z", "msg.emp", "msg.lik", "msg.avg", "que.smrd", "ses.lad.now", "ses.lad.y2", "ses.lad.diff", "ses.lad.avg")
 
 for (h in hypotheses) {
@@ -384,8 +401,8 @@ for (h in hypotheses) {
 
     for (depvar in depvars) {
 
-        eqn <- paste(depvar, "~ ind  + com", sep = " ")
-        RES <- rbind(RES, PermTest(eqn, treatvars = c("treatment", "poor", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10, data = k1_df))
+        eqn <- paste(depvar, "~ treat", sep = " ")
+        RES <- rbind(RES, PermTest(eqn, treatvars = c("treat", "pov", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10, data = k1_df))
 
     }
 
@@ -403,9 +420,9 @@ for (h in hypotheses) {
 
 ## Covariate adjustment for primary outcomes ##
 
-hypotheses <- c("ind = 0", "com = 1", "ind - com = 0")
+hypotheses <- c("treatInd = 0", "treatCom = 1", "treatInd - treatCom = 0")
 depvars <- c("vid.num", "sav.amt", "msg.dec")
-covariates <- c("soc.fem", "soc.pri", "soc.chr", "soc.age", "ses.unemp", "ses.nowork", "soc.inc.wins.ln", "soc.con.wins.ln", "soc.sav", "soc.eme.z")
+covariates <- c("soc.fem", "soc.pri", "soc.age", "ses.unemp", "ses.nowork", "soc.inc.wins.ln", "soc.con.wins.ln", "soc.sav", "soc.eme.z")
 
 for (h in hypotheses) {
 
@@ -413,8 +430,8 @@ for (h in hypotheses) {
 
     for (depvar in depvars) {
 
-        eqn <- paste(depvar, "~ ind  + com +", covariates, sep = " ")
-        RES <- rbind(RES, PermTest(eqn, treatvars = c("treatment", "poor", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10, data = k1_df))
+        eqn <- paste(depvar, "~", Interact("treat", covariates), sep = " ")
+        RES <- rbind(RES, PermTest(eqn, treatvars = c("treat", "pov", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10, data = k1_df))
 
     }
 
@@ -430,14 +447,43 @@ for (h in hypotheses) {
 
 }
 
-## Het effects ##
+## Covariate adjustment for secondary outcomes ##
+
+hypotheses <- c("treatInd = 0", "treatCom = 1", "treatInd - treatCom = 0")
+depvars <- c("sel.score.z", "sti.score.z", "aff.score.z", "msg.emp", "msg.lik", "msg.avg", "que.smrd", "ses.lad.now", "ses.lad.y2", "ses.lad.diff", "ses.lad.avg")
+covariates <- c("soc.fem", "soc.pri", "soc.age", "ses.unemp", "ses.nowork", "soc.inc.wins.ln", "soc.con.wins.ln", "soc.sav", "soc.eme.z")
+
+for (h in hypotheses) {
+
+    RES <- matrix(nrow = 1, ncol = 5)
+
+    for (depvar in depvars) {
+
+        eqn <- paste(depvar, "~", Interact("treat", covariates), sep = " ")
+        RES <- rbind(RES, PermTest(eqn, treatvars = c("treat", "pov", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10, data = k1_df))
+
+    }
+
+    RES <- RES[2:nrow(RES), 1:ncol(RES)]
+    RES <- cbind(RES, FDR(RES[, 4]))
+
+    rownames(RES) <- depvars
+    colnames(RES)[6] <- "Min. Q"
+
+    print("----------------------------------------------------------------", quote = FALSE)
+    print(paste("H_0:", h), quote = FALSE)
+    print(RES, quote = FALSE)
+
+}
+
+## Heterogeneous effects ##
 
 depvars <- c("vid.num", "sav.amt", "msg.dec")
 hetvars <- c("soc.fem", "soc.sav", "soc.pri")
 
 for (hetvar in hetvars) {
 
-    hypotheses <- c(paste("ind:", hetvar, " = 0", sep = ""), paste(hetvar, ":com", " = 0", sep = ""), paste("ind:", hetvar, " - ", hetvar, ":com", " = 0", sep = ""))
+    hypotheses <- c(paste("treatInd:", hetvar, " = 0", sep = ""), paste("treatCom:", hetvar, " = 0", sep = ""), paste("treatInd:", hetvar, " - ", "treatCom:", hetvar, " = 0", sep = ""))
 
     for (h in hypotheses) {
 
@@ -445,8 +491,8 @@ for (hetvar in hetvars) {
 
         for (depvar in depvars) {
 
-            eqn <- paste(depvar, " ~ ind*", hetvar, " + com*", hetvar, sep = "")
-            RES <- rbind(RES, PermTest(eqn, treatvars = c("treatment", "poor", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10, data = k1_df))
+            eqn <- paste(depvar, " ~ treat*", hetvar, sep = "")
+            RES <- rbind(RES, PermTest(eqn, treatvars = c("treat", "pov", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10, data = k1_df))
 
         }
 
@@ -463,38 +509,3 @@ for (hetvar in hetvars) {
     }
 
 }
-
-# ## Het effects with covariate adjustment ##
-#
-# depvars <- c("vid.num", "sav.amt", "msg.dec")
-# hetvars <- c("soc.fem", "soc.sav", "soc.pri")
-# covariates <- c("soc.fem", "soc.pri", "soc.chr", "soc.age", "ses.unemp", "ses.nowork", "soc.inc.wins.ln", "soc.con.wins.ln", "soc.sav", "soc.eme.z")
-#
-# for (hetvar in hetvars) {
-#
-#     hypotheses <- c(paste("ind:", hetvar, " = 0", sep = ""), paste(hetvar, ":com", " = 0", sep = ""), paste("ind:", hetvar, " - ", hetvar, ":com", " = 0", sep = ""))
-#
-#     for (h in hypotheses) {
-#
-#         RES <- matrix(nrow = 1, ncol = 5)
-#
-#         for (depvar in depvars) {
-#
-#             eqn <- paste(depvar, "~ ind  + com +", covariates, sep = " ")
-#             RES <- rbind(RES, PermTest(eqn, treatvars = c("treatment", "poor", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10, data = k1_df))
-#
-#         }
-#
-#         RES <- RES[2:nrow(RES), 1:ncol(RES)]
-#         RES <- cbind(RES, FDR(RES[, 4]))
-#
-#         rownames(RES) <- depvars
-#         colnames(RES)[6] <- "Min. Q"
-#
-#         print("----------------------------------------------------------------", quote = FALSE)
-#         print(paste("H_0:", h), quote = FALSE)
-#         print(RES, quote = FALSE)
-#
-#     }
-#
-# }
