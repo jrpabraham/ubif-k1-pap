@@ -15,7 +15,7 @@ lapply(required.packages, library, character.only = TRUE)
 ## Define functions ##
 ######################
 
-## est conducts asymptotic test from linear model ##
+## RegTest conducts asymptotic tests from linear model ##
 
 RegTest <- function(equation, clustvars, hypotheses, data) {
 

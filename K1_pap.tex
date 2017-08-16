@@ -100,7 +100,7 @@ equally.}~$^{^{\ddagger\ddagger}}$,
 
 \begin{abstract}
 
-    This document describes the pre-analysis plan for a randomized experiment examining the effects of narratives accompanying unconditional cash transfers on self-concept and economic behavior. We provided small, unconditional cash transfers to residents of two informal settlements in Nairobi and randomly assign participants to receive one of three messages with a constant amount of cash. Respondents will receive a message stating that the cash is intended for 1) poverty alleviation, 2) individual empowerment, or 3) community empowerment. We then collected self-reported measures of self-efficacy, stigma, and affect and behavioral measures of future-orientation, self-investment, and program support. This pre-analysis plan outlines our hypotheses, the schedule of experimental tasks, and our empirical strategy. In order to guarantee transparency and bind ourselves from fishing for results, we will pre-register the scripts to be used for data analysis.
+    This document describes the pre-analysis plan for a randomized experiment examining the effects of narratives accompanying unconditional cash transfers on self-concept and economic behavior. We provided one-time, unconditional cash transfers to residents of two informal settlements in Nairobi and randomly assign participants to receive one of three messages. Respondents will receive a non-binding message stating that the cash is intended for 1) poverty alleviation, 2) individual empowerment, or 3) community empowerment. We then collected self-reported measures of self-efficacy, stigma, and affect and behavioral measures of future-orientation, self-investment, and program support. This pre-analysis plan outlines our hypotheses, the schedule of experimental tasks, and our empirical strategy. In order to guarantee transparency and bind ourselves from fishing for results, we will pre-register the scripts to be used for data analysis.
 
 \end{abstract}
 
@@ -109,8 +109,6 @@ equally.}~$^{^{\ddagger\ddagger}}$,
 \tableofcontents
 
 \newpage
-
-\section{Introduction}
 
 \section{Research Design}
 
@@ -149,7 +147,7 @@ equally.}~$^{^{\ddagger\ddagger}}$,
 
     \subsection{Statistical power}
 
-        To achieve power of 80\% for an estimated effect size of 0.30 SD, the required sample size of each arm is 175 participants.
+        To achieve power of 80\% for an estimated effect size of 0.30 SD, the required sample size is 525 participants, with 175 in each of the treatment arms.
 
     \subsection{Experimental procedure}
 
@@ -301,7 +299,7 @@ equally.}~$^{^{\ddagger\ddagger}}$,
 
     \subsection{Randomization balance checks}
 
-        Although the randomization of the treatment ensures balance across groups in expectation, we test for differences in sociodemographic characteristics using the following specification.
+        Although the randomization of the treatment ensures balance across groups in expectation, we test for differences in sociodemographic characteristics using the following specification.\footnote{We will conduct the data analysis outlined in this section using the R programming language with the scripts included in Appendix \ref{sec:rscripts}. Preliminary data cleaning, including data download, appending survey versions, inclusion of location data, and removal of personally identifiable information, is not included in the source code.}
 
         \begin{equation} \label{eq:balance}
         Y_{i} = \beta_{0} + \beta_{1}\text{\textsc{Ind}}_{i} + \beta_{2}\text{\textsc{Com}}_{i} + \varepsilon_{i}
@@ -313,7 +311,7 @@ equally.}~$^{^{\ddagger\ddagger}}$,
 
     \subsection{Treatment effect of cash transfer messages}
 
-        We will use the following reduced-form specification to estimate the treatment effect of different messages.\footnote{We will conduct the data analysis outlined in this section using the R programming language with the scripts included in Appendix \ref{sec:rscripts}.}
+        We will use the following reduced-form specification to estimate the treatment effect of different messages.
 
   		\begin{equation} \label{eq:teffect}
             Y_{i} = \beta_{0} + \beta_{1}\text{\textsc{Ind}}_{i} + \beta_{2}\text{\textsc{Com}}_{i} + \varepsilon_{i}
@@ -448,7 +446,7 @@ equally.}~$^{^{\ddagger\ddagger}}$,
         \toprule
          & Treatment effect & Heterogeneous effects  \\ \midrule
         Equation \ref{eq:teffect} & Yes{*} & Yes{*}   \\
-        Equation \ref{eq:teffect} with imblanced covariates & Yes{*} & Yes{*}   \\
+        Equation \ref{eq:teffect} with imbalanced covariates & Yes{*} & Yes{*}   \\
         Equation \ref{eq:controls} & Yes{*} & No  \\
         \bottomrule
         \multicolumn{3}{>{\raggedright}p{11cm}}{{*}Inference using robust standard errors, approximations of the exact $p$-value, and $p$-values controlling for the FDR.}
@@ -464,435 +462,609 @@ equally.}~$^{^{\ddagger\ddagger}}$,
 \appendix
 
 \section{Consent Form}
-%
-%     \maxsizebox*{\textwidth}{\textheight}{\includegraphics[page=1]{UBI_Consent_S4_Kenya.pdf}}
-%     \maxsizebox*{\textwidth}{\textheight}{\includegraphics[page=2]{UBI_Consent_S4_Kenya.pdf}}
-%     \maxsizebox*{\textwidth}{\textheight}{\includegraphics[page=3]{UBI_Consent_S4_Kenya.pdf}}
-%
-% \section{Survey Instrument}
-%
-\section{Data Analysis Scripts} \label{sec:rscripts}
-%
-% \begin{footnotesize}
-%
-% \subsection{Packages}
-%
-% <<K1packages, results = 'hide', message = FALSE, warning = FALSE>>=
-%
-%     setwd("/Users/Justin/Google Drive/UBIF/UBIF_Deliverables/UBIF_PAP/K1_PAP")
-%     set.seed(47269801)
-%
-%     required.packages <- c("dplyr", "multiwayvcov", "multcomp", "reshape2", "knitr")
-%     packages.missing <- required.packages[!required.packages %in% installed.packages()[,"Package"]]
-%
-%     if(length(packages.missing) > 0) {install.packages(required.packages, repo="https://cran.cnr.berkeley.edu/")}
-%     lapply(required.packages, library, character.only = TRUE)
-%
-% @
-%
-%     \subsection{User-defined functions}
-%
-% <<K1functions, results = 'hide'>>=
-%
-%     ## RegTest conducts asymptotic test from linear model ##
-%
-%     RegTest <- function(equation, clustvars, hypotheses, data) {
-%
-%         model <- lm(equation, data = data, na.action = na.omit)
-%
-%         if (missing(clustvars)) model$vcov <- vcov(model)
-%         else model$vcov <- cluster.vcov(model, cluster = clustvars)
-%
-%         model$test <- summary(glht(model, linfct = hypotheses, vcov = model$vcov))$test
-%
-%         numhyp <- length(hypotheses)
-%
-%         EST <- matrix(nrow = numhyp, ncol = 4)
-%
-%         for (i in 1:numhyp) {
-%
-%             EST[i, 1] <- model$test$coefficients[i]
-%             EST[i, 2] <- model$test$tstat[i]
-%             EST[i, 3] <- model$test$sigma[i]
-%             EST[i, 4] <- model$test$pvalues[i]
-%
-%         }
-%
-%         colnames(EST) <- c("Estimate", "Tstat", "SE", "P")
-%
-%         return(EST)
-%
-%     }
-%
-%     ## PermTest returns MC approximations of the exact p-value ##
-%
-%     PermTest <- function(equation, treatvars, clustvars, hypotheses, iterations, data) {
-%
-%         stopifnot(length(hypotheses) <= 1)
-%
-%         obsEST <- RegTest(equation, clustvars, hypotheses, data)
-%         obsStat <- obsEST[1, 2]
-%
-%         simEST <- matrix(ncol = 4)
-%
-%         for (i in 1:iterations) {
-%
-%             simTreat <- data[, treatvars, drop = FALSE]
-%             simTreat <- simTreat[sample(nrow(simTreat)),]
-%
-%             simData <- cbind(simTreat, data[, !(names(data) %in% treatvars), drop = FALSE])
-%             colnames(simData)[1:length(treatvars)] <- treatvars
-%
-%             simEST <- rbind(simEST, RegTest(equation, clustvars, hypotheses, data = simData))
-%
-%         }
-%
-%         simSTAT <- simEST[2:nrow(simEST), 2]
-%         countSTAT <- matrix(abs(simSTAT) >= abs(obsStat), ncol = 1)
-%
-%         ExactP <- colSums(countSTAT) / iterations
-%
-%         EST <- cbind(obsEST, ExactP)
-%
-%         colnames(EST) <- c("Estimate", "Tstat", "SE", "P", "ExactP")
-%
-%         return(EST)
-%
-%     }
-%
-%     ## FDR returns minimum q-values ##
-%
-%     FDR <- function(pvals, step) {
-%
-%         if (sum(is.na(pvals) == FALSE) <= 1) {return(pvals)}
-%         if (missing(step)) {step <- 0.001}
-%
-%         allpvals <- cbind(as.matrix(pvals), matrix(1:nrow(as.matrix(pvals)), ncol = 1))
-%
-%         pvals <- na.omit(allpvals)
-%         nump <- nrow(pvals)
-%
-%         pvals <- pvals[order(pvals[, 1]), ]
-%         rank <- matrix(1:nump, ncol = 1)
-%         pvals <- cbind(pvals, rank, matrix(0, nrow = nump, ncol = 1))
-%
-%         qval <- 1
-%
-%         while (qval > 0) {
-%
-%             qfirst <- qval / (1 + qval)
-%             fdrtemp <- (qfirst * rank) / nump
-%
-%             subrank <- which(fdrtemp >= as.matrix(pvals[, 1]))
-%
-%             if (length(subrank) < 1) {
-%                 numreject <- 0
-%             } else numreject <- max(subrank)
-%
-%             qsec <- qfirst * (nump / (nump - numreject))
-%             fdrtemp <- (qsec * rank) / nump
-%
-%             subrank <- which(fdrtemp >= as.matrix(pvals[, 1]))
-%
-%             if (length(subrank) < 1) {
-%                 numreject <- 0
-%             } else numreject <- max(subrank)
-%
-%             pvals[which(pvals[, 3] <= numreject), 4] <- qval
-%
-%             qval <- qval - step
-%
-%         }
-%
-%         pvals <- pvals[order(pvals[, 2]), ]
-%
-%         qvals <- matrix(nrow = nrow(allpvals), ncol = 1)
-%         qvals[match(pvals[, 2], allpvals[, 2]), 1] <- pvals[, 4]
-%
-%         return(as.matrix(qvals))
-%
-%     }
-%
-% @
-%
-%     \subsection{Data cleaning}
-%
-% <<K1data, results = 'hide'>>=
-%
-%     k1_df <- read.delim(file = "K1__Field_Survey_v34.csv", header = TRUE, sep = ",", stringsAsFactors = TRUE, na.strings = "")
-%     k1_df <- as.data.message(k1_df[2:nrow(k1_df), ])
-%     attach(k1_df)
-%
-%     ## Participant ID ##
-%
-%     k1_df$survey.id <- as.numeric(as.character(k1_df$numb1))
-%     k1_df$survey.id[is.na(k1_df$survey.id)] <- as.numeric(as.character(k1_df$numb2))
-%     data <- data[complete.cases(k1_df$survey.id), ]
-%
-%     # sum(duplicated(k1_df$survey.id))
-%
-%     ## Treatment assignment ##
-%
-%     k1_df$treatment[k1_df$condition == "poor"] <- 0
-%     k1_df$treatment[k1_df$condition == "individual"] <- 1
-%     k1_df$treatment[k1_df$condition == "community"] <- 2
-%
-%     factor(k1_df$treatment)
-%
-%     k1_df$poor <- ifelse(k1_df$condition == "poor", 1, 0)
-%     k1_df$ind <- ifelse(k1_df$condition == "individual", 1, 0)
-%     k1_df$com <- ifelse(k1_df$condition == "community", 1, 0)
-%
-%     k1_df$msg1 <- recode(as.numeric(k1_df$ORG_MESSAGE), `2` = 0, `3` = 2)
-%     k1_df$msg2 <- recode(as.numeric(k1_df$ORG_MESSAGE_2), `2` = 0)
-%     k1_df$msg3 <- recode(as.numeric(k1_df$ORG_MESSAGE_3), `3` = 2)
-%
-%     ## Self-efficacy ##
-%
-%     selvars <- c(k1_df$sel.con, k1_df$sel.pers, k1_df$sel.com, k1_df$sel.prob, k1_df$sel.bett)
-%
-%     for (var in selvars) {
-%
-%         var[var == "-99"] <- NA
-%
-%     }
-%
-%     k1_df$sel.score <- as.numeric(k1_df$sel.con) + as.numeric(k1_df$sel.pers) + as.numeric(k1_df$sel.com) + as.numeric(k1_df$sel.prob) + as.numeric(k1_df$sel.bett)
-%     k1_df$sel.score.z <- (k1_df$sel.score - mean(k1_df$sel.score)) / sd(k1_df$sel.score)
-%
-%     ## Judgement ##
-%
-%     judvars <- c(k1_df$jud.fam, k1_df$jud.com, k1_df$jud.judg, k1_df$jud.emb, k1_df$jud.ups)
-%
-%     for (var in judvars) {
-%
-%         var[var == "-99"] <- NA
-%
-%     }
-%
-%     k1_df$jud.score <- as.numeric(k1_df$jud.fam) + as.numeric(k1_df$jud.com) + (6 - as.numeric(k1_df$jud.judg)) + (6 - as.numeric(k1_df$jud.emb)) + (6 - as.numeric(k1_df$jud.ups))
-%     k1_df$jud.score.z <- (k1_df$jud.score - mean(k1_df$jud.score)) / sd(k1_df$jud.score)
-%
-%     ## Affect ##
-%
-%     affvars <- c(k1_df$aff.pos, k1_df$aff.ash, k1_df$aff.pow, k1_df$aff.fina)
-%
-%     for (var in judvars) {
-%
-%         var[var == "-99"] <- NA
-%
-%     }
-%
-%     k1_df$aff.score <- as.numeric(k1_df$aff.pos) + as.numeric(k1_df$aff.pow) + (7 - as.numeric(k1_df$aff.ash)) + (7 - as.numeric(k1_df$aff.fina))
-%     k1_df$aff.score.z <- (k1_df$aff.score - mean(k1_df$aff.score)) / sd(k1_df$aff.score)
-%
-%     ## Video selection ##
-%
-%     k1_df$vid.imp1 <- ifelse(k1_df$vid.dec1 == "3" | k1_df$vid.dec1 == "5", 1, 0)
-%     k1_df$vid.imp2 <- ifelse(k1_df$vid.dec2 == "3" | k1_df$vid.dec2 == "5", 1, 0)
-%     k1_df$vid.num <- k1_df$vid.imp1 + k1_df$vid.imp2
-%
-%     ## Intertemporal choice ##
-%
-%     k1_df$sav.save = ifelse(k1_df$sav.dec == "2" | k1_df$sav.dec == "3", 1, 0)
-%     k1_df$sav.amt[k1_df$sav.dec == "1"] = 0
-%     k1_df$sav.amt[k1_df$sav.dec == "2"] = 100
-%     k1_df$sav.amt[k1_df$sav.dec == "3"] = 200
-%
-%     # variable for inconsistent choice, interval estimates of discounting parameter
-%     # recode refusals?
-%
-%     ## Query theory (savings) ##
-%
-%     que_df <- k1_df[names(k1_df) %in% c("survey.id", "que.rat1", "que.rat2", "que.rat3", "que.rat4", "que.rat5")]
-%
-%     k1_df$que.nonm <- apply(que_df[, 1:5], 1, function(x) length(x[is.na(x) == FALSE]))
-%
-%     que_df <- melt(que_df, id = c("survey.id"))
-%     que_df$variable <- as.numeric(que_df$variable)
-%     que_df$value <- as.numeric(que_df$value)
-%     que_df <- dcast(que_df[is.na(que_df$value) == FALSE, ], survey.id ~ value, median, value.var = "variable")
-%     names(que_df) <- c("survey.id", "que.mri", "que.mrp")
-%     k1_df <- merge(k1_df, que_df, all.x = TRUE)
-%
-%     k1_df$que.smrd <- (2 * (k1_df$que.mrp - k1_df$que.mri)) / k1_df$que.nonm
-%     k1_df$que.smrd[is.na(k1_df$que.mrp)] <- 1
-%     k1_df$que.smrd[is.na(k1_df$que.mri)] <- -1
-%
-%     # dealing with missing by filling in bounds for now, obs with values over this have duplicates
-%
-%     ## Message evaluation ##
-%
-%     k1_df$msg.dec <- recode(k1_df$msg.dec, "2" = 1, "1" = 0)
-%
-%     k1_df$eva.poor[k1_df$msg1 == 0] <- as.numeric(k1_df$eva.msg1[k1_df$msg1 == 0])
-%     k1_df$eva.poor[k1_df$msg2 == 0] <- as.numeric(k1_df$eva.msg2[k1_df$msg2 == 0])
-%     k1_df$eva.poor[k1_df$msg3 == 0] <- as.numeric(k1_df$eva.msg3[k1_df$msg3 == 0])
-%
-%     k1_df$eva.ind[k1_df$msg1 == 1] <- as.numeric(k1_df$eva.msg1[k1_df$msg1 == 1])
-%     k1_df$eva.ind[k1_df$msg2 == 1] <- as.numeric(k1_df$eva.msg2[k1_df$msg2 == 1])
-%     k1_df$eva.ind[k1_df$msg3 == 1] <- as.numeric(k1_df$eva.msg3[k1_df$msg3 == 1])
-%
-%     k1_df$eva.com[k1_df$msg1 == 2] <- as.numeric(k1_df$eva.msg1[k1_df$msg1 == 2])
-%     k1_df$eva.com[k1_df$msg2 == 2] <- as.numeric(k1_df$eva.msg2[k1_df$msg2 == 2])
-%     k1_df$eva.com[k1_df$msg3 == 2] <- as.numeric(k1_df$eva.msg3[k1_df$msg3 == 2])
-%
-%     k1_df$eva.vid.poor <- as.numeric(k1_df$eva.rank.vid_8)
-%     k1_df$eva.vid.ind <- as.numeric(k1_df$eva.rank.vid_9)
-%     k1_df$eva.vid.com <- as.numeric(k1_df$eva.rank.vid_10)
-%
-%     k1_df$eva.conf <- as.numeric(k1_df$eva.conf)
-%
-%     k1_df$eva.emp.poor <- as.numeric(k1_df$eva.rank.emp_5)
-%     k1_df$eva.emp.ind <- as.numeric(k1_df$eva.rank.emp_6)
-%     k1_df$eva.emp.com <- as.numeric(k1_df$eva.rank.emp_7)
-%
-%     ## Ladder scales ##
-%
-%     k1_df$ses.lad.now <- as.numeric(k1_df$ses.lad.now)
-%     k1_df$ses.lad.y2 <- as.numeric(k1_df$ses.lad.y2)
-%
-%     ## Sociodemographics ##
-%
-%     k1_df$soc.age <- as.numeric(as.character(k1_df$soc.age))
-%     k1_df$soc.pri[is.na(k1_df$soc.edu) == FALSE] <- ifelse(as.numeric(k1_df$soc.edu[is.na(k1_df$soc.edu) == FALSE]) >= 4, 1, 0)
-%     k1_df$soc.fem[is.na(k1_df$soc.gen) == FALSE] <- ifelse(k1_df$soc.gen[is.na(k1_df$soc.gen) == FALSE] == "2", 1, 0)
-%     k1_df$soc.chr[is.na(k1_df$soc.rel) == FALSE] <- ifelse(k1_df$soc.rel[is.na(k1_df$soc.rel) == FALSE] == "1", 1, 0)
-%     k1_df$ses.unemp <- ifelse(k1_df$ses.emp == "1", 1, 0)
-%     k1_df$soc.inc <- as.numeric(k1_df$soc.inc)
-%     k1_df$soc.con <- as.numeric(k1_df$soc.con)
-%     k1_df$soc.sav <- as.numeric(k1_df$soc.sav) - 1
-%
-%     ## Survey validity ##
-%
-%     k1_df$end.hear <- as.numeric(k1_df$end.hear) - 1
-%
-% @
-%
-%     \subsection{Treatment effect}
-%
-% <<K1teffects, results = 'hold'>>=
-%
-%     hypotheses <- c("ind = 0", "com = 1", "ind - com = 0")
-%     depvars <- c("vid.num", "sav.save", "msg.dec")
-%     mechvars <- c("sel.score", "jud.score", "aff.score", "que.smrd", "ses.lad.now", "ses.lad.y2")
-%
-%     for (h in hypotheses) {
-%
-%         RES <- matrix(nrow = 1, ncol = 5)
-%
-%         for (depvar in depvars) {
-%
-%             eqn <- paste(depvar, "~ ind  + com", sep = " ")
-%             RES <- rbind(RES, PermTest(eqn, treatvars = c("treatment", "poor", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 100, data = k1_df))
-%
-%         }
-%
-%         RES <- RES[2:nrow(RES), 1:ncol(RES)]
-%         RES <- cbind(RES, FDR(RES[, 4]))
-%
-%         rownames(RES) <- depvars
-%         colnames(RES)[6] <- "Min. Q"
-%
-%         print("----------------------------------------------------------------", quote = FALSE)
-%         print(paste("H_0:", h), quote = FALSE)
-%         print(RES, quote = FALSE)
-%
-%     }
-%
-%     for (h in hypotheses) {
-%
-%         RES <- matrix(nrow = 1, ncol = 5)
-%
-%         for (depvar in mechvars) {
-%
-%             eqn <- paste(depvar, "~ ind  + com", sep = " ")
-%             RES <- rbind(RES, PermTest(eqn, treatvars = c("treatment", "poor", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 100, data = k1_df))
-%
-%         }
-%
-%         RES <- RES[2:nrow(RES), 1:ncol(RES)]
-%         RES <- cbind(RES, FDR(RES[, 4]))
-%
-%         rownames(RES) <- mechvars
-%         colnames(RES)[6] <- "Min. Q"
-%
-%         print("----------------------------------------------------------------", quote = FALSE)
-%         print(paste("H_0:", h), quote = FALSE)
-%         print(RES, quote = FALSE)
-%
-%     }
-%
-% @
-%
-%     \subsection{Covariate-adjustment}
-%
-% <<K1covadj, results = 'hold'>>=
-%
-%     covariates <- c("soc.fem", "soc.age", "soc.pri", "soc.chr", "soc.sav", "ses.unemp", "soc.inc")
-%
-%     for (h in hypotheses) {
-%
-%         RES <- matrix(nrow = 1, ncol = 5)
-%
-%         for (depvar in depvars) {
-%
-%             eqn <- paste(depvar, "~ ind  + com +", covariates, sep = " ")
-%             RES <- rbind(RES, PermTest(eqn, treatvars = c("treatment", "poor", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 100, data = k1_df))
-%
-%         }
-%
-%         RES <- RES[2:nrow(RES), 1:ncol(RES)]
-%         RES <- cbind(RES, FDR(RES[, 4]))
-%
-%         rownames(RES) <- depvars
-%         colnames(RES)[6] <- "Min. Q"
-%
-%         print("----------------------------------------------------------------", quote = FALSE)
-%         print(paste("H_0:", h), quote = FALSE)
-%         print(RES, quote = FALSE)
-%
-%     }
-%
-% @
-%
-%     \subsection{Heterogeneous treatment effects}
-%
-% <<K1het, results = 'hold'>>=
-%
-%     hetvars <- c("soc.fem", "soc.age", "soc.pri", "soc.chr", "soc.sav", "ses.unemp")
-%
-%     for (hetvar in hetvars) {
-%
-%         hypotheses <- c(paste("ind:", hetvar, " = 0", sep = ""), paste(hetvar, ":com", " = 0", sep = ""), paste("ind:", hetvar, " - ", hetvar, ":com", " = 0", sep = ""))
-%
-%         for (h in hypotheses) {
-%
-%             RES <- matrix(nrow = 1, ncol = 5)
-%
-%             for (depvar in depvars) {
-%
-%                 eqn <- paste(depvar, " ~ ind*", hetvar, " + com*", hetvar)
-%                 RES <- rbind(RES, PermTest(eqn, treatvars = c("treatment", "poor", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 100, data = k1_df))
-%
-%             }
-%
-%             RES <- RES[2:nrow(RES), 1:ncol(RES)]
-%             RES <- cbind(RES, FDR(RES[, 4]))
-%
-%             rownames(RES) <- depvars
-%             colnames(RES)[6] <- "Min. Q"
-%
-%             print("----------------------------------------------------------------", quote = FALSE)
-%             print(paste("H_0:", h), quote = FALSE)
-%             print(RES, quote = FALSE)
-%
-%         }
-%
-%     }
-%
-% @
-%
-% \end{footnotesize}
+
+    \maxsizebox*{\textwidth}{\textheight}{\includegraphics[page=1]{UBI_Consent_S4_Kenya.pdf}}
+    \maxsizebox*{\textwidth}{\textheight}{\includegraphics[page=2]{UBI_Consent_S4_Kenya.pdf}}
+
+\section{Source Code} \label{sec:rscripts}
+
+\begin{footnotesize}
+
+\subsection{Packages}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+    \hlkwd{setwd}\hlstd{(}\hlstr{"/Users/Justin/Google Drive/UBIF/UBIF_Deliverables/UBIF_PAP/K1_PAP"}\hlstd{)}
+    \hlkwd{set.seed}\hlstd{(}\hlnum{47269801}\hlstd{)}
+
+    \hlstd{required.packages} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"dplyr"}\hlstd{,} \hlstr{"multiwayvcov"}\hlstd{,} \hlstr{"multcomp"}\hlstd{,} \hlstr{"reshape2"}\hlstd{,} \hlstr{"knitr"}\hlstd{)}
+    \hlstd{packages.missing} \hlkwb{<-} \hlstd{required.packages[}\hlopt{!}\hlstd{required.packages} \hlopt{%in%} \hlkwd{installed.packages}\hlstd{()[,}\hlstr{"Package"}\hlstd{]]}
+
+    \hlkwa{if}\hlstd{(}\hlkwd{length}\hlstd{(packages.missing)} \hlopt{>} \hlnum{0}\hlstd{) \{}\hlkwd{install.packages}\hlstd{(required.packages,} \hlkwc{repo}\hlstd{=}\hlstr{"https://cran.cnr.berkeley.edu/"}\hlstd{)\}}
+    \hlkwd{lapply}\hlstd{(required.packages, library,} \hlkwc{character.only} \hlstd{=} \hlnum{TRUE}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+    \subsection{User-defined functions}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+    \hlcom{## RegTest conducts asymptotic tests from linear model ##}
+
+    \hlstd{RegTest} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{equation}\hlstd{,} \hlkwc{clustvars}\hlstd{,} \hlkwc{hypotheses}\hlstd{,} \hlkwc{data}\hlstd{) \{}
+
+        \hlstd{model} \hlkwb{<-} \hlkwd{lm}\hlstd{(equation,} \hlkwc{data} \hlstd{= data,} \hlkwc{na.action} \hlstd{= na.omit)}
+
+        \hlkwa{if} \hlstd{(}\hlkwd{missing}\hlstd{(clustvars)) model}\hlopt{$}\hlstd{vcov} \hlkwb{<-} \hlkwd{vcov}\hlstd{(model)}
+        \hlkwa{else} \hlstd{model}\hlopt{$}\hlstd{vcov} \hlkwb{<-} \hlkwd{cluster.vcov}\hlstd{(model,} \hlkwc{cluster} \hlstd{= clustvars)}
+
+        \hlstd{model}\hlopt{$}\hlstd{test} \hlkwb{<-} \hlkwd{summary}\hlstd{(}\hlkwd{glht}\hlstd{(model,} \hlkwc{linfct} \hlstd{= hypotheses,} \hlkwc{vcov} \hlstd{= model}\hlopt{$}\hlstd{vcov))}\hlopt{$}\hlstd{test}
+
+        \hlstd{numhyp} \hlkwb{<-} \hlkwd{length}\hlstd{(hypotheses)}
+
+        \hlstd{EST} \hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlkwc{nrow} \hlstd{= numhyp,} \hlkwc{ncol} \hlstd{=} \hlnum{4}\hlstd{)}
+
+        \hlkwa{for} \hlstd{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hlstd{numhyp) \{}
+
+            \hlstd{EST[i,} \hlnum{1}\hlstd{]} \hlkwb{<-} \hlstd{model}\hlopt{$}\hlstd{test}\hlopt{$}\hlstd{coefficients[i]}
+            \hlstd{EST[i,} \hlnum{2}\hlstd{]} \hlkwb{<-} \hlstd{model}\hlopt{$}\hlstd{test}\hlopt{$}\hlstd{tstat[i]}
+            \hlstd{EST[i,} \hlnum{3}\hlstd{]} \hlkwb{<-} \hlstd{model}\hlopt{$}\hlstd{test}\hlopt{$}\hlstd{sigma[i]}
+            \hlstd{EST[i,} \hlnum{4}\hlstd{]} \hlkwb{<-} \hlstd{model}\hlopt{$}\hlstd{test}\hlopt{$}\hlstd{pvalues[i]}
+
+        \hlstd{\}}
+
+        \hlkwd{colnames}\hlstd{(EST)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"Estimate"}\hlstd{,} \hlstr{"Tstat"}\hlstd{,} \hlstr{"SE"}\hlstd{,} \hlstr{"P"}\hlstd{)}
+
+        \hlkwd{return}\hlstd{(EST)}
+
+    \hlstd{\}}
+
+    \hlcom{## PermTest returns MC approximations of the exact p-value ##}
+
+    \hlstd{PermTest} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{equation}\hlstd{,} \hlkwc{treatvars}\hlstd{,} \hlkwc{clustvars}\hlstd{,} \hlkwc{hypotheses}\hlstd{,} \hlkwc{iterations}\hlstd{,} \hlkwc{data}\hlstd{) \{}
+
+        \hlkwd{stopifnot}\hlstd{(}\hlkwd{length}\hlstd{(hypotheses)} \hlopt{<=} \hlnum{1}\hlstd{)}
+
+        \hlstd{obsEST} \hlkwb{<-} \hlkwd{RegTest}\hlstd{(equation, clustvars, hypotheses, data)}
+        \hlstd{obsStat} \hlkwb{<-} \hlstd{obsEST[}\hlnum{1}\hlstd{,} \hlnum{2}\hlstd{]}
+
+        \hlstd{simEST} \hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlkwc{ncol} \hlstd{=} \hlnum{4}\hlstd{)}
+
+        \hlkwa{for} \hlstd{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hlstd{iterations) \{}
+
+            \hlstd{simTreat} \hlkwb{<-} \hlstd{data[, treatvars,} \hlkwc{drop} \hlstd{=} \hlnum{FALSE}\hlstd{]}
+            \hlstd{simTreat} \hlkwb{<-} \hlstd{simTreat[}\hlkwd{sample}\hlstd{(}\hlkwd{nrow}\hlstd{(simTreat)),]}
+
+            \hlstd{simData} \hlkwb{<-} \hlkwd{cbind}\hlstd{(simTreat, data[,} \hlopt{!}\hlstd{(}\hlkwd{names}\hlstd{(data)} \hlopt{%in%} \hlstd{treatvars),} \hlkwc{drop} \hlstd{=} \hlnum{FALSE}\hlstd{])}
+            \hlkwd{colnames}\hlstd{(simData)[}\hlnum{1}\hlopt{:}\hlkwd{length}\hlstd{(treatvars)]} \hlkwb{<-} \hlstd{treatvars}
+
+            \hlstd{simEST} \hlkwb{<-} \hlkwd{rbind}\hlstd{(simEST,} \hlkwd{RegTest}\hlstd{(equation, clustvars, hypotheses,} \hlkwc{data} \hlstd{= simData))}
+
+        \hlstd{\}}
+
+        \hlstd{simSTAT} \hlkwb{<-} \hlstd{simEST[}\hlnum{2}\hlopt{:}\hlkwd{nrow}\hlstd{(simEST),} \hlnum{2}\hlstd{]}
+        \hlstd{countSTAT} \hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlkwd{abs}\hlstd{(simSTAT)} \hlopt{>=} \hlkwd{abs}\hlstd{(obsStat),} \hlkwc{ncol} \hlstd{=} \hlnum{1}\hlstd{)}
+
+        \hlstd{ExactP} \hlkwb{<-} \hlkwd{colSums}\hlstd{(countSTAT)} \hlopt{/} \hlstd{iterations}
+
+        \hlstd{EST} \hlkwb{<-} \hlkwd{cbind}\hlstd{(obsEST, ExactP)}
+
+        \hlkwd{colnames}\hlstd{(EST)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"Estimate"}\hlstd{,} \hlstr{"Tstat"}\hlstd{,} \hlstr{"SE"}\hlstd{,} \hlstr{"P"}\hlstd{,} \hlstr{"ExactP"}\hlstd{)}
+
+        \hlkwd{return}\hlstd{(EST)}
+
+    \hlstd{\}}
+
+    \hlcom{## FDR returns minimum q-values ##}
+
+    \hlstd{FDR} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{pvals}\hlstd{,} \hlkwc{step}\hlstd{) \{}
+
+        \hlkwa{if} \hlstd{(}\hlkwd{sum}\hlstd{(}\hlkwd{is.na}\hlstd{(pvals)} \hlopt{==} \hlnum{FALSE}\hlstd{)} \hlopt{<=} \hlnum{1}\hlstd{) \{}\hlkwd{return}\hlstd{(pvals)\}}
+        \hlkwa{if} \hlstd{(}\hlkwd{missing}\hlstd{(step)) \{step} \hlkwb{<-} \hlnum{0.001}\hlstd{\}}
+
+        \hlstd{allpvals} \hlkwb{<-} \hlkwd{cbind}\hlstd{(}\hlkwd{as.matrix}\hlstd{(pvals),} \hlkwd{matrix}\hlstd{(}\hlnum{1}\hlopt{:}\hlkwd{nrow}\hlstd{(}\hlkwd{as.matrix}\hlstd{(pvals)),} \hlkwc{ncol} \hlstd{=} \hlnum{1}\hlstd{))}
+
+        \hlstd{pvals} \hlkwb{<-} \hlkwd{na.omit}\hlstd{(allpvals)}
+        \hlstd{nump} \hlkwb{<-} \hlkwd{nrow}\hlstd{(pvals)}
+
+        \hlstd{pvals} \hlkwb{<-} \hlstd{pvals[}\hlkwd{order}\hlstd{(pvals[,} \hlnum{1}\hlstd{]), ]}
+        \hlstd{rank} \hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlnum{1}\hlopt{:}\hlstd{nump,} \hlkwc{ncol} \hlstd{=} \hlnum{1}\hlstd{)}
+        \hlstd{pvals} \hlkwb{<-} \hlkwd{cbind}\hlstd{(pvals, rank,} \hlkwd{matrix}\hlstd{(}\hlnum{0}\hlstd{,} \hlkwc{nrow} \hlstd{= nump,} \hlkwc{ncol} \hlstd{=} \hlnum{1}\hlstd{))}
+
+        \hlstd{qval} \hlkwb{<-} \hlnum{1}
+
+        \hlkwa{while} \hlstd{(qval} \hlopt{>} \hlnum{0}\hlstd{) \{}
+
+            \hlstd{qfirst} \hlkwb{<-} \hlstd{qval} \hlopt{/} \hlstd{(}\hlnum{1} \hlopt{+} \hlstd{qval)}
+            \hlstd{fdrtemp} \hlkwb{<-} \hlstd{(qfirst} \hlopt{*} \hlstd{rank)} \hlopt{/} \hlstd{nump}
+
+            \hlstd{subrank} \hlkwb{<-} \hlkwd{which}\hlstd{(fdrtemp} \hlopt{>=} \hlkwd{as.matrix}\hlstd{(pvals[,} \hlnum{1}\hlstd{]))}
+
+            \hlkwa{if} \hlstd{(}\hlkwd{length}\hlstd{(subrank)} \hlopt{<} \hlnum{1}\hlstd{) \{}
+                \hlstd{numreject} \hlkwb{<-} \hlnum{0}
+            \hlstd{\}} \hlkwa{else} \hlstd{numreject} \hlkwb{<-} \hlkwd{max}\hlstd{(subrank)}
+
+            \hlstd{qsec} \hlkwb{<-} \hlstd{qfirst} \hlopt{*} \hlstd{(nump} \hlopt{/} \hlstd{(nump} \hlopt{-} \hlstd{numreject))}
+            \hlstd{fdrtemp} \hlkwb{<-} \hlstd{(qsec} \hlopt{*} \hlstd{rank)} \hlopt{/} \hlstd{nump}
+
+            \hlstd{subrank} \hlkwb{<-} \hlkwd{which}\hlstd{(fdrtemp} \hlopt{>=} \hlkwd{as.matrix}\hlstd{(pvals[,} \hlnum{1}\hlstd{]))}
+
+            \hlkwa{if} \hlstd{(}\hlkwd{length}\hlstd{(subrank)} \hlopt{<} \hlnum{1}\hlstd{) \{}
+                \hlstd{numreject} \hlkwb{<-} \hlnum{0}
+            \hlstd{\}} \hlkwa{else} \hlstd{numreject} \hlkwb{<-} \hlkwd{max}\hlstd{(subrank)}
+
+            \hlstd{pvals[}\hlkwd{which}\hlstd{(pvals[,} \hlnum{3}\hlstd{]} \hlopt{<=} \hlstd{numreject),} \hlnum{4}\hlstd{]} \hlkwb{<-} \hlstd{qval}
+
+            \hlstd{qval} \hlkwb{<-} \hlstd{qval} \hlopt{-} \hlstd{step}
+
+        \hlstd{\}}
+
+        \hlstd{pvals} \hlkwb{<-} \hlstd{pvals[}\hlkwd{order}\hlstd{(pvals[,} \hlnum{2}\hlstd{]), ]}
+
+        \hlstd{qvals} \hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlkwc{nrow} \hlstd{=} \hlkwd{nrow}\hlstd{(allpvals),} \hlkwc{ncol} \hlstd{=} \hlnum{1}\hlstd{)}
+        \hlstd{qvals[}\hlkwd{match}\hlstd{(pvals[,} \hlnum{2}\hlstd{], allpvals[,} \hlnum{2}\hlstd{]),} \hlnum{1}\hlstd{]} \hlkwb{<-} \hlstd{pvals[,} \hlnum{4}\hlstd{]}
+
+        \hlkwd{return}\hlstd{(}\hlkwd{as.matrix}\hlstd{(qvals))}
+
+    \hlstd{\}}
+
+    \hlcom{## Interact returns a string of interacted variables ##}
+
+    \hlstd{Interact} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{d}\hlstd{,} \hlkwc{x}\hlstd{) \{}
+
+        \hlstd{catstring} \hlkwb{<-} \hlstr{""}
+
+        \hlkwa{for} \hlstd{(var} \hlkwa{in} \hlstd{x) \{}
+
+            \hlstd{catstring} \hlkwb{<-} \hlkwd{paste}\hlstd{(catstring,} \hlstr{" + "}\hlstd{, d,} \hlstr{"*"}\hlstd{, var,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{)}
+
+        \hlstd{\}}
+
+        \hlkwd{return}\hlstd{(}\hlkwd{substr}\hlstd{(catstring,} \hlnum{3}\hlstd{,} \hlkwd{nchar}\hlstd{(catstring)))}
+
+    \hlstd{\}}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+    \subsection{Data cleaning}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+    \hlstd{varnames} \hlkwb{<-} \hlkwd{as.vector}\hlstd{(}\hlkwd{read.delim}\hlstd{(}\hlkwc{file} \hlstd{=} \hlstr{"K1__Field_Survey_v34+35_Appended.csv"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{","}\hlstd{,} \hlkwc{header} \hlstd{=} \hlnum{FALSE}\hlstd{,} \hlkwc{stringsAsFactors} \hlstd{=} \hlnum{FALSE}\hlstd{,} \hlkwc{na.strings} \hlstd{=} \hlstr{""}\hlstd{,} \hlkwc{nrows} \hlstd{=} \hlnum{1}\hlstd{))}
+    \hlstd{k1_df} \hlkwb{<-} \hlkwd{read.delim}\hlstd{(}\hlkwc{file} \hlstd{=} \hlstr{"K1__Field_Survey_v34+35_Appended.csv"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{","}\hlstd{,} \hlkwc{header} \hlstd{=} \hlnum{FALSE}\hlstd{,} \hlkwc{stringsAsFactors} \hlstd{=} \hlnum{FALSE}\hlstd{,} \hlkwc{na.strings} \hlstd{=} \hlstr{""}\hlstd{,} \hlkwc{skip} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{nrows} \hlstd{=} \hlnum{600}\hlstd{,} \hlkwc{col.names} \hlstd{= varnames)}
+
+    \hlcom{## Survey meta data ##}
+
+    \hlstd{k1_df}\hlopt{$}\hlstd{start.time.mst} \hlkwb{<-} \hlkwd{as.POSIXct}\hlstd{(}\hlkwd{as.character}\hlstd{(k1_df}\hlopt{$}\hlstd{V3),} \hlkwc{format} \hlstd{=} \hlstr{"%m/%d/%y %H:%M"}\hlstd{)}
+    \hlstd{k1_df}\hlopt{$}\hlstd{start.time.eat} \hlkwb{<-} \hlstd{k1_df}\hlopt{$}\hlstd{start.time.mst} \hlopt{+} \hlstd{(}\hlnum{3600} \hlopt{*} \hlnum{9}\hlstd{)}
+
+    \hlstd{k1_df}\hlopt{$}\hlstd{end.time.mst} \hlkwb{<-} \hlkwd{as.POSIXct}\hlstd{(}\hlkwd{as.character}\hlstd{(k1_df}\hlopt{$}\hlstd{V4),} \hlkwc{format} \hlstd{=} \hlstr{"%m/%d/%y %H:%M"}\hlstd{)}
+    \hlstd{k1_df}\hlopt{$}\hlstd{end.time.eat} \hlkwb{<-} \hlstd{k1_df}\hlopt{$}\hlstd{end.time.mst} \hlopt{+} \hlstd{(}\hlnum{3600} \hlopt{*} \hlnum{9}\hlstd{)}
+
+    \hlcom{## Participant ID ##}
+
+    \hlstd{k1_df}\hlopt{$}\hlstd{survey.id} \hlkwb{<-} \hlstd{k1_df}\hlopt{$}\hlstd{V1}
+    \hlstd{k1_df} \hlkwb{<-} \hlstd{k1_df[}\hlkwd{complete.cases}\hlstd{(k1_df}\hlopt{$}\hlstd{survey.id), ]}
+
+    \hlstd{nonentry} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"R_5ZkChbiXDIj6KsK"}\hlstd{,} \hlstr{"R_7N8rNtLsxF5a9on"}\hlstd{,} \hlstr{"R_97Tx2cAjy30fqMR"}\hlstd{,} \hlstr{"R_lYnRvOAJhuax6LS"}\hlstd{,} \hlstr{"R_8dky4iSC7rfEuNc"}\hlstd{,} \hlstr{"R_nczo7KPxLkkKkgo"}\hlstd{,} \hlstr{"R_5j1OiNu3wMp265N"}\hlstd{,} \hlstr{"R_0GYX0scNN16ICfQ"}\hlstd{,} \hlstr{"R_6PoFtAhwvSBNYzi"}\hlstd{,} \hlstr{"R_696kAyWai9bDkFI"}\hlstd{,} \hlstr{"R_hPaLwAaYCnY0l69"}\hlstd{,} \hlstr{"R_oGNBAVexMWYhMml"}\hlstd{,} \hlstr{"R_3rwTGdEULwOGH2y"}\hlstd{,} \hlstr{"R_bhNv0SnArTa32Xe"}\hlstd{,} \hlstr{"R_5txHVIbQY6twLIZ"}\hlstd{,} \hlstr{"R_kaSM6nunZ9Ynatj"}\hlstd{,} \hlstr{"R_0ppcidBVCPaEkXK"}\hlstd{,} \hlstr{"R_oWceQFJG5NnSokN"}\hlstd{,} \hlstr{"R_h5Cw4tvVUeDY8NI"}\hlstd{,} \hlstr{"R_9ib4ASBi450NZPt"}\hlstd{,} \hlstr{"R_mAlfPdxj5GQsJF5"}\hlstd{,} \hlstr{"R_kbW6NDTS1FWXyn3"}\hlstd{,} \hlstr{"R_b1GC7jpoQrJKrFN"}\hlstd{,} \hlstr{"R_5YpNpbPWOxnSNWc"}\hlstd{,} \hlstr{"R_mwLFSjScVyrgs9J"}\hlstd{,} \hlstr{"R_1jbOtmMIrvgTgaE"}\hlstd{,} \hlstr{"R_if5tz3h1N9MzTp2"}\hlstd{,} \hlstr{"R_aFmo1jRrWIwsLjI"}\hlstd{,} \hlstr{"R_2itxVUcUstO3Syp"}\hlstd{,} \hlstr{"R_9LP4exOnWpJ1TrE"}\hlstd{,} \hlstr{"R_cQLu9PDCtFwbn7K"}\hlstd{,} \hlstr{"R_oFl39knSVL3SKpz"}\hlstd{,} \hlstr{"R_11Y1KTzawxBJmvy"}\hlstd{)}
+    \hlstd{k1_df} \hlkwb{<-} \hlstd{k1_df[}\hlopt{!} \hlstd{k1_df}\hlopt{$}\hlstd{survey.id} \hlopt{%in%} \hlstd{nonentry, ]}
+
+    \hlcom{## Treatment assignment ##}
+
+    \hlstd{k1_df}\hlopt{$}\hlstd{treat[k1_df}\hlopt{$}\hlstd{condition} \hlopt{==} \hlstr{"poor"}\hlstd{]} \hlkwb{<-} \hlnum{0}
+    \hlstd{k1_df}\hlopt{$}\hlstd{treat[k1_df}\hlopt{$}\hlstd{condition} \hlopt{==} \hlstr{"individual"}\hlstd{]} \hlkwb{<-} \hlnum{1}
+    \hlstd{k1_df}\hlopt{$}\hlstd{treat[k1_df}\hlopt{$}\hlstd{condition} \hlopt{==} \hlstr{"community"}\hlstd{]} \hlkwb{<-} \hlnum{2}
+    \hlstd{k1_df}\hlopt{$}\hlstd{treat} \hlkwb{<-} \hlkwd{factor}\hlstd{(k1_df}\hlopt{$}\hlstd{treat,} \hlkwc{labels} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"Pov"}\hlstd{,} \hlstr{"Ind"}\hlstd{,} \hlstr{"Com"}\hlstd{))}
+
+    \hlstd{k1_df}\hlopt{$}\hlstd{pov} \hlkwb{<-} \hlkwd{ifelse}\hlstd{(k1_df}\hlopt{$}\hlstd{condition} \hlopt{==} \hlstr{"poor"}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{0}\hlstd{)}
+    \hlstd{k1_df}\hlopt{$}\hlstd{ind} \hlkwb{<-} \hlkwd{ifelse}\hlstd{(k1_df}\hlopt{$}\hlstd{condition} \hlopt{==} \hlstr{"individual"}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{0}\hlstd{)}
+    \hlstd{k1_df}\hlopt{$}\hlstd{com} \hlkwb{<-} \hlkwd{ifelse}\hlstd{(k1_df}\hlopt{$}\hlstd{condition} \hlopt{==} \hlstr{"community"}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{0}\hlstd{)}
+
+    \hlstd{k1_df}\hlopt{$}\hlstd{msg1} \hlkwb{<-} \hlkwd{recode}\hlstd{(}\hlkwd{as.numeric}\hlstd{(}\hlkwd{as.factor}\hlstd{(k1_df}\hlopt{$}\hlstd{ORG_MESSAGE)),} \hlkwc{`2`} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{`3`} \hlstd{=} \hlnum{2}\hlstd{)}
+    \hlstd{k1_df}\hlopt{$}\hlstd{msg2} \hlkwb{<-} \hlkwd{recode}\hlstd{(}\hlkwd{as.numeric}\hlstd{(}\hlkwd{as.factor}\hlstd{(k1_df}\hlopt{$}\hlstd{ORG_MESSAGE_2)),} \hlkwc{`2`} \hlstd{=} \hlnum{0}\hlstd{)}
+    \hlstd{k1_df}\hlopt{$}\hlstd{msg3} \hlkwb{<-} \hlkwd{recode}\hlstd{(}\hlkwd{as.numeric}\hlstd{(}\hlkwd{as.factor}\hlstd{(k1_df}\hlopt{$}\hlstd{ORG_MESSAGE_3)),} \hlkwc{`3`} \hlstd{=} \hlnum{2}\hlstd{)}
+
+    \hlcom{## Self-efficacy ##}
+
+    \hlkwa{for} \hlstd{(var} \hlkwa{in} \hlkwd{c}\hlstd{(k1_df}\hlopt{$}\hlstd{sel.con, k1_df}\hlopt{$}\hlstd{sel.pers, k1_df}\hlopt{$}\hlstd{sel.com, k1_df}\hlopt{$}\hlstd{sel.prob, k1_df}\hlopt{$}\hlstd{sel.bett)) \{}
+
+        \hlstd{var[var} \hlopt{<} \hlnum{0}\hlstd{]} \hlkwb{<-} \hlnum{NA}
+
+    \hlstd{\}}
+
+    \hlstd{k1_df}\hlopt{$}\hlstd{sel.score} \hlkwb{<-} \hlkwd{scale}\hlstd{(k1_df}\hlopt{$}\hlstd{sel.con)} \hlopt{+} \hlkwd{scale}\hlstd{(k1_df}\hlopt{$}\hlstd{sel.pers)} \hlopt{+} \hlkwd{scale}\hlstd{(k1_df}\hlopt{$}\hlstd{sel.com)} \hlopt{+} \hlkwd{scale}\hlstd{(k1_df}\hlopt{$}\hlstd{sel.prob)} \hlopt{+} \hlkwd{scale}\hlstd{(k1_df}\hlopt{$}\hlstd{sel.bett)}
+    \hlstd{k1_df}\hlopt{$}\hlstd{sel.score.z} \hlkwb{<-} \hlkwd{scale}\hlstd{(k1_df}\hlopt{$}\hlstd{sel.score)}
+
+    \hlcom{## Stigma ##}
+
+    \hlkwa{for} \hlstd{(var} \hlkwa{in} \hlkwd{c}\hlstd{(k1_df}\hlopt{$}\hlstd{jud.fam, k1_df}\hlopt{$}\hlstd{jud.com, k1_df}\hlopt{$}\hlstd{jud.judg, k1_df}\hlopt{$}\hlstd{jud.emb, k1_df}\hlopt{$}\hlstd{jud.ups)) \{}
+
+        \hlstd{var[var} \hlopt{<} \hlnum{0}\hlstd{]} \hlkwb{<-} \hlnum{NA}
+
+    \hlstd{\}}
+
+    \hlstd{k1_df}\hlopt{$}\hlstd{sti.score} \hlkwb{<-} \hlkwd{scale}\hlstd{(}\hlnum{6} \hlopt{-} \hlstd{k1_df}\hlopt{$}\hlstd{jud.fam)} \hlopt{+} \hlkwd{scale}\hlstd{(}\hlnum{6} \hlopt{-} \hlstd{k1_df}\hlopt{$}\hlstd{jud.com)} \hlopt{+} \hlkwd{scale}\hlstd{(k1_df}\hlopt{$}\hlstd{jud.judg)} \hlopt{+} \hlkwd{scale}\hlstd{(k1_df}\hlopt{$}\hlstd{jud.emb)} \hlopt{+} \hlkwd{scale}\hlstd{(k1_df}\hlopt{$}\hlstd{jud.ups)}
+    \hlstd{k1_df}\hlopt{$}\hlstd{sti.score.z} \hlkwb{<-} \hlkwd{scale}\hlstd{(k1_df}\hlopt{$}\hlstd{sti.score)}
+
+    \hlcom{## Affect ##}
+
+    \hlkwa{for} \hlstd{(var} \hlkwa{in} \hlkwd{c}\hlstd{(k1_df}\hlopt{$}\hlstd{aff.pos, k1_df}\hlopt{$}\hlstd{aff.ash, k1_df}\hlopt{$}\hlstd{aff.pow, k1_df}\hlopt{$}\hlstd{aff.fina)) \{}
+
+        \hlstd{var[var} \hlopt{<} \hlnum{0}\hlstd{]} \hlkwb{<-} \hlnum{NA}
+
+    \hlstd{\}}
+
+    \hlstd{k1_df}\hlopt{$}\hlstd{aff.score} \hlkwb{<-} \hlkwd{scale}\hlstd{(k1_df}\hlopt{$}\hlstd{aff.pos)} \hlopt{+} \hlkwd{scale}\hlstd{(k1_df}\hlopt{$}\hlstd{aff.pow)} \hlopt{+} \hlkwd{scale}\hlstd{(}\hlnum{7} \hlopt{-} \hlstd{k1_df}\hlopt{$}\hlstd{aff.ash)} \hlopt{+} \hlkwd{scale}\hlstd{(}\hlnum{7} \hlopt{-} \hlstd{k1_df}\hlopt{$}\hlstd{aff.fina)}
+    \hlstd{k1_df}\hlopt{$}\hlstd{aff.score.z} \hlkwb{<-} \hlkwd{scale}\hlstd{(k1_df}\hlopt{$}\hlstd{aff.score)}
+
+    \hlcom{## Video selection ##}
+
+    \hlstd{k1_df}\hlopt{$}\hlstd{vid.imp1} \hlkwb{<-} \hlstd{k1_df}\hlopt{$}\hlstd{vid.dec1} \hlopt{%in%} \hlkwd{c}\hlstd{(}\hlnum{3}\hlstd{,} \hlnum{5}\hlstd{)}
+    \hlstd{k1_df}\hlopt{$}\hlstd{vid.imp2} \hlkwb{<-} \hlstd{k1_df}\hlopt{$}\hlstd{vid.dec2} \hlopt{%in%} \hlkwd{c}\hlstd{(}\hlnum{3}\hlstd{,} \hlnum{5}\hlstd{)}
+    \hlstd{k1_df}\hlopt{$}\hlstd{vid.num} \hlkwb{<-} \hlstd{k1_df}\hlopt{$}\hlstd{vid.imp1} \hlopt{+} \hlstd{k1_df}\hlopt{$}\hlstd{vid.imp2}
+
+    \hlcom{## Intertemporal choice ##}
+
+    \hlstd{k1_df}\hlopt{$}\hlstd{sav.save} \hlkwb{<-} \hlstd{k1_df}\hlopt{$}\hlstd{sav.dec} \hlopt{>} \hlnum{1}
+    \hlstd{k1_df}\hlopt{$}\hlstd{sav.save[k1_df}\hlopt{$}\hlstd{sav.dec} \hlopt{<} \hlnum{0}\hlstd{]} \hlkwb{<-} \hlnum{NA}
+
+    \hlstd{k1_df}\hlopt{$}\hlstd{sav.amt[k1_df}\hlopt{$}\hlstd{sav.dec} \hlopt{==} \hlnum{1}\hlstd{]} \hlkwb{=} \hlnum{0}
+    \hlstd{k1_df}\hlopt{$}\hlstd{sav.amt[k1_df}\hlopt{$}\hlstd{sav.dec} \hlopt{==} \hlnum{2}\hlstd{]} \hlkwb{=} \hlnum{100}
+    \hlstd{k1_df}\hlopt{$}\hlstd{sav.amt[k1_df}\hlopt{$}\hlstd{sav.dec} \hlopt{==} \hlnum{3}\hlstd{]} \hlkwb{=} \hlnum{200}
+    \hlstd{k1_df}\hlopt{$}\hlstd{sav.amt[k1_df}\hlopt{$}\hlstd{sav.dec} \hlopt{<} \hlnum{0}\hlstd{]} \hlkwb{<-} \hlnum{NA}
+
+    \hlcom{## Query theory (savings) ##}
+
+    \hlstd{que_df} \hlkwb{<-} \hlstd{k1_df[}\hlkwd{names}\hlstd{(k1_df)} \hlopt{%in%} \hlkwd{c}\hlstd{(}\hlstr{"survey.id"}\hlstd{,} \hlstr{"que.rat1"}\hlstd{,} \hlstr{"que.rat2"}\hlstd{,} \hlstr{"que.rat3"}\hlstd{,} \hlstr{"que.rat4"}\hlstd{,} \hlstr{"que.rat5"}\hlstd{)]}
+
+    \hlstd{k1_df}\hlopt{$}\hlstd{que.nonm} \hlkwb{<-} \hlkwd{apply}\hlstd{(que_df[,} \hlnum{1}\hlopt{:}\hlnum{5}\hlstd{],} \hlnum{1}\hlstd{,} \hlkwa{function}\hlstd{(}\hlkwc{x}\hlstd{)} \hlkwd{length}\hlstd{(x[}\hlkwd{is.na}\hlstd{(x)} \hlopt{==} \hlnum{FALSE}\hlstd{]))}
+
+    \hlstd{que_df} \hlkwb{<-} \hlkwd{melt}\hlstd{(que_df,} \hlkwc{id} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"survey.id"}\hlstd{))}
+    \hlstd{que_df}\hlopt{$}\hlstd{variable} \hlkwb{<-} \hlkwd{as.numeric}\hlstd{(que_df}\hlopt{$}\hlstd{variable)}
+    \hlstd{que_df} \hlkwb{<-} \hlkwd{dcast}\hlstd{(que_df[}\hlkwd{is.na}\hlstd{(que_df}\hlopt{$}\hlstd{value)} \hlopt{==} \hlnum{FALSE} \hlopt{&} \hlstd{que_df}\hlopt{$}\hlstd{value} \hlopt{>} \hlnum{0}\hlstd{, ], survey.id} \hlopt{~} \hlstd{value, median,} \hlkwc{value.var} \hlstd{=} \hlstr{"variable"}\hlstd{)}
+    \hlkwd{names}\hlstd{(que_df)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"survey.id"}\hlstd{,} \hlstr{"que.mri"}\hlstd{,} \hlstr{"que.mrp"}\hlstd{)}
+    \hlstd{k1_df} \hlkwb{<-} \hlkwd{merge}\hlstd{(k1_df, que_df,} \hlkwc{all.x} \hlstd{=} \hlnum{TRUE}\hlstd{)}
+
+    \hlstd{k1_df}\hlopt{$}\hlstd{que.smrd} \hlkwb{<-} \hlstd{(}\hlnum{2} \hlopt{*} \hlstd{(k1_df}\hlopt{$}\hlstd{que.mrp} \hlopt{-} \hlstd{k1_df}\hlopt{$}\hlstd{que.mri))} \hlopt{/} \hlstd{k1_df}\hlopt{$}\hlstd{que.nonm}
+    \hlstd{k1_df}\hlopt{$}\hlstd{que.smrd[}\hlkwd{is.na}\hlstd{(k1_df}\hlopt{$}\hlstd{que.mrp)]} \hlkwb{<-} \hlnum{1}
+    \hlstd{k1_df}\hlopt{$}\hlstd{que.smrd[}\hlkwd{is.na}\hlstd{(k1_df}\hlopt{$}\hlstd{que.mri)]} \hlkwb{<-} \hlopt{-}\hlnum{1}
+
+    \hlcom{# dealing with missing by filling in upper/lower bounds for now}
+
+    \hlcom{## Message of support ##}
+
+    \hlstd{k1_df}\hlopt{$}\hlstd{msg.dec[k1_df}\hlopt{$}\hlstd{msg.dec} \hlopt{<} \hlnum{0}\hlstd{]} \hlkwb{=} \hlnum{NA}
+    \hlstd{k1_df}\hlopt{$}\hlstd{msg.dec} \hlkwb{<-} \hlstd{k1_df}\hlopt{$}\hlstd{msg.dec} \hlopt{-} \hlnum{1}
+
+    \hlstd{k1_df}\hlopt{$}\hlstd{msg.emp[k1_df}\hlopt{$}\hlstd{msg.emp} \hlopt{<} \hlnum{0}\hlstd{]} \hlkwb{=} \hlnum{NA}
+
+    \hlstd{k1_df}\hlopt{$}\hlstd{msg.lik[k1_df}\hlopt{$}\hlstd{msg.lik} \hlopt{<} \hlnum{0}\hlstd{]} \hlkwb{=} \hlnum{NA}
+    \hlstd{k1_df}\hlopt{$}\hlstd{msg.lik} \hlkwb{<-} \hlnum{7} \hlopt{-} \hlstd{k1_df}\hlopt{$}\hlstd{msg.lik}
+
+    \hlstd{k1_df}\hlopt{$}\hlstd{msg.avg} \hlkwb{<-} \hlstd{(k1_df}\hlopt{$}\hlstd{msg.emp} \hlopt{+} \hlstd{k1_df}\hlopt{$}\hlstd{msg.lik)} \hlopt{/} \hlnum{2}
+
+    \hlcom{## Frame evaluation ##}
+
+    \hlstd{k1_df}\hlopt{$}\hlstd{eva.poor[k1_df}\hlopt{$}\hlstd{msg1} \hlopt{==} \hlnum{0}\hlstd{]} \hlkwb{<-} \hlstd{k1_df}\hlopt{$}\hlstd{eva.msg1[k1_df}\hlopt{$}\hlstd{msg1} \hlopt{==} \hlnum{0}\hlstd{]}
+    \hlstd{k1_df}\hlopt{$}\hlstd{eva.poor[k1_df}\hlopt{$}\hlstd{msg2} \hlopt{==} \hlnum{0}\hlstd{]} \hlkwb{<-} \hlstd{k1_df}\hlopt{$}\hlstd{eva.msg2[k1_df}\hlopt{$}\hlstd{msg2} \hlopt{==} \hlnum{0}\hlstd{]}
+    \hlstd{k1_df}\hlopt{$}\hlstd{eva.poor[k1_df}\hlopt{$}\hlstd{msg3} \hlopt{==} \hlnum{0}\hlstd{]} \hlkwb{<-} \hlstd{k1_df}\hlopt{$}\hlstd{eva.msg3[k1_df}\hlopt{$}\hlstd{msg3} \hlopt{==} \hlnum{0}\hlstd{]}
+
+    \hlstd{k1_df}\hlopt{$}\hlstd{eva.ind[k1_df}\hlopt{$}\hlstd{msg1} \hlopt{==} \hlnum{1}\hlstd{]} \hlkwb{<-} \hlstd{k1_df}\hlopt{$}\hlstd{eva.msg1[k1_df}\hlopt{$}\hlstd{msg1} \hlopt{==} \hlnum{1}\hlstd{]}
+    \hlstd{k1_df}\hlopt{$}\hlstd{eva.ind[k1_df}\hlopt{$}\hlstd{msg2} \hlopt{==} \hlnum{1}\hlstd{]} \hlkwb{<-} \hlstd{k1_df}\hlopt{$}\hlstd{eva.msg2[k1_df}\hlopt{$}\hlstd{msg2} \hlopt{==} \hlnum{1}\hlstd{]}
+    \hlstd{k1_df}\hlopt{$}\hlstd{eva.ind[k1_df}\hlopt{$}\hlstd{msg3} \hlopt{==} \hlnum{1}\hlstd{]} \hlkwb{<-} \hlstd{k1_df}\hlopt{$}\hlstd{eva.msg3[k1_df}\hlopt{$}\hlstd{msg3} \hlopt{==} \hlnum{1}\hlstd{]}
+
+    \hlstd{k1_df}\hlopt{$}\hlstd{eva.com[k1_df}\hlopt{$}\hlstd{msg1} \hlopt{==} \hlnum{2}\hlstd{]} \hlkwb{<-} \hlstd{k1_df}\hlopt{$}\hlstd{eva.msg1[k1_df}\hlopt{$}\hlstd{msg1} \hlopt{==} \hlnum{2}\hlstd{]}
+    \hlstd{k1_df}\hlopt{$}\hlstd{eva.com[k1_df}\hlopt{$}\hlstd{msg2} \hlopt{==} \hlnum{2}\hlstd{]} \hlkwb{<-} \hlstd{k1_df}\hlopt{$}\hlstd{eva.msg2[k1_df}\hlopt{$}\hlstd{msg2} \hlopt{==} \hlnum{2}\hlstd{]}
+    \hlstd{k1_df}\hlopt{$}\hlstd{eva.com[k1_df}\hlopt{$}\hlstd{msg3} \hlopt{==} \hlnum{2}\hlstd{]} \hlkwb{<-} \hlstd{k1_df}\hlopt{$}\hlstd{eva.msg3[k1_df}\hlopt{$}\hlstd{msg3} \hlopt{==} \hlnum{2}\hlstd{]}
+
+    \hlstd{k1_df}\hlopt{$}\hlstd{eva.vid.poor} \hlkwb{<-} \hlstd{k1_df}\hlopt{$}\hlstd{eva.rank.vid_8}
+    \hlstd{k1_df}\hlopt{$}\hlstd{eva.vid.ind} \hlkwb{<-} \hlstd{k1_df}\hlopt{$}\hlstd{eva.rank.vid_9}
+    \hlstd{k1_df}\hlopt{$}\hlstd{eva.vid.com} \hlkwb{<-} \hlstd{k1_df}\hlopt{$}\hlstd{eva.rank.vid_10}
+
+    \hlstd{k1_df}\hlopt{$}\hlstd{eva.conf[k1_df}\hlopt{$}\hlstd{eva.conf} \hlopt{<} \hlnum{0}\hlstd{]} \hlkwb{<-} \hlnum{NA}
+
+    \hlstd{k1_df}\hlopt{$}\hlstd{eva.emp.poor} \hlkwb{<-} \hlstd{k1_df}\hlopt{$}\hlstd{eva.rank.emp_5}
+    \hlstd{k1_df}\hlopt{$}\hlstd{eva.emp.ind} \hlkwb{<-} \hlstd{k1_df}\hlopt{$}\hlstd{eva.rank.emp_6}
+    \hlstd{k1_df}\hlopt{$}\hlstd{eva.emp.com} \hlkwb{<-} \hlstd{k1_df}\hlopt{$}\hlstd{eva.rank.emp_7}
+
+    \hlcom{## Ladder scales ##}
+
+    \hlstd{k1_df}\hlopt{$}\hlstd{ses.lad.now[k1_df}\hlopt{$}\hlstd{ses.lad.now} \hlopt{<} \hlnum{0}\hlstd{]} \hlkwb{<-} \hlnum{NA}
+    \hlstd{k1_df}\hlopt{$}\hlstd{ses.lad.now.z} \hlkwb{<-} \hlkwd{scale}\hlstd{(k1_df}\hlopt{$}\hlstd{ses.lad.now)}
+
+    \hlstd{k1_df}\hlopt{$}\hlstd{ses.lad.y2[k1_df}\hlopt{$}\hlstd{ses.lad.y2} \hlopt{<} \hlnum{0}\hlstd{]} \hlkwb{<-} \hlnum{NA}
+    \hlstd{k1_df}\hlopt{$}\hlstd{ses.lad.y2.z} \hlkwb{<-} \hlkwd{scale}\hlstd{(k1_df}\hlopt{$}\hlstd{ses.lad.y2)}
+
+    \hlstd{k1_df}\hlopt{$}\hlstd{ses.lad.diff} \hlkwb{<-} \hlstd{k1_df}\hlopt{$}\hlstd{ses.lad.y2} \hlopt{-} \hlstd{k1_df}\hlopt{$}\hlstd{ses.lad.now}
+    \hlstd{k1_df}\hlopt{$}\hlstd{ses.lad.avg} \hlkwb{<-} \hlstd{(k1_df}\hlopt{$}\hlstd{ses.lad.y2} \hlopt{+} \hlstd{k1_df}\hlopt{$}\hlstd{ses.lad.now)} \hlopt{/} \hlnum{2}
+
+    \hlcom{## Sociodemographics ##}
+
+    \hlstd{k1_df}\hlopt{$}\hlstd{soc.age[k1_df}\hlopt{$}\hlstd{soc.age} \hlopt{<} \hlnum{0}\hlstd{]} \hlkwb{<-} \hlnum{NA}
+    \hlstd{k1_df}\hlopt{$}\hlstd{soc.pri} \hlkwb{<-} \hlkwd{as.numeric}\hlstd{(k1_df}\hlopt{$}\hlstd{soc.edu} \hlopt{>} \hlnum{3}\hlstd{)}
+    \hlstd{k1_df}\hlopt{$}\hlstd{soc.fem} \hlkwb{<-} \hlstd{k1_df}\hlopt{$}\hlstd{soc.gen} \hlopt{-} \hlnum{1}
+    \hlstd{k1_df}\hlopt{$}\hlstd{soc.chr} \hlkwb{<-} \hlstd{k1_df}\hlopt{$}\hlstd{soc.rel} \hlopt{%in%} \hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,} \hlnum{2}\hlstd{)}
+    \hlstd{k1_df}\hlopt{$}\hlstd{ses.unemp} \hlkwb{<-} \hlstd{k1_df}\hlopt{$}\hlstd{ses.emp} \hlopt{%in%} \hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,} \hlnum{2}\hlstd{)}
+
+    \hlstd{k1_df}\hlopt{$}\hlstd{soc.inc[k1_df}\hlopt{$}\hlstd{soc.inc} \hlopt{<} \hlnum{0}\hlstd{]} \hlkwb{<-} \hlnum{NA}
+    \hlstd{k1_df}\hlopt{$}\hlstd{soc.inc.wins[k1_df}\hlopt{$}\hlstd{soc.inc} \hlopt{<=} \hlkwd{quantile}\hlstd{(k1_df}\hlopt{$}\hlstd{soc.inc,} \hlnum{.99}\hlstd{)]} \hlkwb{<-} \hlstd{k1_df}\hlopt{$}\hlstd{soc.inc[k1_df}\hlopt{$}\hlstd{soc.inc} \hlopt{<=} \hlkwd{quantile}\hlstd{(k1_df}\hlopt{$}\hlstd{soc.inc,} \hlnum{.99}\hlstd{)]}
+    \hlstd{k1_df}\hlopt{$}\hlstd{soc.inc.wins.ln} \hlkwb{<-} \hlkwd{log}\hlstd{(k1_df}\hlopt{$}\hlstd{soc.inc.wins} \hlopt{+} \hlkwd{sqrt}\hlstd{(k1_df}\hlopt{$}\hlstd{soc.inc.wins}\hlopt{^}\hlnum{2} \hlopt{+} \hlnum{1}\hlstd{))}
+
+    \hlstd{k1_df}\hlopt{$}\hlstd{soc.con[k1_df}\hlopt{$}\hlstd{soc.con} \hlopt{<} \hlnum{0}\hlstd{]} \hlkwb{<-} \hlnum{NA}
+    \hlstd{k1_df}\hlopt{$}\hlstd{soc.con.wins[k1_df}\hlopt{$}\hlstd{soc.con} \hlopt{<=} \hlkwd{quantile}\hlstd{(k1_df}\hlopt{$}\hlstd{soc.con,} \hlnum{.99}\hlstd{)]} \hlkwb{<-} \hlstd{k1_df}\hlopt{$}\hlstd{soc.con[k1_df}\hlopt{$}\hlstd{soc.con} \hlopt{<=} \hlkwd{quantile}\hlstd{(k1_df}\hlopt{$}\hlstd{soc.con,} \hlnum{.99}\hlstd{)]}
+    \hlstd{k1_df}\hlopt{$}\hlstd{soc.con.wins.ln} \hlkwb{<-} \hlkwd{log}\hlstd{(k1_df}\hlopt{$}\hlstd{soc.con.wins} \hlopt{+} \hlkwd{sqrt}\hlstd{(k1_df}\hlopt{$}\hlstd{soc.con.wins}\hlopt{^}\hlnum{2} \hlopt{+} \hlnum{1}\hlstd{))}
+
+    \hlstd{k1_df}\hlopt{$}\hlstd{soc.sav} \hlkwb{<-} \hlstd{k1_df}\hlopt{$}\hlstd{soc.sav} \hlopt{-} \hlnum{1}
+
+    \hlstd{k1_df}\hlopt{$}\hlstd{soc.eme.z} \hlkwb{<-} \hlkwd{scale}\hlstd{(k1_df}\hlopt{$}\hlstd{soc.eme)}
+
+    \hlcom{## Survey validity ##}
+
+    \hlstd{k1_df}\hlopt{$}\hlstd{end.hear} \hlkwb{<-} \hlstd{k1_df}\hlopt{$}\hlstd{end.hear} \hlopt{-} \hlnum{1}
+    \hlstd{k1_df}\hlopt{$}\hlstd{end.hear[k1_df}\hlopt{$}\hlstd{end.hear} \hlopt{<} \hlnum{0}\hlstd{]} \hlkwb{<-} \hlnum{NA}
+
+    \hlkwd{attach}\hlstd{(k1_df)}
+
+    \hlcom{## Center covariates ##}
+
+    \hlstd{soc.fem.c} \hlkwb{<-} \hlkwd{scale}\hlstd{(soc.fem,} \hlkwc{scale} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+    \hlstd{soc.pri.c} \hlkwb{<-} \hlkwd{scale}\hlstd{(soc.pri,} \hlkwc{scale} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+    \hlstd{soc.age.c} \hlkwb{<-} \hlkwd{scale}\hlstd{(soc.age,} \hlkwc{scale} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+    \hlstd{ses.unemp.c} \hlkwb{<-} \hlkwd{scale}\hlstd{(ses.unemp,} \hlkwc{scale} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+    \hlstd{soc.inc.wins.ln.c} \hlkwb{<-} \hlkwd{scale}\hlstd{(soc.inc.wins.ln,} \hlkwc{scale} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+    \hlstd{soc.con.wins.ln.c} \hlkwb{<-} \hlkwd{scale}\hlstd{(soc.con.wins.ln,} \hlkwc{scale} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+    \hlstd{soc.sav.c} \hlkwb{<-} \hlkwd{scale}\hlstd{(soc.sav,} \hlkwc{scale} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+    \subsection{Randomization checks}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+    \hlcom{## Randomization balance checks ##}
+
+    \hlstd{hypotheses} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"treatInd = 0"}\hlstd{,} \hlstr{"treatCom = 1"}\hlstd{,} \hlstr{"treatInd - treatCom = 0"}\hlstd{)}
+    \hlstd{depvars} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"soc.fem"}\hlstd{,} \hlstr{"soc.pri"}\hlstd{,} \hlstr{"soc.age"}\hlstd{,} \hlstr{"ses.unemp"}\hlstd{,} \hlstr{"soc.inc.wins.ln"}\hlstd{,} \hlstr{"soc.con.wins.ln"}\hlstd{,} \hlstr{"soc.sav"}\hlstd{)}
+
+    \hlkwa{for} \hlstd{(h} \hlkwa{in} \hlstd{hypotheses) \{}
+
+        \hlstd{RES} \hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlkwc{nrow} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{ncol} \hlstd{=} \hlnum{5}\hlstd{)}
+
+        \hlkwa{for} \hlstd{(depvar} \hlkwa{in} \hlstd{depvars) \{}
+
+            \hlstd{eqn} \hlkwb{<-} \hlkwd{paste}\hlstd{(depvar,} \hlstr{"~ treat"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{" "}\hlstd{)}
+            \hlstd{RES} \hlkwb{<-} \hlkwd{rbind}\hlstd{(RES,} \hlkwd{PermTest}\hlstd{(eqn,} \hlkwc{treatvars} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"treat"}\hlstd{,} \hlstr{"pov"}\hlstd{,} \hlstr{"ind"}\hlstd{,} \hlstr{"com"}\hlstd{),} \hlkwc{clustvars} \hlstd{= k1_df}\hlopt{$}\hlstd{survey.id,} \hlkwc{hypotheses} \hlstd{=} \hlkwd{c}\hlstd{(h),} \hlkwc{iterations} \hlstd{=} \hlnum{10000}\hlstd{,} \hlkwc{data} \hlstd{= k1_df))}
+
+        \hlstd{\}}
+
+        \hlstd{RES} \hlkwb{<-} \hlstd{RES[}\hlnum{2}\hlopt{:}\hlkwd{nrow}\hlstd{(RES),} \hlnum{1}\hlopt{:}\hlkwd{ncol}\hlstd{(RES)]}
+        \hlstd{RES} \hlkwb{<-} \hlkwd{cbind}\hlstd{(RES,} \hlkwd{FDR}\hlstd{(RES[,} \hlnum{4}\hlstd{]))}
+
+        \hlkwd{rownames}\hlstd{(RES)} \hlkwb{<-} \hlstd{depvars}
+        \hlkwd{colnames}\hlstd{(RES)[}\hlnum{6}\hlstd{]} \hlkwb{<-} \hlstr{"Min. Q"}
+
+        \hlkwd{print}\hlstd{(}\hlstr{"----------------------------------------------------------------"}\hlstd{,} \hlkwc{quote} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+        \hlkwd{print}\hlstd{(}\hlkwd{paste}\hlstd{(}\hlstr{"H_0:"}\hlstd{, h),} \hlkwc{quote} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+        \hlkwd{print}\hlstd{(RES,} \hlkwc{quote} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+
+    \hlstd{\}}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+    \subsection{Treatment effect}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+    \hlcom{## Plain OLS for primary outcomes ##}
+
+    \hlstd{hypotheses} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"treatInd = 0"}\hlstd{,} \hlstr{"treatCom = 1"}\hlstd{,} \hlstr{"treatInd - treatCom = 0"}\hlstd{)}
+    \hlstd{depvars} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"vid.num"}\hlstd{,} \hlstr{"sav.amt"}\hlstd{,} \hlstr{"msg.dec"}\hlstd{)}
+
+    \hlkwa{for} \hlstd{(h} \hlkwa{in} \hlstd{hypotheses) \{}
+
+        \hlstd{RES} \hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlkwc{nrow} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{ncol} \hlstd{=} \hlnum{5}\hlstd{)}
+
+        \hlkwa{for} \hlstd{(depvar} \hlkwa{in} \hlstd{depvars) \{}
+
+            \hlstd{eqn} \hlkwb{<-} \hlkwd{paste}\hlstd{(depvar,} \hlstr{"~ treat"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{" "}\hlstd{)}
+            \hlstd{RES} \hlkwb{<-} \hlkwd{rbind}\hlstd{(RES,} \hlkwd{PermTest}\hlstd{(eqn,} \hlkwc{treatvars} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"treat"}\hlstd{,} \hlstr{"pov"}\hlstd{,} \hlstr{"ind"}\hlstd{,} \hlstr{"com"}\hlstd{),} \hlkwc{clustvars} \hlstd{= k1_df}\hlopt{$}\hlstd{survey.id,} \hlkwc{hypotheses} \hlstd{=} \hlkwd{c}\hlstd{(h),} \hlkwc{iterations} \hlstd{=} \hlnum{10000}\hlstd{,} \hlkwc{data} \hlstd{= k1_df))}
+
+        \hlstd{\}}
+
+        \hlstd{RES} \hlkwb{<-} \hlstd{RES[}\hlnum{2}\hlopt{:}\hlkwd{nrow}\hlstd{(RES),} \hlnum{1}\hlopt{:}\hlkwd{ncol}\hlstd{(RES)]}
+        \hlstd{RES} \hlkwb{<-} \hlkwd{cbind}\hlstd{(RES,} \hlkwd{FDR}\hlstd{(RES[,} \hlnum{4}\hlstd{]))}
+
+        \hlkwd{rownames}\hlstd{(RES)} \hlkwb{<-} \hlstd{depvars}
+        \hlkwd{colnames}\hlstd{(RES)[}\hlnum{6}\hlstd{]} \hlkwb{<-} \hlstr{"Min. Q"}
+
+        \hlkwd{print}\hlstd{(}\hlstr{"----------------------------------------------------------------"}\hlstd{,} \hlkwc{quote} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+        \hlkwd{print}\hlstd{(}\hlkwd{paste}\hlstd{(}\hlstr{"H_0:"}\hlstd{, h),} \hlkwc{quote} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+        \hlkwd{print}\hlstd{(RES,} \hlkwc{quote} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+
+    \hlstd{\}}
+
+    \hlcom{## Plain OLS for secondary outcomes ##}
+
+    \hlstd{hypotheses} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"treatInd = 0"}\hlstd{,} \hlstr{"treatCom = 1"}\hlstd{,} \hlstr{"treatInd - treatCom = 0"}\hlstd{)}
+    \hlstd{depvars} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"sel.score.z"}\hlstd{,} \hlstr{"sti.score.z"}\hlstd{,} \hlstr{"aff.score.z"}\hlstd{,} \hlstr{"msg.avg"}\hlstd{,} \hlstr{"que.smrd"}\hlstd{,} \hlstr{"ses.lad.now"}\hlstd{,} \hlstr{"ses.lad.y2"}\hlstd{,} \hlstr{"ses.lad.diff"}\hlstd{)}
+
+    \hlkwa{for} \hlstd{(h} \hlkwa{in} \hlstd{hypotheses) \{}
+
+        \hlstd{RES} \hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlkwc{nrow} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{ncol} \hlstd{=} \hlnum{5}\hlstd{)}
+
+        \hlkwa{for} \hlstd{(depvar} \hlkwa{in} \hlstd{depvars) \{}
+
+            \hlstd{eqn} \hlkwb{<-} \hlkwd{paste}\hlstd{(depvar,} \hlstr{"~ treat"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{" "}\hlstd{)}
+            \hlstd{RES} \hlkwb{<-} \hlkwd{rbind}\hlstd{(RES,} \hlkwd{PermTest}\hlstd{(eqn,} \hlkwc{treatvars} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"treat"}\hlstd{,} \hlstr{"pov"}\hlstd{,} \hlstr{"ind"}\hlstd{,} \hlstr{"com"}\hlstd{),} \hlkwc{clustvars} \hlstd{= k1_df}\hlopt{$}\hlstd{survey.id,} \hlkwc{hypotheses} \hlstd{=} \hlkwd{c}\hlstd{(h),} \hlkwc{iterations} \hlstd{=} \hlnum{10000}\hlstd{,} \hlkwc{data} \hlstd{= k1_df))}
+
+        \hlstd{\}}
+
+        \hlstd{RES} \hlkwb{<-} \hlstd{RES[}\hlnum{2}\hlopt{:}\hlkwd{nrow}\hlstd{(RES),} \hlnum{1}\hlopt{:}\hlkwd{ncol}\hlstd{(RES)]}
+        \hlstd{RES} \hlkwb{<-} \hlkwd{cbind}\hlstd{(RES,} \hlkwd{FDR}\hlstd{(RES[,} \hlnum{4}\hlstd{]))}
+
+        \hlkwd{rownames}\hlstd{(RES)} \hlkwb{<-} \hlstd{depvars}
+        \hlkwd{colnames}\hlstd{(RES)[}\hlnum{6}\hlstd{]} \hlkwb{<-} \hlstr{"Min. Q"}
+
+        \hlkwd{print}\hlstd{(}\hlstr{"----------------------------------------------------------------"}\hlstd{,} \hlkwc{quote} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+        \hlkwd{print}\hlstd{(}\hlkwd{paste}\hlstd{(}\hlstr{"H_0:"}\hlstd{, h),} \hlkwc{quote} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+        \hlkwd{print}\hlstd{(RES,} \hlkwc{quote} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+
+    \hlstd{\}}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+    \subsection{Covariate-adjustment}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+    \hlcom{## Covariate adjustment for primary outcomes ##}
+
+    \hlstd{hypotheses} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"treatInd = 0"}\hlstd{,} \hlstr{"treatCom = 1"}\hlstd{,} \hlstr{"treatInd - treatCom = 0"}\hlstd{)}
+    \hlstd{depvars} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"vid.num"}\hlstd{,} \hlstr{"sav.amt"}\hlstd{,} \hlstr{"msg.dec"}\hlstd{)}
+    \hlstd{covariates} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"soc.fem.c"}\hlstd{,} \hlstr{"soc.pri.c"}\hlstd{,} \hlstr{"soc.age.c"}\hlstd{,} \hlstr{"ses.unemp.c"}\hlstd{,} \hlstr{"soc.inc.wins.ln.c"}\hlstd{,} \hlstr{"soc.con.wins.ln.c"}\hlstd{,} \hlstr{"soc.sav.c"}\hlstd{)}
+
+    \hlkwa{for} \hlstd{(h} \hlkwa{in} \hlstd{hypotheses) \{}
+
+        \hlstd{RES} \hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlkwc{nrow} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{ncol} \hlstd{=} \hlnum{5}\hlstd{)}
+
+        \hlkwa{for} \hlstd{(depvar} \hlkwa{in} \hlstd{depvars) \{}
+
+            \hlstd{eqn} \hlkwb{<-} \hlkwd{paste}\hlstd{(depvar,} \hlstr{"~"}\hlstd{,} \hlkwd{Interact}\hlstd{(}\hlstr{"treat"}\hlstd{, covariates),} \hlkwc{sep} \hlstd{=} \hlstr{" "}\hlstd{)}
+            \hlstd{RES} \hlkwb{<-} \hlkwd{rbind}\hlstd{(RES,} \hlkwd{PermTest}\hlstd{(eqn,} \hlkwc{treatvars} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"treat"}\hlstd{,} \hlstr{"pov"}\hlstd{,} \hlstr{"ind"}\hlstd{,} \hlstr{"com"}\hlstd{),} \hlkwc{clustvars} \hlstd{= k1_df}\hlopt{$}\hlstd{survey.id,} \hlkwc{hypotheses} \hlstd{=} \hlkwd{c}\hlstd{(h),} \hlkwc{iterations} \hlstd{=} \hlnum{10000}\hlstd{,} \hlkwc{data} \hlstd{= k1_df))}
+
+        \hlstd{\}}
+
+        \hlstd{RES} \hlkwb{<-} \hlstd{RES[}\hlnum{2}\hlopt{:}\hlkwd{nrow}\hlstd{(RES),} \hlnum{1}\hlopt{:}\hlkwd{ncol}\hlstd{(RES)]}
+        \hlstd{RES} \hlkwb{<-} \hlkwd{cbind}\hlstd{(RES,} \hlkwd{FDR}\hlstd{(RES[,} \hlnum{4}\hlstd{]))}
+
+        \hlkwd{rownames}\hlstd{(RES)} \hlkwb{<-} \hlstd{depvars}
+        \hlkwd{colnames}\hlstd{(RES)[}\hlnum{6}\hlstd{]} \hlkwb{<-} \hlstr{"Min. Q"}
+
+        \hlkwd{print}\hlstd{(}\hlstr{"----------------------------------------------------------------"}\hlstd{,} \hlkwc{quote} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+        \hlkwd{print}\hlstd{(}\hlkwd{paste}\hlstd{(}\hlstr{"H_0:"}\hlstd{, h),} \hlkwc{quote} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+        \hlkwd{print}\hlstd{(RES,} \hlkwc{quote} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+
+    \hlstd{\}}
+
+    \hlcom{## Covariate adjustment for secondary outcomes ##}
+
+    \hlstd{hypotheses} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"treatInd = 0"}\hlstd{,} \hlstr{"treatCom = 1"}\hlstd{,} \hlstr{"treatInd - treatCom = 0"}\hlstd{)}
+    \hlstd{depvars} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"sel.score.z"}\hlstd{,} \hlstr{"sti.score.z"}\hlstd{,} \hlstr{"aff.score.z"}\hlstd{,} \hlstr{"msg.avg"}\hlstd{,} \hlstr{"que.smrd"}\hlstd{,} \hlstr{"ses.lad.now"}\hlstd{,} \hlstr{"ses.lad.y2"}\hlstd{,} \hlstr{"ses.lad.diff"}\hlstd{)}
+    \hlstd{covariates} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"soc.fem"}\hlstd{,} \hlstr{"soc.pri"}\hlstd{,} \hlstr{"soc.age"}\hlstd{,} \hlstr{"ses.unemp"}\hlstd{,} \hlstr{"soc.inc.wins.ln"}\hlstd{,} \hlstr{"soc.con.wins.ln"}\hlstd{,} \hlstr{"soc.sav"}\hlstd{)}
+
+    \hlkwa{for} \hlstd{(h} \hlkwa{in} \hlstd{hypotheses) \{}
+
+        \hlstd{RES} \hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlkwc{nrow} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{ncol} \hlstd{=} \hlnum{5}\hlstd{)}
+
+        \hlkwa{for} \hlstd{(depvar} \hlkwa{in} \hlstd{depvars) \{}
+
+            \hlstd{eqn} \hlkwb{<-} \hlkwd{paste}\hlstd{(depvar,} \hlstr{"~"}\hlstd{,} \hlkwd{Interact}\hlstd{(}\hlstr{"treat"}\hlstd{, covariates),} \hlkwc{sep} \hlstd{=} \hlstr{" "}\hlstd{)}
+            \hlstd{RES} \hlkwb{<-} \hlkwd{rbind}\hlstd{(RES,} \hlkwd{PermTest}\hlstd{(eqn,} \hlkwc{treatvars} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"treat"}\hlstd{,} \hlstr{"pov"}\hlstd{,} \hlstr{"ind"}\hlstd{,} \hlstr{"com"}\hlstd{),} \hlkwc{clustvars} \hlstd{= k1_df}\hlopt{$}\hlstd{survey.id,} \hlkwc{hypotheses} \hlstd{=} \hlkwd{c}\hlstd{(h),} \hlkwc{iterations} \hlstd{=} \hlnum{10000}\hlstd{,} \hlkwc{data} \hlstd{= k1_df))}
+
+        \hlstd{\}}
+
+        \hlstd{RES} \hlkwb{<-} \hlstd{RES[}\hlnum{2}\hlopt{:}\hlkwd{nrow}\hlstd{(RES),} \hlnum{1}\hlopt{:}\hlkwd{ncol}\hlstd{(RES)]}
+        \hlstd{RES} \hlkwb{<-} \hlkwd{cbind}\hlstd{(RES,} \hlkwd{FDR}\hlstd{(RES[,} \hlnum{4}\hlstd{]))}
+
+        \hlkwd{rownames}\hlstd{(RES)} \hlkwb{<-} \hlstd{depvars}
+        \hlkwd{colnames}\hlstd{(RES)[}\hlnum{6}\hlstd{]} \hlkwb{<-} \hlstr{"Min. Q"}
+
+        \hlkwd{print}\hlstd{(}\hlstr{"----------------------------------------------------------------"}\hlstd{,} \hlkwc{quote} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+        \hlkwd{print}\hlstd{(}\hlkwd{paste}\hlstd{(}\hlstr{"H_0:"}\hlstd{, h),} \hlkwc{quote} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+        \hlkwd{print}\hlstd{(RES,} \hlkwc{quote} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+
+    \hlstd{\}}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+    \subsection{Heterogeneous treatment effects}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+    \hlcom{## Heterogeneous effects for primary outcomes ##}
+
+    \hlstd{depvars} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"vid.num"}\hlstd{,} \hlstr{"sav.amt"}\hlstd{,} \hlstr{"msg.dec"}\hlstd{)}
+    \hlstd{hetvars} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"soc.fem"}\hlstd{,} \hlstr{"soc.sav"}\hlstd{,} \hlstr{"soc.pri"}\hlstd{)}
+
+    \hlkwa{for} \hlstd{(hetvar} \hlkwa{in} \hlstd{hetvars) \{}
+
+        \hlstd{hypotheses} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlkwd{paste}\hlstd{(}\hlstr{"treatInd:"}\hlstd{, hetvar,} \hlstr{" = 0"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{),} \hlkwd{paste}\hlstd{(}\hlstr{"treatCom:"}\hlstd{, hetvar,} \hlstr{" = 0"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{),} \hlkwd{paste}\hlstd{(}\hlstr{"treatInd:"}\hlstd{, hetvar,} \hlstr{" - "}\hlstd{,} \hlstr{"treatCom:"}\hlstd{, hetvar,} \hlstr{" = 0"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{))}
+
+        \hlkwa{for} \hlstd{(h} \hlkwa{in} \hlstd{hypotheses) \{}
+
+            \hlstd{RES} \hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlkwc{nrow} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{ncol} \hlstd{=} \hlnum{5}\hlstd{)}
+
+            \hlkwa{for} \hlstd{(depvar} \hlkwa{in} \hlstd{depvars) \{}
+
+                \hlstd{eqn} \hlkwb{<-} \hlkwd{paste}\hlstd{(depvar,} \hlstr{" ~ treat*"}\hlstd{, hetvar,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{)}
+                \hlstd{RES} \hlkwb{<-} \hlkwd{rbind}\hlstd{(RES,} \hlkwd{PermTest}\hlstd{(eqn,} \hlkwc{treatvars} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"treat"}\hlstd{,} \hlstr{"pov"}\hlstd{,} \hlstr{"ind"}\hlstd{,} \hlstr{"com"}\hlstd{),} \hlkwc{clustvars} \hlstd{= k1_df}\hlopt{$}\hlstd{survey.id,} \hlkwc{hypotheses} \hlstd{=} \hlkwd{c}\hlstd{(h),} \hlkwc{iterations} \hlstd{=} \hlnum{10000}\hlstd{,} \hlkwc{data} \hlstd{= k1_df))}
+
+            \hlstd{\}}
+
+            \hlstd{RES} \hlkwb{<-} \hlstd{RES[}\hlnum{2}\hlopt{:}\hlkwd{nrow}\hlstd{(RES),} \hlnum{1}\hlopt{:}\hlkwd{ncol}\hlstd{(RES)]}
+            \hlstd{RES} \hlkwb{<-} \hlkwd{cbind}\hlstd{(RES,} \hlkwd{FDR}\hlstd{(RES[,} \hlnum{4}\hlstd{]))}
+
+            \hlkwd{rownames}\hlstd{(RES)} \hlkwb{<-} \hlstd{depvars}
+            \hlkwd{colnames}\hlstd{(RES)[}\hlnum{6}\hlstd{]} \hlkwb{<-} \hlstr{"Min. Q"}
+
+            \hlkwd{print}\hlstd{(}\hlstr{"----------------------------------------------------------------"}\hlstd{,} \hlkwc{quote} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+            \hlkwd{print}\hlstd{(}\hlkwd{paste}\hlstd{(}\hlstr{"H_0:"}\hlstd{, h),} \hlkwc{quote} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+            \hlkwd{print}\hlstd{(RES,} \hlkwc{quote} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+
+        \hlstd{\}}
+
+    \hlstd{\}}
+
+    \hlcom{## Heterogeneous effects for secondary outcomes ##}
+
+    \hlstd{depvars} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"sel.score.z"}\hlstd{,} \hlstr{"sti.score.z"}\hlstd{,} \hlstr{"aff.score.z"}\hlstd{,} \hlstr{"msg.avg"}\hlstd{,} \hlstr{"que.smrd"}\hlstd{,} \hlstr{"ses.lad.now"}\hlstd{,} \hlstr{"ses.lad.y2"}\hlstd{,} \hlstr{"ses.lad.diff"}\hlstd{)}
+    \hlstd{hetvars} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"soc.fem"}\hlstd{,} \hlstr{"soc.sav"}\hlstd{,} \hlstr{"soc.pri"}\hlstd{)}
+
+    \hlkwa{for} \hlstd{(hetvar} \hlkwa{in} \hlstd{hetvars) \{}
+
+        \hlstd{hypotheses} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlkwd{paste}\hlstd{(}\hlstr{"treatInd:"}\hlstd{, hetvar,} \hlstr{" = 0"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{),} \hlkwd{paste}\hlstd{(}\hlstr{"treatCom:"}\hlstd{, hetvar,} \hlstr{" = 0"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{),} \hlkwd{paste}\hlstd{(}\hlstr{"treatInd:"}\hlstd{, hetvar,} \hlstr{" - "}\hlstd{,} \hlstr{"treatCom:"}\hlstd{, hetvar,} \hlstr{" = 0"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{))}
+
+        \hlkwa{for} \hlstd{(h} \hlkwa{in} \hlstd{hypotheses) \{}
+
+            \hlstd{RES} \hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlkwc{nrow} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{ncol} \hlstd{=} \hlnum{5}\hlstd{)}
+
+            \hlkwa{for} \hlstd{(depvar} \hlkwa{in} \hlstd{depvars) \{}
+
+                \hlstd{eqn} \hlkwb{<-} \hlkwd{paste}\hlstd{(depvar,} \hlstr{" ~ treat*"}\hlstd{, hetvar,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{)}
+                \hlstd{RES} \hlkwb{<-} \hlkwd{rbind}\hlstd{(RES,} \hlkwd{PermTest}\hlstd{(eqn,} \hlkwc{treatvars} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"treat"}\hlstd{,} \hlstr{"pov"}\hlstd{,} \hlstr{"ind"}\hlstd{,} \hlstr{"com"}\hlstd{),} \hlkwc{clustvars} \hlstd{= k1_df}\hlopt{$}\hlstd{survey.id,} \hlkwc{hypotheses} \hlstd{=} \hlkwd{c}\hlstd{(h),} \hlkwc{iterations} \hlstd{=} \hlnum{10000}\hlstd{,} \hlkwc{data} \hlstd{= k1_df))}
+
+            \hlstd{\}}
+
+            \hlstd{RES} \hlkwb{<-} \hlstd{RES[}\hlnum{2}\hlopt{:}\hlkwd{nrow}\hlstd{(RES),} \hlnum{1}\hlopt{:}\hlkwd{ncol}\hlstd{(RES)]}
+            \hlstd{RES} \hlkwb{<-} \hlkwd{cbind}\hlstd{(RES,} \hlkwd{FDR}\hlstd{(RES[,} \hlnum{4}\hlstd{]))}
+
+            \hlkwd{rownames}\hlstd{(RES)} \hlkwb{<-} \hlstd{depvars}
+            \hlkwd{colnames}\hlstd{(RES)[}\hlnum{6}\hlstd{]} \hlkwb{<-} \hlstr{"Min. Q"}
+
+            \hlkwd{print}\hlstd{(}\hlstr{"----------------------------------------------------------------"}\hlstd{,} \hlkwc{quote} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+            \hlkwd{print}\hlstd{(}\hlkwd{paste}\hlstd{(}\hlstr{"H_0:"}\hlstd{, h),} \hlkwc{quote} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+            \hlkwd{print}\hlstd{(RES,} \hlkwc{quote} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+
+        \hlstd{\}}
+
+    \hlstd{\}}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\end{footnotesize}
 
 \end{document}
