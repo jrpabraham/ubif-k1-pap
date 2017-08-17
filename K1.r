@@ -154,8 +154,8 @@ Interact <- function(d, x) {
 ## Clean data ##
 ################
 
-varnames <- as.vector(read.delim(file = "K1__Field_Survey_v34+35_Appended.csv", sep = ",", header = FALSE, stringsAsFactors = FALSE, na.strings = "", nrows = 1))
-k1_df <- read.delim(file = "K1__Field_Survey_v34+35_Appended.csv", sep = ",", header = FALSE, stringsAsFactors = FALSE, na.strings = "", skip = 2, nrows = 600, col.names = varnames)
+varnames <- as.vector(read.delim(file = "K1__Field_Survey_v34+35_DeID.csv", sep = ",", header = FALSE, stringsAsFactors = FALSE, na.strings = "", nrows = 1))
+k1_df <- read.delim(file = "K1__Field_Survey_v34+35_DeID.csv", sep = ",", header = FALSE, stringsAsFactors = FALSE, na.strings = "", skip = 2, nrows = 600, col.names = varnames)
 
 ## Survey meta data ##
 
@@ -348,7 +348,7 @@ attach(k1_df)
 
 ## Randomization balance checks ##
 
-hypotheses <- c("treatInd = 0", "treatCom = 1", "treatInd - treatCom = 0")
+hypotheses <- c("treatInd = 0", "treatCom = 0", "treatInd - treatCom = 0")
 depvars <- c("soc.fem", "soc.pri", "soc.age", "ses.unemp", "soc.inc.wins.ln", "soc.con.wins.ln", "soc.sav")
 
 for (h in hypotheses) {
@@ -358,7 +358,7 @@ for (h in hypotheses) {
     for (depvar in depvars) {
 
         eqn <- paste(depvar, "~ treat", sep = " ")
-        RES <- rbind(RES, PermTest(eqn, treatvars = c("treat", "pov", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10, data = k1_df))
+        RES <- rbind(RES, PermTest(eqn, treatvars = c("treat", "pov", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10000, data = k1_df))
 
     }
 
@@ -376,7 +376,7 @@ for (h in hypotheses) {
 
 ## Plain OLS for primary outcomes ##
 
-hypotheses <- c("treatInd = 0", "treatCom = 1", "treatInd - treatCom = 0")
+hypotheses <- c("treatInd = 0", "treatCom = 0", "treatInd - treatCom = 0")
 depvars <- c("vid.num", "sav.amt", "msg.dec")
 
 for (h in hypotheses) {
@@ -386,7 +386,7 @@ for (h in hypotheses) {
     for (depvar in depvars) {
 
         eqn <- paste(depvar, "~ treat", sep = " ")
-        RES <- rbind(RES, PermTest(eqn, treatvars = c("treat", "pov", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10, data = k1_df))
+        RES <- rbind(RES, PermTest(eqn, treatvars = c("treat", "pov", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10000, data = k1_df))
 
     }
 
@@ -404,7 +404,7 @@ for (h in hypotheses) {
 
 ## Plain OLS for secondary outcomes ##
 
-hypotheses <- c("treatInd = 0", "treatCom = 1", "treatInd - treatCom = 0")
+hypotheses <- c("treatInd = 0", "treatCom = 0", "treatInd - treatCom = 0")
 depvars <- c("sel.score.z", "sti.score.z", "aff.score.z", "msg.avg", "que.smrd", "ses.lad.now", "ses.lad.y2", "ses.lad.diff")
 
 for (h in hypotheses) {
@@ -414,7 +414,7 @@ for (h in hypotheses) {
     for (depvar in depvars) {
 
         eqn <- paste(depvar, "~ treat", sep = " ")
-        RES <- rbind(RES, PermTest(eqn, treatvars = c("treat", "pov", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10, data = k1_df))
+        RES <- rbind(RES, PermTest(eqn, treatvars = c("treat", "pov", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10000, data = k1_df))
 
     }
 
@@ -432,7 +432,7 @@ for (h in hypotheses) {
 
 ## Covariate adjustment for primary outcomes ##
 
-hypotheses <- c("treatInd = 0", "treatCom = 1", "treatInd - treatCom = 0")
+hypotheses <- c("treatInd = 0", "treatCom = 0", "treatInd - treatCom = 0")
 depvars <- c("vid.num", "sav.amt", "msg.dec")
 covariates <- c("soc.fem.c", "soc.pri.c", "soc.age.c", "ses.unemp.c")
 
@@ -443,7 +443,7 @@ for (h in hypotheses) {
     for (depvar in depvars) {
 
         eqn <- paste(depvar, "~", Interact("treat", covariates), sep = " ")
-        RES <- rbind(RES, PermTest(eqn, treatvars = c("treat", "pov", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10, data = k1_df))
+        RES <- rbind(RES, PermTest(eqn, treatvars = c("treat", "pov", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10000, data = k1_df))
 
     }
 
@@ -461,7 +461,7 @@ for (h in hypotheses) {
 
 ## Covariate adjustment for secondary outcomes ##
 
-hypotheses <- c("treatInd = 0", "treatCom = 1", "treatInd - treatCom = 0")
+hypotheses <- c("treatInd = 0", "treatCom = 0", "treatInd - treatCom = 0")
 depvars <- c("sel.score.z", "sti.score.z", "aff.score.z", "msg.avg", "que.smrd", "ses.lad.now", "ses.lad.y2", "ses.lad.diff")
 covariates <- c("soc.fem.c", "soc.pri.c", "soc.age.c", "ses.unemp.c")
 
@@ -472,7 +472,7 @@ for (h in hypotheses) {
     for (depvar in depvars) {
 
         eqn <- paste(depvar, "~", Interact("treat", covariates), sep = " ")
-        RES <- rbind(RES, PermTest(eqn, treatvars = c("treat", "pov", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10, data = k1_df))
+        RES <- rbind(RES, PermTest(eqn, treatvars = c("treat", "pov", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10000, data = k1_df))
 
     }
 
@@ -504,7 +504,7 @@ for (hetvar in hetvars) {
         for (depvar in depvars) {
 
             eqn <- paste(depvar, " ~ treat*", hetvar, sep = "")
-            RES <- rbind(RES, PermTest(eqn, treatvars = c("treat", "pov", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10, data = k1_df))
+            RES <- rbind(RES, PermTest(eqn, treatvars = c("treat", "pov", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10000, data = k1_df))
 
         }
 
@@ -538,7 +538,7 @@ for (hetvar in hetvars) {
         for (depvar in depvars) {
 
             eqn <- paste(depvar, " ~ treat*", hetvar, sep = "")
-            RES <- rbind(RES, PermTest(eqn, treatvars = c("treat", "pov", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10, data = k1_df))
+            RES <- rbind(RES, PermTest(eqn, treatvars = c("treat", "pov", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10000, data = k1_df))
 
         }
 
@@ -559,6 +559,6 @@ for (hetvar in hetvars) {
 ## Errata identified ##
 
 ## Errata resolved ##
-
+    # treatCom = 1
     # soc.fem has -100 value
     # covariates were not being centered properly
