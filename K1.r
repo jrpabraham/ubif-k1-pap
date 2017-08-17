@@ -305,9 +305,14 @@ k1_df$ses.lad.avg <- (k1_df$ses.lad.y2 + k1_df$ses.lad.now) / 2
 ## Sociodemographics ##
 
 k1_df$soc.age[k1_df$soc.age < 0] <- NA
+
 k1_df$soc.pri <- as.numeric(k1_df$soc.edu > 3)
+
 k1_df$soc.fem <- k1_df$soc.gen - 1
+k1_df$soc.fem[k1_df$soc.fem < 0] <- NA
+
 k1_df$soc.chr <- k1_df$soc.rel %in% c(1, 2)
+
 k1_df$ses.unemp <- k1_df$ses.emp %in% c(1, 2)
 
 k1_df$soc.inc[k1_df$soc.inc < 0] <- NA
@@ -333,9 +338,6 @@ k1_df$soc.fem.c <- scale(k1_df$soc.fem, scale = FALSE)
 k1_df$soc.pri.c <- scale(k1_df$soc.pri, scale = FALSE)
 k1_df$soc.age.c <- scale(k1_df$soc.age, scale = FALSE)
 k1_df$ses.unemp.c <- scale(k1_df$ses.unemp, scale = FALSE)
-k1_df$soc.inc.wins.ln.c <- scale(k1_df$soc.inc.wins.ln, scale = FALSE)
-k1_df$soc.con.wins.ln.c <- scale(k1_df$soc.con.wins.ln, scale = FALSE)
-k1_df$soc.sav.c <- scale(k1_df$soc.sav, scale = FALSE)
 
 write.csv(k1_df, file = "K1_Data.csv", na = "")
 attach(k1_df)
@@ -553,3 +555,10 @@ for (hetvar in hetvars) {
     }
 
 }
+
+## Errata identified ##
+
+## Errata resolved ##
+
+    # soc.fem has -100 value
+    # covariates were not being centered properly
