@@ -358,7 +358,7 @@ for (h in hypotheses) {
     for (depvar in depvars) {
 
         eqn <- paste(depvar, "~ treat", sep = " ")
-        RES <- rbind(RES, PermTest(eqn, treatvars = c("treat", "pov", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10000, data = k1_df))
+        RES <- rbind(RES, PermTest(eqn, treatvars = c("treat", "pov", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10, data = k1_df))
 
     }
 
@@ -386,7 +386,7 @@ for (h in hypotheses) {
     for (depvar in depvars) {
 
         eqn <- paste(depvar, "~ treat", sep = " ")
-        RES <- rbind(RES, PermTest(eqn, treatvars = c("treat", "pov", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10000, data = k1_df))
+        RES <- rbind(RES, PermTest(eqn, treatvars = c("treat", "pov", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10, data = k1_df))
 
     }
 
@@ -405,7 +405,7 @@ for (h in hypotheses) {
 ## Plain OLS for secondary outcomes ##
 
 hypotheses <- c("treatInd = 0", "treatCom = 0", "treatInd - treatCom = 0")
-depvars <- c("sel.score.z", "sti.score.z", "aff.score.z", "msg.avg", "que.smrd", "ses.lad.now", "ses.lad.y2", "ses.lad.diff")
+depvars <- c("sel.score.z", "sti.score.z", "aff.score.z", "msg.avg", "que.smrd", "ses.lad.now.z", "ses.lad.y2.z", "ses.lad.diff")
 
 for (h in hypotheses) {
 
@@ -414,7 +414,7 @@ for (h in hypotheses) {
     for (depvar in depvars) {
 
         eqn <- paste(depvar, "~ treat", sep = " ")
-        RES <- rbind(RES, PermTest(eqn, treatvars = c("treat", "pov", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10000, data = k1_df))
+        RES <- rbind(RES, PermTest(eqn, treatvars = c("treat", "pov", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10, data = k1_df))
 
     }
 
@@ -443,7 +443,7 @@ for (h in hypotheses) {
     for (depvar in depvars) {
 
         eqn <- paste(depvar, "~", Interact("treat", covariates), sep = " ")
-        RES <- rbind(RES, PermTest(eqn, treatvars = c("treat", "pov", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10000, data = k1_df))
+        RES <- rbind(RES, PermTest(eqn, treatvars = c("treat", "pov", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10, data = k1_df))
 
     }
 
@@ -462,7 +462,7 @@ for (h in hypotheses) {
 ## Covariate adjustment for secondary outcomes ##
 
 hypotheses <- c("treatInd = 0", "treatCom = 0", "treatInd - treatCom = 0")
-depvars <- c("sel.score.z", "sti.score.z", "aff.score.z", "msg.avg", "que.smrd", "ses.lad.now", "ses.lad.y2", "ses.lad.diff")
+depvars <- c("sel.score.z", "sti.score.z", "aff.score.z", "msg.avg", "que.smrd", "ses.lad.now.z", "ses.lad.y2.z", "ses.lad.diff")
 covariates <- c("soc.fem.c", "soc.pri.c", "soc.age.c", "ses.unemp.c")
 
 for (h in hypotheses) {
@@ -472,7 +472,7 @@ for (h in hypotheses) {
     for (depvar in depvars) {
 
         eqn <- paste(depvar, "~", Interact("treat", covariates), sep = " ")
-        RES <- rbind(RES, PermTest(eqn, treatvars = c("treat", "pov", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10000, data = k1_df))
+        RES <- rbind(RES, PermTest(eqn, treatvars = c("treat", "pov", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10, data = k1_df))
 
     }
 
@@ -504,7 +504,7 @@ for (hetvar in hetvars) {
         for (depvar in depvars) {
 
             eqn <- paste(depvar, " ~ treat*", hetvar, sep = "")
-            RES <- rbind(RES, PermTest(eqn, treatvars = c("treat", "pov", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10000, data = k1_df))
+            RES <- rbind(RES, PermTest(eqn, treatvars = c("treat", "pov", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10, data = k1_df))
 
         }
 
@@ -524,7 +524,7 @@ for (hetvar in hetvars) {
 
 ## Heterogeneous effects for secondary outcomes ##
 
-depvars <- c("sel.score.z", "sti.score.z", "aff.score.z", "msg.avg", "que.smrd", "ses.lad.now", "ses.lad.y2", "ses.lad.diff")
+depvars <- c("sel.score.z", "sti.score.z", "aff.score.z", "msg.avg", "que.smrd", "ses.lad.now.z", "ses.lad.y2.z", "ses.lad.diff")
 hetvars <- c("soc.fem", "soc.pri")
 
 for (hetvar in hetvars) {
@@ -538,7 +538,7 @@ for (hetvar in hetvars) {
         for (depvar in depvars) {
 
             eqn <- paste(depvar, " ~ treat*", hetvar, sep = "")
-            RES <- rbind(RES, PermTest(eqn, treatvars = c("treat", "pov", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10000, data = k1_df))
+            RES <- rbind(RES, PermTest(eqn, treatvars = c("treat", "pov", "ind", "com"), clustvars = k1_df$survey.id, hypotheses = c(h), iterations = 10, data = k1_df))
 
         }
 
@@ -562,3 +562,5 @@ for (hetvar in hetvars) {
     # treatCom = 1
     # soc.fem has -100 value
     # covariates were not being centered properly
+    # ladder scales not standardized
+    
