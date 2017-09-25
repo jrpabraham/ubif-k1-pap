@@ -5,7 +5,7 @@
 setwd("/Users/Justin/Google Drive/UBIF/UBIF_Deliverables/UBIF_PAP/K1_PAP")
 set.seed(47269801)
 
-required.packages <- c("dplyr", "multiwayvcov", "multcomp", "reshape2", "knitr")
+required.packages <- c("dplyr", "multiwayvcov", "multcomp", "reshape2", "knitr", "Hmis")
 packages.missing <- required.packages[!required.packages %in% installed.packages()[,"Package"]]
 
 if(length(packages.missing) > 0) {install.packages(required.packages, repo="https://cran.cnr.berkeley.edu/")}
@@ -154,6 +154,8 @@ Interact <- function(d, x) {
 ## Clean data ##
 ################
 
+## Read data ##
+
 varnames <- as.vector(read.delim(file = "K1__Field_Survey_v34+35_DeID.csv", sep = ",", header = FALSE, stringsAsFactors = FALSE, na.strings = "", nrows = 1))
 k1_df <- read.delim(file = "K1__Field_Survey_v34+35_DeID.csv", sep = ",", header = FALSE, stringsAsFactors = FALSE, na.strings = "", skip = 2, nrows = 600, col.names = varnames)
 
@@ -171,7 +173,9 @@ k1_df$survey.id <- k1_df$V1
 k1_df <- k1_df[complete.cases(k1_df$survey.id), ]
 
 nonentry <- c("R_5ZkChbiXDIj6KsK", "R_7N8rNtLsxF5a9on", "R_97Tx2cAjy30fqMR", "R_lYnRvOAJhuax6LS", "R_8dky4iSC7rfEuNc", "R_nczo7KPxLkkKkgo", "R_5j1OiNu3wMp265N", "R_0GYX0scNN16ICfQ", "R_6PoFtAhwvSBNYzi", "R_696kAyWai9bDkFI", "R_hPaLwAaYCnY0l69", "R_oGNBAVexMWYhMml", "R_3rwTGdEULwOGH2y", "R_bhNv0SnArTa32Xe", "R_5txHVIbQY6twLIZ", "R_kaSM6nunZ9Ynatj", "R_0ppcidBVCPaEkXK", "R_oWceQFJG5NnSokN", "R_h5Cw4tvVUeDY8NI", "R_9ib4ASBi450NZPt", "R_mAlfPdxj5GQsJF5", "R_kbW6NDTS1FWXyn3", "R_b1GC7jpoQrJKrFN", "R_5YpNpbPWOxnSNWc", "R_mwLFSjScVyrgs9J", "R_1jbOtmMIrvgTgaE", "R_if5tz3h1N9MzTp2", "R_aFmo1jRrWIwsLjI", "R_2itxVUcUstO3Syp", "R_9LP4exOnWpJ1TrE", "R_cQLu9PDCtFwbn7K", "R_oFl39knSVL3SKpz", "R_11Y1KTzawxBJmvy")
-k1_df <- k1_df[! k1_df$survey.id %in% nonentry, ]
+k1_df <- k1_df[!k1_df$survey.id %in% nonentry, ]
+
+## Labelling (as needed)##
 
 ## Treatment assignment ##
 
