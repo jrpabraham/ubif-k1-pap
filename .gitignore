@@ -340,3 +340,4 @@ sftp-config.json
 
 # Visio autosave temporary files
 *.~vsdx
+.Rproj.user
