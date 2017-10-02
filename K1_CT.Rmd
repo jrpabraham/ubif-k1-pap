@@ -5,25 +5,37 @@ date: "10/1/2017"
 output: html_document
 ---
 
-```{r ##############################
 ## Install missing packages ##
-##############################
 
+```{r}
 setwd("/Users/catherinecthomas/Google Drive/UBIF/UBIF_Deliverables/UBIF_PAP/K1_PAP")
 set.seed(47269801)
 
-required.packages <- c("dplyr", "multiwayvcov", "multcomp", "reshape2", "knitr", "Hmis")
+required.packages <- c("dplyr", "multiwayvcov", "multcomp", "reshape2", "knitr", "Hmis", "tidyverse", "knitr", "broom")
 packages.missing <- required.packages[!required.packages %in% installed.packages()[,"Package"]]
 
 if(length(packages.missing) > 0) {install.packages(required.packages, repo="https://cran.cnr.berkeley.edu/")}
 lapply(required.packages, library, character.only = TRUE)
+```
 
 ######################
 ## Define functions ##
 ######################
 
+## For 95% CI
+
+```{r}
+sem <- function(x) {sd(x) / sqrt(length(x))}
+ci95.norm <- function(x) {
+  me <- sem(x) * qnorm(.975)
+  c(mean(x) - me, mean(x) + me)
+}
+ci <- function(x) {sem(x) * 1.96}
+```
+
 ## RegTest conducts asymptotic tests from linear model ##
 
+```{r}
 RegTest <- function(equation, clustvars, hypotheses, data) {
 
     model <- lm(equation, data = data, na.action = na.omit)
@@ -157,15 +169,19 @@ Interact <- function(d, x) {
 
 }
 
+```
+
+
 ################
 ## Clean data ##
 ################
 
-## Read data ##
-
+```{r}
 varnames <- as.vector(read.delim(file = "K1__Field_Survey_v34+35_DeID.csv", sep = ",", header = FALSE, stringsAsFactors = FALSE, na.strings = "", nrows = 1))
 k1_df <- read.delim(file = "K1__Field_Survey_v34+35_DeID.csv", sep = ",", header = FALSE, stringsAsFactors = FALSE, na.strings = "", skip = 2, nrows = 600, col.names = varnames)
+```
 
+```{r}
 ## Survey meta data ##
 
 k1_df$start.time.mst <- as.POSIXct(as.character(k1_df$V3), format = "%m/%d/%y %H:%M")
@@ -181,7 +197,9 @@ k1_df <- k1_df[complete.cases(k1_df$survey.id), ]
 
 nonentry <- c("R_5ZkChbiXDIj6KsK", "R_7N8rNtLsxF5a9on", "R_97Tx2cAjy30fqMR", "R_lYnRvOAJhuax6LS", "R_8dky4iSC7rfEuNc", "R_nczo7KPxLkkKkgo", "R_5j1OiNu3wMp265N", "R_0GYX0scNN16ICfQ", "R_6PoFtAhwvSBNYzi", "R_696kAyWai9bDkFI", "R_hPaLwAaYCnY0l69", "R_oGNBAVexMWYhMml", "R_3rwTGdEULwOGH2y", "R_bhNv0SnArTa32Xe", "R_5txHVIbQY6twLIZ", "R_kaSM6nunZ9Ynatj", "R_0ppcidBVCPaEkXK", "R_oWceQFJG5NnSokN", "R_h5Cw4tvVUeDY8NI", "R_9ib4ASBi450NZPt", "R_mAlfPdxj5GQsJF5", "R_kbW6NDTS1FWXyn3", "R_b1GC7jpoQrJKrFN", "R_5YpNpbPWOxnSNWc", "R_mwLFSjScVyrgs9J", "R_1jbOtmMIrvgTgaE", "R_if5tz3h1N9MzTp2", "R_aFmo1jRrWIwsLjI", "R_2itxVUcUstO3Syp", "R_9LP4exOnWpJ1TrE", "R_cQLu9PDCtFwbn7K", "R_oFl39knSVL3SKpz", "R_11Y1KTzawxBJmvy")
 k1_df <- k1_df[!k1_df$survey.id %in% nonentry, ]
+```
 
+```{r}
 ## Labelling (as needed)##
 
 ## Treatment assignment ##
@@ -198,7 +216,11 @@ k1_df$com <- ifelse(k1_df$condition == "community", 1, 0)
 k1_df$msg1 <- recode(as.numeric(as.factor(k1_df$ORG_MESSAGE)), `2` = 0, `3` = 2)
 k1_df$msg2 <- recode(as.numeric(as.factor(k1_df$ORG_MESSAGE_2)), `2` = 0)
 k1_df$msg3 <- recode(as.numeric(as.factor(k1_df$ORG_MESSAGE_3)), `3` = 2)
+```
 
+# Composite Variable Construction
+
+```{r}
 ## Self-efficacy ##
 
 for (var in c(k1_df$sel.con, k1_df$sel.pers, k1_df$sel.com, k1_df$sel.prob, k1_df$sel.bett)) {
@@ -352,6 +374,145 @@ k1_df$ses.unemp.c <- scale(k1_df$ses.unemp, scale = FALSE)
 
 write.csv(k1_df, file = "K1_Data.csv", na = "")
 attach(k1_df)
+```
+
+# DV1: Videos
+```{r}
+ms.vid1 <- k1_df %>% 
+  group_by(condition) %>% 
+  summarise(count = sum(value[vid.num >= 1]))
+kable(ms.vid1, digits=3) 
+
+#               mean.vid.num                  sd
+# |community  |        1.376|              0.703|
+# |individual |        1.333|              0.748|
+# |poor       |        1.196|              0.736|
+
+#   mutate(vid.perc = ifelse(vid.num %in% 1:2, "1 or More Videos")) %>%
+   
+ms.vid <- k1_df %>% 
+  group_by(condition) %>% 
+  summarise("Mean_Num_Vid" = mean(vid.num), 
+              sd=sd(vid.num),
+            # "ci" =ci(vid.num)
+            # ci.lo = Mean_Num_Vid - ci
+            # ci.hi = Mean_Num_Vid + ci)
+  # mutate(vid.perc = ifelse(vid.num >= 1))
+kable(ms.vid, digits=3) 
+
+Hmisc::describe(k1_df$vid.num)
+
+ggplot(ms.vid, aes(x=condition, y=Mean_Num_Vid, fill=condition)) +
+  geom_bar(position="dodge", stat="identity", width=0.9) +
+# geom_errorbar(aes(ymin=sd, ymax=sd),  
+# width=0.2, position=position_dodge(0.9)) +
+  coord_cartesian() +
+    theme(text = element_text(size=15, face="bold")) +
+    scale_fill_brewer(palette="Paired") + 
+  theme(axis.text.x = element_text(face="bold", size=rel(1.3))) + 
+    labs(fill='Condition') +
+  xlab("Condition") +
+  ylab("Mean Number of Skills Building Videos") +
+  ggtitle("Self-Investment Behaviors: Video Selection by Condition")
+```
+
+```{r}
+
+# dep vars to control for: soc.fem.c", "soc.pri.c", "soc.age.c", "ses.unemp.c
+
+mod <- lm(vid.num ~ condition + soc.fem.c + soc.pri.c + soc.age.c + ses.unemp.c, data = k1_df)
+print(summary(mod))
+kable(tidy(mod), digits = 3)
+
+# |term                | estimate| std.error| statistic| p.value|
+# |:-------------------|--------:|---------:|---------:|-------:|
+# |(Intercept)         |    1.362|     0.050|    27.349|   0.000|
+# |conditionindividual |   -0.016|     0.073|    -0.222|   0.825|
+# |conditionpoor       |   -0.162|     0.072|    -2.261|   0.024|
+# |soc.fem.c           |    0.262|     0.063|     4.149|   0.000|
+# |soc.pri.c           |    0.073|     0.094|     0.782|   0.434|
+# |soc.age.c           |    0.015|     0.004|     3.903|   0.000|
+# |ses.unemp.c         |   -0.053|     0.066|    -0.810|   0.418|
+```
+
+
+```{r}
+
+  mutate(pct.vid = vid.num>0 (anchor-cost)/anchor*100) %>% 
+  group_by(survey.id, condition) %>% 
+  summarise("percentchange" = mean(pct_change, na.rm=TRUE))
+kable(pcts) 
+```
+
+## SAVINGS AMOUNT
+
+```{r}
+ms.sav <- k1_df %>% 
+  group_by(condition) %>% 
+  summarise("Mean_Savings" = mean(sav.amt, na.rm=TRUE), sd=sd(sav.amt, na.rm=TRUE))
+  # mutate(vid.perc = ifelse(vid.num >= 1))
+kable(ms.sav, digits=3) 
+```
+
+## 
+
+```{r}
+ms.msg.dec <- k1_df %>% 
+  group_by(condition) %>% 
+  summarise("Mean_Support" = mean(msg.dec, na.rm=TRUE), sd=sd(msg.dec, na.rm=TRUE))
+  # mutate(vid.perc = ifelse(vid.num >= 1))
+kable(ms.msg.dec, digits=3) 
+```
+
+## MEDIATORS
+```{r}
+### Self-Efficacy ### 
+# predicts video selection
+summary(lm(vid.num ~ sel.score.z, data=k1_df)) # p=0.03
+summary(lm(vid.num ~ sel.pers, data=k1_df)) # ns
+summary(lm(vid.num ~ sel.com, data=k1_df)) # ns
+summary(lm(vid.num ~ sel.con, data=k1_df)) # p=0.002, control of finances
+summary(lm(vid.num ~ sel.prob, data=k1_df)) # ns
+summary(lm(vid.num ~ sel.bett, data=k1_df)) # ns
+
+summary(lm(sel.score.z ~ condition, data=k1_df)) # for poor: p=0.009
+summary(lm(sel.pers~ condition, data=k1_df)) # for poor: p=0.049
+summary(lm(sel.com~ condition, data=k1_df)) # for poor: p=0.047
+summary(lm(sel.con ~ condition, data=k1_df)) # for poor: p=0.0297
+summary(lm(sel.prob ~ condition, data=k1_df)) # for poor: p=0.09
+summary(lm(sel.bett ~ condition, data=k1_df)) # ns
+
+### Stigma ### 
+# marginally predicts video selection
+summary(lm(vid.num ~ sti.score.z, data=k1_df)) # p=0.06
+# predicts video selection
+summary(lm(vid.num ~ jud.judg, data=k1_df)) # ns
+summary(lm(vid.num ~ jud.emb, data=k1_df)) # ns
+summary(lm(vid.num ~ jud.ups, data=k1_df)) # ns
+summary(lm(vid.num ~ jud.fam, data=k1_df)) # p=0.03, are a good family member
+summary(lm(vid.num ~ jud.com, data=k1_df)) # ns
+
+### AFFECT ### 
+summary(lm(aff.score.z ~ condition, data=k1_df)) 
+# ns
+summary(lm(vid.num ~ aff.score.z, data=k1_df))
+# p=0.00121 
+
+### SES ### 
+## not related to video, predicted by self-efficacy
+summary(lm(vid.num ~ ses.lad.now, data=k1_df))
+# ns
+summary(lm(vid.num ~ ses.lad.y2, data=k1_df))
+# ns
+summary(lm(ses.lad.now ~ sel.score, data=k1_df))
+# p<0.001, SELF-EFFICACY PREDICTS SUBJECTIVE SES
+summary(lm(ses.lad.y2 ~ sel.score, data=k1_df))
+# p<0.001, SELF-EFFICACY PREDICTS SUBJECTIVE SES
+summary(lm(ses.lad.now.z ~ sti.score.z, data=k1_df))
+# ns
+
+```
+
 
 ################
 ## Estimation ##
