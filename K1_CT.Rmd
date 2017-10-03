@@ -25,7 +25,7 @@ lapply(required.packages, library, character.only = TRUE)
 ## For 95% CI
 
 ```{r}
-sem <- function(x) {sd(x) / sqrt(length(x))}
+sem <- function(x) {sd(x, na.rm=TRUE) / sqrt(length(x))}
 ci95.norm <- function(x) {
   me <- sem(x) * qnorm(.975)
   c(mean(x) - me, mean(x) + me)
@@ -178,7 +178,8 @@ Interact <- function(d, x) {
 
 ```{r}
 varnames <- as.vector(read.delim(file = "K1__Field_Survey_v34+35_DeID.csv", sep = ",", header = FALSE, stringsAsFactors = FALSE, na.strings = "", nrows = 1))
-k1_df <- read.delim(file = "K1__Field_Survey_v34+35_DeID.csv", sep = ",", header = FALSE, stringsAsFactors = FALSE, na.strings = "", skip = 2, nrows = 600, col.names = varnames)
+k1_df <- read.delim(file = "K1__Field_Survey_v34+35_DeID.csv", sep = ",", header = FALSE, stringsAsFactors = FALSE, na.strings = "", skip = 2, nrows = 598, col.names = varnames) %>%
+  dplyr::select(-NA., -NA..1, -NA..2)
 ```
 
 ```{r}
@@ -208,6 +209,8 @@ k1_df$treat[k1_df$condition == "poor"] <- 0
 k1_df$treat[k1_df$condition == "individual"] <- 1
 k1_df$treat[k1_df$condition == "community"] <- 2
 k1_df$treat <- factor(k1_df$treat, labels = c("Pov", "Ind", "Com"))
+k1_df$condition.order <- factor(k1_df$treat, labels = c("Poverty", "Individual", "Community"))
+
 
 k1_df$pov <- ifelse(k1_df$condition == "poor", 1, 0)
 k1_df$ind <- ifelse(k1_df$condition == "individual", 1, 0)
@@ -259,6 +262,11 @@ k1_df$aff.score.z <- scale(k1_df$aff.score)
 k1_df$vid.imp1 <- k1_df$vid.dec1 %in% c(3, 5)
 k1_df$vid.imp2 <- k1_df$vid.dec2 %in% c(3, 5)
 k1_df$vid.num <- k1_df$vid.imp1 + k1_df$vid.imp2
+k1_df$vid.skills <- k1_df$vid.num > 0
+
+# k1_df$vid.skills <- factor(as.character(k1_df$vid.num),
+#                            levels=c("0", "1", "2"),
+#                            labels=c("NoSkills", "Skills", "Skills"))
 
 ## Intertemporal choice ##
 
@@ -377,43 +385,79 @@ attach(k1_df)
 ```
 
 # DV1: Videos
+
 ```{r}
-ms.vid1 <- k1_df %>% 
-  group_by(condition) %>% 
-  summarise(count = sum(value[vid.num >= 1]))
-kable(ms.vid1, digits=3) 
+## Binary: Skills vs. No Skills Videos
+ms.vid.skills <- k1_df[,1:180] %>%  ## SELECT COLUMN I CARE ABOUT FIRST
+  # dplyr::select(vid.skills, condition) %>% ## SELECT COLUMN I CARE ABOUT FIRST
+  group_by(condition) %>%
+  summarise(perc.vid = mean(vid.skills)) %>%
+  ungroup()
+kable(ms.vid.skills, digits=3)
+```
+
+```{r}
+ms.vid.skills <- k1_df %>%  ## Troubleshooting: could add: `k1_df[,1:180]` to SELECT COLUMN I CARE ABOUT and remove problematic ones
+  # dplyr::select(vid.skills, condition) %>% ## SELECT COLUMN I CARE ABOUT FIRST
+  group_by(condition.order) %>%
+  summarise(perc.vid = mean(vid.skills), sd(vid.skills), "ci" =ci(vid.skills), ci.lo = perc.vid - ci, ci.hi = perc.vid + ci) %>%
+  ungroup()
+kable(ms.vid.skills, digits=3)
+
+ggplot(ms.vid.skills, aes(x=condition.order, y=perc.vid, fill=condition.order)) +
+  geom_bar(position="dodge", stat="identity", width=0.9) +
+ geom_errorbar(aes(ymin=ci.lo, ymax=ci.hi),  
+ width=0.2, position=position_dodge(0.9)) +
+  coord_cartesian() +
+    theme(text = element_text(size=13, face="bold")) +
+    scale_fill_brewer(palette="Paired") + 
+  theme(axis.text.x = element_text(face="bold", size=rel(1.3))) + 
+    labs(fill='Condition') +
+  # geom_signif(comparisons=list(c("Poverty", "Community")), annotations="p=.014",
+  #             y_position = 1.7, tip_length = .1, vjust=0.2) +
+  #   geom_signif(comparisons=list(c("Poverty", "Individual")), annotations="p=.078",
+  #             y_position = 1.5, tip_length = .1, vjust=-0.2) +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  xlab("Message Condition") +
+  ylab("Percent Selecting Skills Building Videos") +
+  ggtitle("Self-Investment Behaviors")
+```
+
+
+```{r}
+## Ordinal: No. Skills Videos
 
 #               mean.vid.num                  sd
 # |community  |        1.376|              0.703|
 # |individual |        1.333|              0.748|
 # |poor       |        1.196|              0.736|
 
-#   mutate(vid.perc = ifelse(vid.num %in% 1:2, "1 or More Videos")) %>%
-   
-ms.vid <- k1_df %>% 
-  group_by(condition) %>% 
-  summarise("Mean_Num_Vid" = mean(vid.num), 
-              sd=sd(vid.num),
-            # "ci" =ci(vid.num)
-            # ci.lo = Mean_Num_Vid - ci
-            # ci.hi = Mean_Num_Vid + ci)
-  # mutate(vid.perc = ifelse(vid.num >= 1))
-kable(ms.vid, digits=3) 
+ms.vid2 <- k1_df %>% 
+  dplyr::select(vid.num, condition.order, survey.id) %>%
+  dplyr::group_by(condition.order) %>% 
+  dplyr::summarise(
+    Mean_Num_Vid = mean(vid.num), 
+              sd=sd(vid.num), 
+    n_observations = length(survey.id), "ci" =ci(vid.num), ci.lo = Mean_Num_Vid - ci, ci.hi = Mean_Num_Vid + ci) 
+kable(ms.vid2, digits=3) 
 
-Hmisc::describe(k1_df$vid.num)
-
-ggplot(ms.vid, aes(x=condition, y=Mean_Num_Vid, fill=condition)) +
+ggplot(ms.vid2, aes(x=condition.order, y=Mean_Num_Vid, fill=condition.order)) +
   geom_bar(position="dodge", stat="identity", width=0.9) +
-# geom_errorbar(aes(ymin=sd, ymax=sd),  
-# width=0.2, position=position_dodge(0.9)) +
+ geom_errorbar(aes(ymin=ci.lo, ymax=ci.hi),  
+ width=0.2, position=position_dodge(0.9)) +
   coord_cartesian() +
-    theme(text = element_text(size=15, face="bold")) +
+    theme(text = element_text(size=13, face="bold")) +
     scale_fill_brewer(palette="Paired") + 
   theme(axis.text.x = element_text(face="bold", size=rel(1.3))) + 
     labs(fill='Condition') +
-  xlab("Condition") +
-  ylab("Mean Number of Skills Building Videos") +
-  ggtitle("Self-Investment Behaviors: Video Selection by Condition")
+  geom_signif(comparisons=list(c("Poverty", "Community")), annotations="p=.014",
+              y_position = 1.7, tip_length = .1, vjust=0.2) +
+    geom_signif(comparisons=list(c("Poverty", "Individual")), annotations="p=.078",
+              y_position = 1.5, tip_length = .1, vjust=-0.2) +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  xlab("Message Condition") +
+  ylab("No. Skills Building Videos Selected") +
+  ggtitle("Self-Investment Behaviors")
 ```
 
 ```{r}
@@ -435,14 +479,6 @@ kable(tidy(mod), digits = 3)
 # |ses.unemp.c         |   -0.053|     0.066|    -0.810|   0.418|
 ```
 
-
-```{r}
-
-  mutate(pct.vid = vid.num>0 (anchor-cost)/anchor*100) %>% 
-  group_by(survey.id, condition) %>% 
-  summarise("percentchange" = mean(pct_change, na.rm=TRUE))
-kable(pcts) 
-```
 
 ## SAVINGS AMOUNT
 
