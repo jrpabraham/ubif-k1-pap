@@ -11,7 +11,7 @@ output: html_document
 setwd("/Users/catherinecthomas/Google Drive/UBIF/UBIF_Deliverables/UBIF_PAP/K1_PAP")
 set.seed(47269801)
 
-required.packages <- c("dplyr", "multiwayvcov", "multcomp", "reshape2", "knitr", "Hmis", "tidyverse", "knitr", "broom")
+required.packages <- c("dplyr", "multiwayvcov", "multcomp", "reshape2", "knitr", "Hmisc", "tidyverse", "knitr", "broom", "ggplot2", "ggsignif")
 packages.missing <- required.packages[!required.packages %in% installed.packages()[,"Package"]]
 
 if(length(packages.missing) > 0) {install.packages(required.packages, repo="https://cran.cnr.berkeley.edu/")}
@@ -171,14 +171,21 @@ Interact <- function(d, x) {
 
 ```
 
+```{r}
+scale.means= function (df, ..., na.rm=FALSE) {
+  vars=unlist(list(...))
+  mean_vars=rowMeans(df[,vars], na.rm=na.rm)
+  return(mean_vars)
+}
+```
 
 ################
 ## Clean data ##
 ################
 
 ```{r}
-varnames <- as.vector(read.delim(file = "K1__Field_Survey_v34+35_DeID.csv", sep = ",", header = FALSE, stringsAsFactors = FALSE, na.strings = "", nrows = 1))
-k1_df <- read.delim(file = "K1__Field_Survey_v34+35_DeID.csv", sep = ",", header = FALSE, stringsAsFactors = FALSE, na.strings = "", skip = 2, nrows = 598, col.names = varnames) %>%
+varnames <- as.vector(read.delim(file = "K1__Field_Survey_v34+35_DeID_Coding.csv", sep = ",", header = FALSE, stringsAsFactors = FALSE, na.strings = "", nrows = 1))
+k1_df <- read.delim(file = "K1__Field_Survey_v34+35_DeID_Coding.csv", sep = ",", header = FALSE, stringsAsFactors = FALSE, na.strings = "", skip = 2, nrows = 598, col.names = varnames) %>%
   dplyr::select(-NA., -NA..1, -NA..2)
 ```
 
@@ -211,7 +218,6 @@ k1_df$treat[k1_df$condition == "community"] <- 2
 k1_df$treat <- factor(k1_df$treat, labels = c("Pov", "Ind", "Com"))
 k1_df$condition.order <- factor(k1_df$treat, labels = c("Poverty", "Individual", "Community"))
 
-
 k1_df$pov <- ifelse(k1_df$condition == "poor", 1, 0)
 k1_df$ind <- ifelse(k1_df$condition == "individual", 1, 0)
 k1_df$com <- ifelse(k1_df$condition == "community", 1, 0)
@@ -235,6 +241,8 @@ for (var in c(k1_df$sel.con, k1_df$sel.pers, k1_df$sel.com, k1_df$sel.prob, k1_d
 k1_df$sel.score <- scale(k1_df$sel.con) + scale(k1_df$sel.pers) + scale(k1_df$sel.com) + scale(k1_df$sel.prob) + scale(k1_df$sel.bett)
 k1_df$sel.score.z <- scale(k1_df$sel.score)
 
+k1_df$sel.abs <- scale.means(k1_df, "sel.con", "sel.pers", "sel.com", "sel.prob", "sel.bett", na.rm=T)
+
 ## Stigma ##
 
 for (var in c(k1_df$jud.fam, k1_df$jud.com, k1_df$jud.judg, k1_df$jud.emb, k1_df$jud.ups)) {
@@ -245,6 +253,25 @@ for (var in c(k1_df$jud.fam, k1_df$jud.com, k1_df$jud.judg, k1_df$jud.emb, k1_df
 
 k1_df$sti.score <- scale(6 - k1_df$jud.fam) + scale(6 - k1_df$jud.com) + scale(k1_df$jud.judg) + scale(k1_df$jud.emb) + scale(k1_df$jud.ups)
 k1_df$sti.score.z <- scale(k1_df$sti.score)
+k1_df$jud.fam.r <- 6 - k1_df$jud.fam
+k1_df$jud.com.r <- 6 - k1_df$jud.com
+
+k1_df$sti.abs <- scale.means(k1_df, "jud.fam.r", "jud.com.r", "jud.judg", "jud.emb", "jud.ups", na.rm=T)
+
+# # ## Affect Relationships ## 
+# k1_df$por.oth_1_CODE <- recode(as.numeric(k1_df$por.oth_1_CODE, "0='Negative', 1:4='Non-Negative'"))
+# k1_df$por.oth_2_CODE <- recode(k1_df$por.oth_1_CODE, "0='Negative', 1:4='Non-Negative'")
+# k1_df$por.oth_3_CODE <- recode(k1_df$por.oth_1_CODE, "0='Negative', 1:4='Non-Negative'")
+# k1_df$ind.oth_1_CODE <- recode(k1_df$por.oth_1_CODE, "0='Negative', 1:4='Non-Negative'")
+# k1_df$ind.oth_2_CODE <- recode(k1_df$por.oth_1_CODE, "0='Negative', 1:4='Non-Negative'")
+# k1_df$ind.oth_3_CODE <- recode(k1_df$por.oth_1_CODE, "0='Negative', 1:4='Non-Negative'")
+# k1_df$com.oth_1_CODE <- recode(k1_df$por.oth_1_CODE, "0='Negative', 1:4='Non-Negative'")
+# k1_df$com.oth_2_CODE <- recode(k1_df$por.oth_1_CODE, "0='Negative', 1:4='Non-Negative'")
+# k1_df$com.oth_3_CODE <- recode(k1_df$por.oth_1_CODE, "0='Negative', 1:4='Non-Negative'")
+# 
+# ms.relat <- k1_df %>%
+#   gather(survey.id, rt, matches("_CODE")) %>% # could do X22:X42 or matches("X[0-9]+")
+#   mutate(subid = as.numeric(gsub("X", "", subid)))
 
 ## Affect ##
 
@@ -262,11 +289,7 @@ k1_df$aff.score.z <- scale(k1_df$aff.score)
 k1_df$vid.imp1 <- k1_df$vid.dec1 %in% c(3, 5)
 k1_df$vid.imp2 <- k1_df$vid.dec2 %in% c(3, 5)
 k1_df$vid.num <- k1_df$vid.imp1 + k1_df$vid.imp2
-k1_df$vid.skills <- k1_df$vid.num > 0
-
-# k1_df$vid.skills <- factor(as.character(k1_df$vid.num),
-#                            levels=c("0", "1", "2"),
-#                            labels=c("NoSkills", "Skills", "Skills"))
+k1_df$vid.skills <- k1_df$vid.num > 0  # binary of any skills videos selected
 
 ## Intertemporal choice ##
 
@@ -384,19 +407,21 @@ write.csv(k1_df, file = "K1_Data.csv", na = "")
 attach(k1_df)
 ```
 
-# DV1: Videos
+# Analysis
+
+## Descriptive Stats
+
+```{r}
+table(k1_df$soc.fem)
+summary(k1_df$soc.edu)
+hist(k1_df$soc.edu)
+```
+
+
+## DV1: Videos
 
 ```{r}
 ## Binary: Skills vs. No Skills Videos
-ms.vid.skills <- k1_df[,1:180] %>%  ## SELECT COLUMN I CARE ABOUT FIRST
-  # dplyr::select(vid.skills, condition) %>% ## SELECT COLUMN I CARE ABOUT FIRST
-  group_by(condition) %>%
-  summarise(perc.vid = mean(vid.skills)) %>%
-  ungroup()
-kable(ms.vid.skills, digits=3)
-```
-
-```{r}
 ms.vid.skills <- k1_df %>%  ## Troubleshooting: could add: `k1_df[,1:180]` to SELECT COLUMN I CARE ABOUT and remove problematic ones
   # dplyr::select(vid.skills, condition) %>% ## SELECT COLUMN I CARE ABOUT FIRST
   group_by(condition.order) %>%
@@ -427,11 +452,6 @@ ggplot(ms.vid.skills, aes(x=condition.order, y=perc.vid, fill=condition.order)) 
 ```{r}
 ## Ordinal: No. Skills Videos
 
-#               mean.vid.num                  sd
-# |community  |        1.376|              0.703|
-# |individual |        1.333|              0.748|
-# |poor       |        1.196|              0.736|
-
 ms.vid2 <- k1_df %>% 
   dplyr::select(vid.num, condition.order, survey.id) %>%
   dplyr::group_by(condition.order) %>% 
@@ -440,6 +460,12 @@ ms.vid2 <- k1_df %>%
               sd=sd(vid.num), 
     n_observations = length(survey.id), "ci" =ci(vid.num), ci.lo = Mean_Num_Vid - ci, ci.hi = Mean_Num_Vid + ci) 
 kable(ms.vid2, digits=3) 
+
+
+#               mean.vid.num                  sd
+# |community  |        1.376|              0.703|
+# |individual |        1.333|              0.748|
+# |poor       |        1.196|              0.736|
 
 ggplot(ms.vid2, aes(x=condition.order, y=Mean_Num_Vid, fill=condition.order)) +
   geom_bar(position="dodge", stat="identity", width=0.9) +
@@ -450,7 +476,7 @@ ggplot(ms.vid2, aes(x=condition.order, y=Mean_Num_Vid, fill=condition.order)) +
     scale_fill_brewer(palette="Paired") + 
   theme(axis.text.x = element_text(face="bold", size=rel(1.3))) + 
     labs(fill='Condition') +
-  geom_signif(comparisons=list(c("Poverty", "Community")), annotations="p=.014",
+  geom_signif(comparisons=list(c("Poverty", "Community")), annotations="p=.014"",
               y_position = 1.7, tip_length = .1, vjust=0.2) +
     geom_signif(comparisons=list(c("Poverty", "Individual")), annotations="p=.078",
               y_position = 1.5, tip_length = .1, vjust=-0.2) +
@@ -460,10 +486,9 @@ ggplot(ms.vid2, aes(x=condition.order, y=Mean_Num_Vid, fill=condition.order)) +
   ggtitle("Self-Investment Behaviors")
 ```
 
+
 ```{r}
-
 # dep vars to control for: soc.fem.c", "soc.pri.c", "soc.age.c", "ses.unemp.c
-
 mod <- lm(vid.num ~ condition + soc.fem.c + soc.pri.c + soc.age.c + ses.unemp.c, data = k1_df)
 print(summary(mod))
 kable(tidy(mod), digits = 3)
@@ -477,10 +502,13 @@ kable(tidy(mod), digits = 3)
 # |soc.pri.c           |    0.073|     0.094|     0.782|   0.434|
 # |soc.age.c           |    0.015|     0.004|     3.903|   0.000|
 # |ses.unemp.c         |   -0.053|     0.066|    -0.810|   0.418|
+
+mod <- lm(vid.num ~ condition.order*soc.fem.c, data = k1_df)
+print(summary(mod))
 ```
 
 
-## SAVINGS AMOUNT
+## Savings
 
 ```{r}
 ms.sav <- k1_df %>% 
@@ -488,19 +516,24 @@ ms.sav <- k1_df %>%
   summarise("Mean_Savings" = mean(sav.amt, na.rm=TRUE), sd=sd(sav.amt, na.rm=TRUE))
   # mutate(vid.perc = ifelse(vid.num >= 1))
 kable(ms.sav, digits=3) 
+
+summary(lm(sav.amt ~ condition.order, data=k1_df)) # no ATE
 ```
 
-## 
+## Message of Support 
 
 ```{r}
 ms.msg.dec <- k1_df %>% 
-  group_by(condition) %>% 
-  summarise("Mean_Support" = mean(msg.dec, na.rm=TRUE), sd=sd(msg.dec, na.rm=TRUE))
-  # mutate(vid.perc = ifelse(vid.num >= 1))
-kable(ms.msg.dec, digits=3) 
+  group_by(condition.order) %>%
+  summarise(perc.msg.dec = mean(msg.dec), sd(msg.dec), "ci" =ci(msg.dec), ci.lo = perc.msg.dec - ci, ci.hi = perc.msg.dec + ci) %>%
+  ungroup()
+kable(ms.msg.dec, digits=3)
+
+summary(glm(msg.dec ~ condition.order, data=k1_df, family = binomial)) # no ATE
 ```
 
 ## MEDIATORS
+
 ```{r}
 ### Self-Efficacy ### 
 # predicts video selection
@@ -517,7 +550,30 @@ summary(lm(sel.com~ condition, data=k1_df)) # for poor: p=0.047
 summary(lm(sel.con ~ condition, data=k1_df)) # for poor: p=0.0297
 summary(lm(sel.prob ~ condition, data=k1_df)) # for poor: p=0.09
 summary(lm(sel.bett ~ condition, data=k1_df)) # ns
+```
 
+```{r}
+# Absolute values of means by condition
+ms.sel <- k1_df %>% 
+  group_by(condition.order) %>% 
+  summarise("Mean_SelfEfficacy" = mean(sel.abs, na.rm=TRUE)) %>%
+  ungroup()
+kable(ms.sel, digits=3) 
+
+ms.sti <- k1_df %>% 
+  group_by(condition.order) %>% 
+  summarise("Mean_Stigma" = mean(sti.abs, na.rm=TRUE)) %>%
+  ungroup()
+kable(ms.sti, digits=3) 
+
+ms.lad <- k1_df %>% 
+  group_by(condition.order) %>% 
+  summarise("Mean_Ladder" = mean(ses.lad.now, na.rm=TRUE)) %>%
+  ungroup()
+kable(ms.lad, digits=3) 
+```
+
+```{r}
 ### Stigma ### 
 # marginally predicts video selection
 summary(lm(vid.num ~ sti.score.z, data=k1_df)) # p=0.06
@@ -528,12 +584,24 @@ summary(lm(vid.num ~ jud.ups, data=k1_df)) # ns
 summary(lm(vid.num ~ jud.fam, data=k1_df)) # p=0.03, are a good family member
 summary(lm(vid.num ~ jud.com, data=k1_df)) # ns
 
+mean(k1_df$por.help, na.rm=TRUE)
+# [1] 1.497354
+mean(k1_df$ind.help, na.rm=TRUE)
+# [1] 1.477011
+mean(k1_df$com.help, na.rm=TRUE)
+# [1] 1.554455
+
+```
+
+```{r}
 ### AFFECT ### 
 summary(lm(aff.score.z ~ condition, data=k1_df)) 
 # ns
 summary(lm(vid.num ~ aff.score.z, data=k1_df))
 # p=0.00121 
+```
 
+```{r}
 ### SES ### 
 ## not related to video, predicted by self-efficacy
 summary(lm(vid.num ~ ses.lad.now, data=k1_df))
@@ -546,7 +614,6 @@ summary(lm(ses.lad.y2 ~ sel.score, data=k1_df))
 # p<0.001, SELF-EFFICACY PREDICTS SUBJECTIVE SES
 summary(lm(ses.lad.now.z ~ sti.score.z, data=k1_df))
 # ns
-
 ```
 
 
